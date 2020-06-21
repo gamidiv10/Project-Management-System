@@ -9,6 +9,8 @@ import Projects from "../Components/Projects/Projects";
 import ProjectDetail from "../Components/Projects/ProjectDetail/ProjectDetail";
 import Profile from "../Components/Profile/Profile";
 import People from "../Components/People/People";
+import {Reports} from '../Components/Reports/Reports';
+import { exact } from "prop-types";
 
 const routes = [
   {
@@ -68,6 +70,11 @@ const routes = [
     component: Login,
   },
   {
+    path: "/reports",
+    exact: true,
+    component: Reports
+  },
+  {
     path: "/",
     exact: true,
     component: Login,
@@ -76,6 +83,7 @@ const routes = [
     path: "/*",
     component: Error,
   },
+
 ];
 
 export default routes;
