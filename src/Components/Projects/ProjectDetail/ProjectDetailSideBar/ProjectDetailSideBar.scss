@@ -1,5 +1,5 @@
 .ProjectDetailSideBar {
-  width: 250px;
+  min-width: 200px;
   background-color: #ffffff;
   z-index: 10;
   transition: all 2s linear;
@@ -19,7 +19,8 @@
     font-weight: 500;
     font-size: 18px;
 
-    &:hover {
+    &:hover,
+    &.active {
       color: #ffffff;
       background-color: #3f5b77;
     }
@@ -47,10 +48,4 @@
   background-color: #ffffff;
   cursor: pointer;
   border-left: 0.15px solid rgba(0, 0, 0, 0.015);
-}
-
-@media (max-width: 767px) {
-  .sideBarSlider {
-    width: 30px;
-  }
 }

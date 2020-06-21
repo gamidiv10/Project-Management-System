@@ -9,6 +9,7 @@ import Projects from "../Components/Projects/Projects";
 import ProjectDetail from "../Components/Projects/ProjectDetail/ProjectDetail";
 import Profile from "../Components/Profile/Profile";
 import People from "../Components/People/People";
+import ProjectDetailMain from "../Components/Projects/ProjectDetail/ProjectDetailMain/ProjectDetailMain";
 import {Reports} from '../Components/Reports/Reports';
 import { exact } from "prop-types";
 
@@ -50,12 +51,12 @@ const routes = [
     component: Projects,
   },
   {
-    path: "/project/:id",
+    path: "/project/activesprint",
     exact: true,
-    component: ProjectDetail,
+    component: ProjectDetailMain,
   },
   {
-    path: "/people",
+    path: "/project/people",
     exact: true,
     component: People,
   },

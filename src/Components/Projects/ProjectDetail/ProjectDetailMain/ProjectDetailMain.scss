@@ -1,5 +1,5 @@
 .ProjectDetailMain {
-  width: 100%;
+  width: calc(100% - 220px);
 
   .projectSprintHeader {
     margin: 40px 40px 20px 40px;
@@ -20,14 +20,19 @@
 
   .ProjectDetailMainLayout {
     display: flex;
-    height: 100%;
-    margin: 0 40px;
+    height: calc(100% - 218px);
+    min-height: 100px;
+    margin-left: 40px;
     overflow-x: auto;
 
     .ProjectDetailDiv {
       display: flex;
       flex-direction: column;
       align-items: center;
+
+      .DroppableDiv {
+        overflow: auto;
+      }
     }
 
     .ProjectProgressDiv {
@@ -35,7 +40,6 @@
       width: 220px;
       min-height: 200px;
       overflow-y: auto;
-      border-radius: 10px;
       box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
         0 4px 6px -2px rgba(0, 0, 0, 0.05);
     }
@@ -50,10 +54,32 @@
         0 4px 6px -2px rgba(0, 0, 0, 0.05);
     }
   }
+
+  #scrollbar-1::-webkit-scrollbar-track,
+  #scrollbar-2::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.3);
+    border-radius: 5px;
+    background-color: #f5f5f5;
+  }
+
+  #scrollbar-1::-webkit-scrollbar,
+  #scrollbar-2::-webkit-scrollbar {
+    height: 7px;
+    width: 5px;
+    background-color: #f5f5f5;
+  }
+
+  #scrollbar-1::-webkit-scrollbar-thumb,
+  #scrollbar-2::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    -webkit-box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.3);
+    background-color: #555;
+  }
 }
 
 @media (max-width: 767px) {
   .ProjectDetailMain {
+    width: calc(100% - 30px);
     .projectSprintHeader {
       margin: 20px;
 
