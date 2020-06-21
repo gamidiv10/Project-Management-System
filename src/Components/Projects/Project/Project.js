@@ -9,7 +9,7 @@ import { withRouter } from "react-router-dom";
 const Project = (props) => {
   const { projects, history } = props;
   const redirectToprojectDetail = (name) => {
-    history.push("/project/" + name);
+    history.push("/project/activesprint");
   };
 
   const editProject = () => {};

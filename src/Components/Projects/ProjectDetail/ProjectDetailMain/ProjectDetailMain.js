@@ -3,6 +3,7 @@ import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import "./ProjectDetailMain.scss";
 import { columnsData } from "./ProjectDetails";
 import { Button, Form } from "react-bootstrap";
+import ProjectDetail from "../ProjectDetail";
 
 const onDrag = (result, columns, setColumns) => {
   if (!result.destination) return;
@@ -51,82 +52,88 @@ const onDrag = (result, columns, setColumns) => {
 function ProjectDetailMain() {
   const [columns, setColumns] = useState(columnsData);
   return (
-    <main className="ProjectDetailMain">
-      <section className="projectSprintHeader">
-        <div className="projectSprintHeading">Sprint Name</div>
-        <div className="buttons">
-          <Button>Complete Sprint</Button>
-        </div>
-      </section>
-      <section>
-        <Form className="projectForm">
-          <Form.Control type="text" placeholder="Search for Issue" />
-        </Form>
-      </section>
-      <section className="ProjectDetailMainLayout">
-        <DragDropContext
-          onDragEnd={(result) => onDrag(result, columns, setColumns)}
-        >
-          {Object.entries(columns).map(([columnId, column], index) => {
-            return (
-              <article className="ProjectDetailDiv" key={columnId}>
-                <div>{column.name}</div>
-                <div style={{ margin: 8 }}>
-                  <Droppable
-                    droppableId={columnId}
-                    key={columnId}
-                    className="DraggableDiv"
+    <ProjectDetail>
+      <main className="ProjectDetailMain">
+        <section className="projectSprintHeader">
+          <div className="projectSprintHeading">Sprint Name</div>
+          <div className="buttons">
+            <Button>Complete Sprint</Button>
+          </div>
+        </section>
+        <section>
+          <Form className="projectForm">
+            <Form.Control type="text" placeholder="Search for Issue" />
+          </Form>
+        </section>
+        <section className="ProjectDetailMainLayout" id="scrollbar-1">
+          <DragDropContext
+            onDragEnd={(result) => onDrag(result, columns, setColumns)}
+          >
+            {Object.entries(columns).map(([columnId, column], index) => {
+              return (
+                <article className="ProjectDetailDiv" key={columnId}>
+                  <div>{column.name}</div>
+                  <div
+                    style={{ margin: 15 }}
+                    className="DroppableDiv"
+                    id="scrollbar-2"
                   >
-                    {(provided, snapshot) => {
-                      return (
-                        <div
-                          {...provided.droppableProps}
-                          ref={provided.innerRef}
-                          className="ProjectProgressDiv"
-                          style={{
-                            background: snapshot.isDraggingOver
-                              ? "lightblue"
-                              : "white",
-                          }}
-                        >
-                          {column.items.map((item, index) => {
-                            return (
-                              <Draggable
-                                key={item.id}
-                                draggableId={item.id}
-                                index={index}
-                              >
-                                {(provided) => {
-                                  return (
-                                    <div
-                                      ref={provided.innerRef}
-                                      {...provided.draggableProps}
-                                      {...provided.dragHandleProps}
-                                      className="DraggableDiv"
-                                      style={{
-                                        userSelect: "none",
-                                        ...provided.draggableProps.style,
-                                      }}
-                                    >
-                                      {item.content}
-                                    </div>
-                                  );
-                                }}
-                              </Draggable>
-                            );
-                          })}
-                          {provided.placeholder}
-                        </div>
-                      );
-                    }}
-                  </Droppable>
-                </div>
-              </article>
-            );
-          })}
-        </DragDropContext>
-      </section>
-    </main>
+                    <Droppable
+                      droppableId={columnId}
+                      key={columnId}
+                      className="DraggableDiv"
+                    >
+                      {(provided, snapshot) => {
+                        return (
+                          <div
+                            {...provided.droppableProps}
+                            ref={provided.innerRef}
+                            className="ProjectProgressDiv"
+                            style={{
+                              background: snapshot.isDraggingOver
+                                ? "lightblue"
+                                : "white",
+                            }}
+                          >
+                            {column.items.map((item, index) => {
+                              return (
+                                <Draggable
+                                  key={item.id}
+                                  draggableId={item.id}
+                                  index={index}
+                                >
+                                  {(provided) => {
+                                    return (
+                                      <div
+                                        ref={provided.innerRef}
+                                        {...provided.draggableProps}
+                                        {...provided.dragHandleProps}
+                                        className="DraggableDiv"
+                                        style={{
+                                          userSelect: "none",
+                                          ...provided.draggableProps.style,
+                                        }}
+                                      >
+                                        {item.content}
+                                      </div>
+                                    );
+                                  }}
+                                </Draggable>
+                              );
+                            })}
+                            {provided.placeholder}
+                          </div>
+                        );
+                      }}
+                    </Droppable>
+                  </div>
+                </article>
+              );
+            })}
+          </DragDropContext>
+        </section>
+      </main>
+    </ProjectDetail>
   );
 }
 

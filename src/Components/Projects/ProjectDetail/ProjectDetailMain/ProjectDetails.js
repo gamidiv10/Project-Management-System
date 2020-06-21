@@ -1,7 +1,24 @@
+import React from "react";
 import { v4 as uuid } from "uuid";
+import Task from "../../../Task/Task";
 
 const itemsData = [
-  { id: uuid(), content: "First task" },
+  {
+    id: uuid(),
+    content: (
+      <Task
+        name="First Task"
+        priority="Highest"
+        taskType="Epic"
+        assigneeName="XYZ"
+      />
+    ),
+  },
+  { id: uuid(), content: "Second task" },
+  { id: uuid(), content: "Second task" },
+  { id: uuid(), content: "Second task" },
+  { id: uuid(), content: "Second task" },
+  { id: uuid(), content: "Second task" },
   { id: uuid(), content: "Second task" },
 ];
 

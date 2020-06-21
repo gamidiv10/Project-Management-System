@@ -3,12 +3,12 @@ import ProjectDetailSideBar from "./ProjectDetailSideBar/ProjectDetailSideBar";
 import ProjectDetailMain from "./ProjectDetailMain/ProjectDetailMain";
 import "./ProjectDetail.scss";
 
-const ProjectDetail = () => {
+const ProjectDetail = (props) => {
   return (
     <>
       <main className="ProjectDetail">
         <ProjectDetailSideBar />
-        <ProjectDetailMain />
+        <>{props.children}</>
       </main>
     </>
   );

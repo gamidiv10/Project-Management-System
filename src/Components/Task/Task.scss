@@ -1,0 +1,41 @@
+.taskCard {
+  display: flex;
+  flex-direction: column;
+
+  .taskDetails {
+    display: flex;
+    flex-direction: row;
+    margin-top: 10px;
+    justify-content: space-between;
+
+    .task-icon {
+      svg {
+        width: 15px;
+        height: 15px;
+        margin-left: 5px;
+      }
+    }
+
+    .assignee-icon {
+      .assignee-name {
+        position: absolute;
+        background: #ffffff;
+        padding: 5px;
+        min-width: 50px;
+        max-width: 150px;
+        word-wrap: break-word;
+        text-align: center;
+        border-radius: 5px;
+        display: none;
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+          0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      }
+
+      &:hover {
+        .assignee-name {
+          display: block;
+        }
+      }
+    }
+  }
+}

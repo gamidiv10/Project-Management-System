@@ -59,11 +59,6 @@ const Navigationbar = ({ history }) => {
         },
       },
       {
-        item: "People",
-        to: "/people",
-        appIcon: <PeopleIcon />,
-      },
-      {
         item: "Calander",
         to: "/home",
         appIcon: <CalendarIcon />,
@@ -92,16 +87,6 @@ const Navigationbar = ({ history }) => {
           items: [
             { item: "Help1", to: "/home" },
             { item: "Help2", to: "/home" },
-          ],
-        },
-      },
-      {
-        icon: <BoltIcon />,
-        dropdown: {
-          header: "Settings",
-          items: [
-            { item: "Settings1", to: "/home" },
-            { item: "Settings2", to: "/home" },
           ],
         },
       },
@@ -308,33 +293,31 @@ const DropdownMenu = (props) => {
       </NavLink>
     );
   }
-  {
-    return (
-      <div className="nav-dropdown left-nav">
-        {props.item.header ? (
-          <div className="txtColor dropdownHeader">{props.item.header}</div>
-        ) : (
-          ""
-        )}
-        {props.item.items
-          ? props.item.items.map((item, index) => (
-              <DropdownItem key={index} leftIcon={item.leftIcon} to={item.to}>
-                {item.item}
-              </DropdownItem>
-            ))
-          : ""}
-        {props.item.footer ? (
-          <NavLink to={props.item.footer.to}>
-            <div className="txtColor dropdownFooter">
-              {props.item.footer.item}
-            </div>
-          </NavLink>
-        ) : (
-          ""
-        )}
-      </div>
-    );
-  }
+  return (
+    <div className="nav-dropdown left-nav">
+      {props.item.header ? (
+        <div className="txtColor dropdownHeader">{props.item.header}</div>
+      ) : (
+        ""
+      )}
+      {props.item.items
+        ? props.item.items.map((item, index) => (
+            <DropdownItem key={index} leftIcon={item.leftIcon} to={item.to}>
+              {item.item}
+            </DropdownItem>
+          ))
+        : ""}
+      {props.item.footer ? (
+        <NavLink to={props.item.footer.to}>
+          <div className="txtColor dropdownFooter">
+            {props.item.footer.item}
+          </div>
+        </NavLink>
+      ) : (
+        ""
+      )}
+    </div>
+  );
 };
 
 const IconDropdownMenu = (props) => {

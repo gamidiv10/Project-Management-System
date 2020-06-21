@@ -2,6 +2,7 @@ import React from "react";
 import Person from "./Person/Person";
 import PeopleHeader from "./PeopleHeader/PeopleHeader";
 import "./People.scss";
+import ProjectDetail from "../Projects/ProjectDetail/ProjectDetail";
 
 const peopleList = [
   { name: "People1", role: "Software Engineer" },
@@ -13,12 +14,14 @@ const peopleList = [
 const People = () => {
   return (
     <>
-      <main>
-        <PeopleHeader />
-        <section className="peopleList">
-          <Person people={peopleList} />
-        </section>
-      </main>
+      <ProjectDetail>
+        <main className="ProjectDetailMain">
+          <PeopleHeader />
+          <section className="peopleList">
+            <Person people={peopleList} />
+          </section>
+        </main>
+      </ProjectDetail>
     </>
   );
 };

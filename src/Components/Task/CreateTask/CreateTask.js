@@ -112,7 +112,6 @@ const CreateTask = ({ dismiss }) => {
           variant="outlined"
           required={true}
           options={priorityTypes}
-          getOptionValue={(option) => option}
           renderOption={(option) => <>{option}</>}
         />
       ),
