@@ -1,0 +1,93 @@
+.ProfileManager {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  overflow: auto;
+
+  .ProfileHeader {
+    display: flex;
+    flex-direction: column;
+    height: fit-content;
+    justify-content: center;
+    text-align: center;
+    margin: 0 0 40px 0;
+    background-color: #ffffff;
+
+    .profileName {
+      font-size: 25px;
+      font-weight: 700;
+    }
+  }
+
+  .profile-icon svg {
+    fill: black;
+    width: 100px;
+    height: fit-content;
+    margin-bottom: 5px;
+    cursor: pointer;
+  }
+
+  .AboutDetails {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    margin-bottom: 40px;
+
+    .EditFields {
+      background-color: #ffffff;
+      width: 350px;
+      padding: 20px;
+      height: fit-content;
+      border-radius: 5px;
+      box-shadow: 0 5px 12px -3px rgba(0, 0, 0, 0.1),
+        0 2px 2px -2px rgba(0, 0, 0, 0.05);
+
+      .EditField {
+        display: flex;
+        margin-bottom: 10px;
+
+        .icon-profile {
+          svg {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+          }
+        }
+
+        .EditLabel {
+          font-size: 15px;
+          margin-right: 10px;
+          width: 50px;
+          word-wrap: break-word;
+        }
+
+        .EditableField {
+          background-color: #eef7ff;
+          width: 100%;
+          padding: 5px;
+          bottom: 3px;
+          position: relative;
+          border-radius: 5px;
+          overflow: hidden;
+          box-shadow: 0 0 0 -3px rgba(0, 0, 0, 0.1),
+            0 2px 2px -2px rgba(0, 0, 0, 0.05);
+        }
+        .PlaceholderField {
+          background-color: white;
+          width: 100%;
+          position: relative;
+          bottom: 3px;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 767px) {
+  .AboutDetails {
+    padding: 20px;
+  }
+}

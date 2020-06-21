@@ -1,25 +1,28 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from "react";
+import { Router } from "react-router-dom";
+import history from "./services/history";
+import Routes from "./Routes/index";
+import "./App.scss";
+import Navigationbar from "./Components/Navbar/Navbar";
+import userContext from "./Context/userContext";
 
 function App() {
+  const [isNavbar, setIsNavbar] = useState(true);
+  const [user, setUser] = useState("user");
+
+  useEffect(() => {
+    if (window.location.pathname === "/error") {
+      setIsNavbar(false);
+    }
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router history={history}>
+      <userContext.Provider value={{ user, setUser }}>
+        {isNavbar ? <Navigationbar /> : ""}
+        <Routes />
+      </userContext.Provider>
+    </Router>
   );
 }
 

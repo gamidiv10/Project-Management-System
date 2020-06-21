@@ -1,0 +1,27 @@
+.peopleHeader {
+  margin: 40px 40px 20px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-align: center;
+
+  .peopleHeading {
+    font-size: 40px;
+  }
+}
+
+.peopleForm {
+  margin: 40px 40px 20px 40px;
+  width: 300px;
+}
+
+@media (max-width: 767px) {
+  .peopleHeader {
+    margin: 20px;
+  }
+
+  .peopleForm {
+    margin: 20px;
+    width: 200px;
+  }
+}

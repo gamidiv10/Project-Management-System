@@ -1,0 +1,12 @@
+.peopleList {
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  margin: 20px;
+}
+
+@media (max-width: 767px) {
+  .peopleList {
+    margin: 20px;
+  }
+}

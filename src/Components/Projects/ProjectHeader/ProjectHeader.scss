@@ -1,0 +1,27 @@
+.projectHeader {
+  margin: 40px 40px 20px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-align: center;
+
+  .projectHeading {
+    font-size: 40px;
+  }
+}
+
+.projectForm {
+  margin: 40px 40px 20px 40px;
+  width: 300px;
+}
+
+@media (max-width: 767px) {
+  .projectHeader {
+    margin: 20px;
+  }
+
+  .projectForm {
+    margin: 20px;
+    width: 200px;
+  }
+}

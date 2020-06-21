@@ -1,0 +1,56 @@
+.ProjectDetailSideBar {
+  width: 250px;
+  background-color: #ffffff;
+  z-index: 10;
+  transition: all 2s linear;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+
+  .projectName {
+    font-weight: 600;
+    font-size: 23px;
+    padding: 20px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  }
+
+  .ProjectSideLink {
+    padding: 20px;
+    color: #212529;
+    font-weight: 500;
+    font-size: 18px;
+
+    &:hover {
+      color: #ffffff;
+      background-color: #3f5b77;
+    }
+  }
+
+  .icon-project {
+    position: relative;
+    margin-right: 5px;
+
+    svg {
+      width: 15px;
+      height: 15px;
+      margin-right: 5px;
+    }
+  }
+}
+
+.sideBarSlider {
+  height: 100%;
+  width: 15px;
+  display: flex;
+  z-index: 11;
+  flex-direction: column;
+  justify-content: center;
+  background-color: #ffffff;
+  cursor: pointer;
+  border-left: 0.15px solid rgba(0, 0, 0, 0.015);
+}
+
+@media (max-width: 767px) {
+  .sideBarSlider {
+    width: 30px;
+  }
+}

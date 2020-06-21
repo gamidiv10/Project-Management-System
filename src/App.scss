@@ -1,0 +1,35 @@
+$primary-color: #001f3f;
+* {
+  font-family: "Nunito", sans-serif;
+}
+
+.bgColor {
+  background-color: $primary-color;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.buttons {
+  button {
+    background-color: $primary-color !important;
+    font-weight: 700;
+    border: 2px solid $primary-color !important;
+  }
+
+  button:hover {
+    background-color: #ffffff !important;
+    color: $primary-color !important;
+    border: 2px solid $primary-color !important;
+  }
+
+  button:disabled {
+    cursor: no-drop;
+    background-color: $primary-color !important;
+    border: 2px solid $primary-color !important;
+    color: #ffffff !important;
+  }
+}
+
+.txtColor {
+  color: white;
+}
