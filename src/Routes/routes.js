@@ -10,9 +10,9 @@ import Profile from "../Components/Profile/Profile";
 import People from "../Components/People/People";
 import ProjectDetailMain from "../Components/Projects/ProjectDetail/ProjectDetailMain/ProjectDetailMain";
 import { Reports } from "../Components/Reports/Reports";
-import {InviteUser} from '../Components/InviteUser/InviteUser';
+import { InviteUser } from '../Components/InviteUser/InviteUser';
 import AddUser from '../Components/AddUser/AddUser';
-
+import Calendar from '../Components/Calendar'
 
 const routes = [
   {
@@ -75,6 +75,11 @@ const routes = [
     path: "/reports",
     exact: true,
     component: Reports,
+  },
+  {
+    path: "/calendar",
+    exact: true,
+    component: Calendar
   },
   {
     path: "/inviteUser",

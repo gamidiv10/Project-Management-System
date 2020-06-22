@@ -60,7 +60,7 @@ const Navigationbar = ({ history }) => {
       },
       {
         item: "Calander",
-        to: "/home",
+        to: "/calendar",
         appIcon: <CalendarIcon />,
       },
       {
@@ -164,19 +164,19 @@ const Navigationbar = ({ history }) => {
                 <DropdownMenu item={{ ...navitem.dropdown }}></DropdownMenu>
               </LeftNavItem>
             ) : (
-              <li key={index} className="left-nav-item">
-                {navitem.appIcon ? (
-                  <span className="icon-button left-nav">
-                    {navitem.appIcon}
-                  </span>
-                ) : (
-                  ""
-                )}
-                <NavLink to={navitem.to} activeClassName="linkActive">
-                  {navitem.item}
-                </NavLink>
-              </li>
-            );
+                <li key={index} className="left-nav-item">
+                  {navitem.appIcon ? (
+                    <span className="icon-button left-nav">
+                      {navitem.appIcon}
+                    </span>
+                  ) : (
+                      ""
+                    )}
+                  <NavLink to={navitem.to} activeClassName="linkActive">
+                    {navitem.item}
+                  </NavLink>
+                </li>
+              );
           })}
         </ul>
         <ul className="home-navbar-nav right-nav">
@@ -200,8 +200,8 @@ const Navigationbar = ({ history }) => {
               />
             </>
           ) : (
-            ""
-          )}
+              ""
+            )}
           {RightNavItems.map((item, index) => {
             if (item.button) {
               return (
@@ -282,21 +282,21 @@ const NavItem = (props) => {
       </NavLink>
     </li>
   ) : (
-    <li
-      className={props.className ? "mobileview nav-item" : "nav-item"}
-      onMouseOver={() => setOpen(true)}
-      onMouseLeave={() => setOpen(false)}
-    >
-      <NavLink
-        to={props.to ? props.to : "/home"}
-        className="icon-button"
-        activeClassName="linkActive"
+      <li
+        className={props.className ? "mobileview nav-item" : "nav-item"}
+        onMouseOver={() => setOpen(true)}
+        onMouseLeave={() => setOpen(false)}
       >
-        {props.icon}
-      </NavLink>
-      {open && props.children}
-    </li>
-  );
+        <NavLink
+          to={props.to ? props.to : "/home"}
+          className="icon-button"
+          activeClassName="linkActive"
+        >
+          {props.icon}
+        </NavLink>
+        {open && props.children}
+      </li>
+    );
 };
 
 const DropdownMenu = (props) => {
@@ -313,14 +313,14 @@ const DropdownMenu = (props) => {
       {props.item.header ? (
         <div className="txtColor dropdownHeader">{props.item.header}</div>
       ) : (
-        ""
-      )}
+          ""
+        )}
       {props.item.items
         ? props.item.items.map((item, index) => (
-            <DropdownItem key={index} leftIcon={item.leftIcon} to={item.to}>
-              {item.item}
-            </DropdownItem>
-          ))
+          <DropdownItem key={index} leftIcon={item.leftIcon} to={item.to}>
+            {item.item}
+          </DropdownItem>
+        ))
         : ""}
       {props.item.footer ? (
         <NavLink to={props.item.footer.to}>
@@ -329,8 +329,8 @@ const DropdownMenu = (props) => {
           </div>
         </NavLink>
       ) : (
-        ""
-      )}
+          ""
+        )}
     </div>
   );
 };
@@ -360,20 +360,20 @@ const IconDropdownMenu = (props) => {
       {props.dropdown.header ? (
         <div className="txtColor dropdownHeader">{props.dropdown.header}</div>
       ) : (
-        ""
-      )}
+          ""
+        )}
       {props.dropdown.items
         ? props.dropdown.items.map((item, index) => (
-            <DropdownItem
-              key={index}
-              icon={item.icon}
-              to={item.to}
-              item={item.item}
-              logout={item.logout ? item.logout : ""}
-            >
-              {item.item}
-            </DropdownItem>
-          ))
+          <DropdownItem
+            key={index}
+            icon={item.icon}
+            to={item.to}
+            item={item.item}
+            logout={item.logout ? item.logout : ""}
+          >
+            {item.item}
+          </DropdownItem>
+        ))
         : ""}
     </div>
   );
