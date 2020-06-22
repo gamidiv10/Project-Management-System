@@ -6,6 +6,7 @@ import { Grid } from "@material-ui/core";
 import { TextField, Autocomplete } from "mui-rff";
 import Task from "../../Task/Task";
 import { ReactComponent as CloseIcon } from "../../../icons/close.svg";
+import { Comments } from "../../Comments/Comments";
 
 const EditTask = ({ dismiss }) => {
   const [isLoading, setLoading] = useState(false);
@@ -177,6 +178,7 @@ const EditTask = ({ dismiss }) => {
           </form>
         )}
       />
+      <Comments/>
     </>
   );
 };
