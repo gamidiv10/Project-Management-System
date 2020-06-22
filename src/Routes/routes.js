@@ -12,6 +12,9 @@ import People from "../Components/People/People";
 import ProjectDetailMain from "../Components/Projects/ProjectDetail/ProjectDetailMain/ProjectDetailMain";
 import {Reports} from '../Components/Reports/Reports';
 import { exact } from "prop-types";
+import {InviteUser} from '../Components/InviteUser/InviteUser';
+import AddUser from '../Components/AddUser/AddUser';
+
 
 const routes = [
   {
@@ -74,6 +77,16 @@ const routes = [
     path: "/reports",
     exact: true,
     component: Reports
+  },
+  {
+    path: "/inviteUser",
+    exact: true,
+    component: InviteUser
+  },
+  {
+    path: "/addUser",
+    exact: true,
+    component: AddUser
   },
   {
     path: "/",

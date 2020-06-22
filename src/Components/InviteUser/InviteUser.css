@@ -1,0 +1,51 @@
+.add-user-container{
+    margin-top: 5%; 
+    margin-bottom: 5%;
+}
+.form-container{
+    margin: 0 auto;
+    width: 60%;
+}
+.form-group{
+    margin: 0 auto;
+    margin-bottom: 1rem;
+}
+.input-element{
+    width: 50%;
+}
+.add-user-section{
+    height: 100%;
+
+}
+.add-user-form{
+    padding: 5%;
+    background: #fff;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+.add-user-form h3{
+    text-align: center;
+    color: #001f3f;
+    font-weight: 800;
+}
+.add-user-container form{
+    padding: 5%;
+    text-align: center;
+}
+.add-user-form{
+    color: #fff;
+    font-weight: 600;
+}
+.user-error{
+    color: #bd1c37;
+    font-weight: 600;
+}
+.managerDropDown{
+    background-color: #fff;
+    padding: 1%;
+    border-radius: 20;
+}
+form .buttons{
+    padding: 5%;
+}
+
