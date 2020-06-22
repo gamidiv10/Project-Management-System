@@ -1,9 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import "./ProjectDetailMain.scss";
-import { columnsData } from "./ProjectDetails";
 import { Button, Form } from "react-bootstrap";
 import ProjectDetail from "../ProjectDetail";
+import tasksContext from "../../../../Context/tasksItemsContext";
+import Modal from "../../../Modal/Modal";
+import CompleteSprint from "../../../CompleteSprint/CompleteSprint";
+import { v4 as uuid } from "uuid";
 
 const onDrag = (result, columns, setColumns) => {
   if (!result.destination) return;
@@ -50,14 +53,52 @@ const onDrag = (result, columns, setColumns) => {
 };
 
 function ProjectDetailMain() {
-  const [columns, setColumns] = useState(columnsData);
+  const [columns, setColumns] = useState([]);
+  const { tasks } = useContext(tasksContext);
+  const itemsData = tasks;
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleModalOpen = () => {
+    setIsModalOpen(!isModalOpen);
+  };
+  const dismissable = () => {
+    setIsModalOpen(false);
+  };
+
+  const columnsData = {
+    [uuid()]: {
+      name: "To do",
+      items: itemsData,
+    },
+    [uuid()]: {
+      name: "In Progress",
+      items: [],
+    },
+    [uuid()]: {
+      name: "In Review",
+      items: [],
+    },
+    [uuid()]: {
+      name: "In Testing",
+      items: [],
+    },
+    [uuid()]: {
+      name: "Done",
+      items: [],
+    },
+  };
+
+  useEffect(() => {
+    setColumns(columnsData);
+  }, [tasks]);
+
   return (
     <ProjectDetail>
       <main className="ProjectDetailMain">
         <section className="projectSprintHeader">
           <div className="projectSprintHeading">Sprint Name</div>
           <div className="buttons">
-            <Button>Complete Sprint</Button>
+            <Button onClick={handleModalOpen}>Complete Sprint</Button>
           </div>
         </section>
         <section>
@@ -95,32 +136,34 @@ function ProjectDetailMain() {
                                 : "white",
                             }}
                           >
-                            {column.items.map((item, index) => {
-                              return (
-                                <Draggable
-                                  key={item.id}
-                                  draggableId={item.id}
-                                  index={index}
-                                >
-                                  {(provided) => {
-                                    return (
-                                      <div
-                                        ref={provided.innerRef}
-                                        {...provided.draggableProps}
-                                        {...provided.dragHandleProps}
-                                        className="DraggableDiv"
-                                        style={{
-                                          userSelect: "none",
-                                          ...provided.draggableProps.style,
-                                        }}
-                                      >
-                                        {item.content}
-                                      </div>
-                                    );
-                                  }}
-                                </Draggable>
-                              );
-                            })}
+                            {column.items
+                              ? column.items.map((item, index) => {
+                                  return (
+                                    <Draggable
+                                      key={item.id}
+                                      draggableId={item.id}
+                                      index={index}
+                                    >
+                                      {(provided) => {
+                                        return (
+                                          <div
+                                            ref={provided.innerRef}
+                                            {...provided.draggableProps}
+                                            {...provided.dragHandleProps}
+                                            className="DraggableDiv"
+                                            style={{
+                                              userSelect: "none",
+                                              ...provided.draggableProps.style,
+                                            }}
+                                          >
+                                            {item.content}
+                                          </div>
+                                        );
+                                      }}
+                                    </Draggable>
+                                  );
+                                })
+                              : ""}
                             {provided.placeholder}
                           </div>
                         );
@@ -133,6 +176,11 @@ function ProjectDetailMain() {
           </DragDropContext>
         </section>
       </main>
+
+      <Modal
+        visible={isModalOpen}
+        children={isModalOpen ? <CompleteSprint dismiss={dismissable} /> : ""}
+      />
     </ProjectDetail>
   );
 }

@@ -6,12 +6,10 @@ import ForgotPassword from "../Components/ForgotPassword/ForgotPassword";
 import ResetPassword from "../Components/ResetPassword/ResetPassword";
 import Task from "../Components/Task/Task";
 import Projects from "../Components/Projects/Projects";
-import ProjectDetail from "../Components/Projects/ProjectDetail/ProjectDetail";
 import Profile from "../Components/Profile/Profile";
 import People from "../Components/People/People";
 import ProjectDetailMain from "../Components/Projects/ProjectDetail/ProjectDetailMain/ProjectDetailMain";
-import {Reports} from '../Components/Reports/Reports';
-import { exact } from "prop-types";
+import { Reports } from "../Components/Reports/Reports";
 import {InviteUser} from '../Components/InviteUser/InviteUser';
 import AddUser from '../Components/AddUser/AddUser';
 
@@ -76,7 +74,7 @@ const routes = [
   {
     path: "/reports",
     exact: true,
-    component: Reports
+    component: Reports,
   },
   {
     path: "/inviteUser",
@@ -97,7 +95,6 @@ const routes = [
     path: "/*",
     component: Error,
   },
-
 ];
 
 export default routes;

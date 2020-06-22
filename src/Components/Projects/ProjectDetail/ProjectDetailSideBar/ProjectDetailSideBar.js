@@ -29,8 +29,6 @@ const ProjectDetailSideBar = ({ history }) => {
         setSideBar(true);
         width = sidebar ? width - 225 : width - 15;
       }
-      document.getElementsByClassName("ProjectDetailMain")[0].style.width =
-        "" + width + "px";
     }
     window.addEventListener("resize", handleResize);
     handleResize();
