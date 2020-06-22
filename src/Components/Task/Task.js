@@ -53,11 +53,11 @@ const Task = (props) => {
             </span>
           </div>
         </div>
+        <Modal
+          visible={isModalOpen}
+          children={isModalOpen ? <EditTask dismiss={dismissable} /> : ""}
+        />
       </div>
-      <Modal
-        visible={isModalOpen}
-        children={isModalOpen ? <EditTask dismiss={dismissable} /> : ""}
-      />
     </>
   );
 };
