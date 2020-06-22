@@ -13,7 +13,6 @@ import { Reports } from "../Components/Reports/Reports";
 import {Comments} from '../Components/Comments/Comments'
 import { InviteUser } from '../Components/InviteUser/InviteUser';
 import AddUser from '../Components/AddUser/AddUser';
-import {InviteUser} from '../Components/InviteUser/InviteUser'
 import Calendar from '../Components/Calendar'
 
 const routes = [
@@ -41,12 +40,6 @@ const routes = [
     path: "/profile",
     exact: true,
     component: Profile,
-  },
-  {
-    path: "/task",
-    exact: true,
-    component: Task,
-    // isPrivate: true,
   },
   {
     path: "/projects",
