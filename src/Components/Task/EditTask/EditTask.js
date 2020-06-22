@@ -1,17 +1,14 @@
 import React, { useEffect, useState, useContext } from "react";
 import { Form } from "react-final-form";
-import "./CreateTask.scss";
+import "./EditTask.scss";
 import { Button } from "react-bootstrap";
 import { Grid } from "@material-ui/core";
 import { TextField, Autocomplete } from "mui-rff";
-import { v4 as uuid } from "uuid";
 import Task from "../../Task/Task";
 import { ReactComponent as CloseIcon } from "../../../icons/close.svg";
-import tasksItemsContext from "../../../Context/tasksItemsContext";
 
-const CreateTask = ({ dismiss }) => {
+const EditTask = ({ dismiss }) => {
   const [isLoading, setLoading] = useState(false);
-  const { tasks, setTasks } = useContext(tasksItemsContext);
   let buttonDisable = true;
   const projects = ["Project1", "Project2"];
   const issueTypes = ["Epic", "Story", "Task", "Bug"];
@@ -145,17 +142,12 @@ const CreateTask = ({ dismiss }) => {
 
   const onSubmit = (values) => {
     setLoading(true);
-    const value = {
-      id: uuid(),
-      content: <Task {...values} />,
-    };
-    setTasks([...tasks, value]);
   };
 
   return (
     <>
       <div className="issueHeading">
-        Create Issue
+        Edit Issue
         <span className="icon-button-close" onClick={dismiss}>
           <CloseIcon />
         </span>
@@ -178,7 +170,7 @@ const CreateTask = ({ dismiss }) => {
                 type="submit"
                 disabled={buttonDisable}
               >
-                {isLoading ? "CreateTask...." : "CreateTask"}
+                {isLoading ? "Edit Issue...." : "Edit Issue"}
               </Button>
               <Button onClick={dismiss}>Cancel</Button>
             </div>
@@ -189,4 +181,4 @@ const CreateTask = ({ dismiss }) => {
   );
 };
 
-export default CreateTask;
+export default EditTask;

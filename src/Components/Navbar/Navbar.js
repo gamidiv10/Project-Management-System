@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useLayoutEffect } from "react";
 import "./Navbar.scss";
 import { ReactComponent as BellIcon } from "../../icons/bell.svg";
 import { ReactComponent as CaretIcon } from "../../icons/caret.svg";
@@ -194,11 +194,6 @@ const Navigationbar = ({ history }) => {
               </NavItem>
               <NavItem icon={<CalendarIcon />} className="mobileview" />
               <NavItem
-                icon={<PeopleIcon />}
-                className="mobileview"
-                to="/people"
-              />
-              <NavItem
                 icon={<PlusIcon />}
                 className="mobileview"
                 handleModalOpen={handleModalOpen}
@@ -239,6 +234,16 @@ const Navigationbar = ({ history }) => {
 
 const LeftNavItem = (props) => {
   const [open, setOpen] = useState(false);
+
+  useLayoutEffect(() => {
+    function handleResize() {
+      setOpen(false);
+    }
+    window.addEventListener("resize", handleResize);
+    handleResize();
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   return (
     <li
       className="left-nav-item"
@@ -256,6 +261,16 @@ const LeftNavItem = (props) => {
 
 const NavItem = (props) => {
   const [open, setOpen] = useState(false);
+
+  useLayoutEffect(() => {
+    function handleResize() {
+      setOpen(false);
+    }
+    window.addEventListener("resize", handleResize);
+    handleResize();
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   return props.handleModalOpen ? (
     <li className={props.className ? "mobileview nav-item" : "nav-item"}>
       <NavLink
