@@ -2,9 +2,10 @@ import React from 'react';
 import chroma from 'chroma-js'
 import Select from 'react-select'
 import { Navigate } from 'react-big-calendar'
-import { OverlayTrigger, Tooltip, ToggleButton, ButtonGroup } from 'react-bootstrap'
+import { ToggleButton, ButtonGroup } from 'react-bootstrap'
 
 import { colorScheme, status as taskStatus } from '../../../constants/defaultValues'
+import Tooltip from '../../../common/Tooltip'
 
 const selectComponentStyles = () => ({
   control: style => ({ width: '175px', ...style }),
@@ -50,14 +51,7 @@ const CalendarToolbar = ({ self, status, onNavigate, label, setSelf, setStatus }
         {"Today"}
       </span>
       {/* Link to Previous month */}
-      <OverlayTrigger
-        placement="bottom"
-        overlay={
-          <Tooltip id="tooltip-bottom">
-            <div style={{ fontSize: '11px' }}>{"Previous Month"}</div>
-          </Tooltip>
-        }
-      >
+      <Tooltip placement="top" tooltip="Previous Month">
         <span
           className="pointer pt-1 px-2"
           style={{ color: 'gray', fontSize: '1.25rem', }}
@@ -65,24 +59,17 @@ const CalendarToolbar = ({ self, status, onNavigate, label, setSelf, setStatus }
         >
           <i className="fa fa-chevron-circle-left" />
         </span>
-      </OverlayTrigger>
+      </Tooltip>
       {/* Link to Next Month */}
-      <OverlayTrigger
-        placement="bottom"
-        overlay={
-          <Tooltip id="tooltip-bottom">
-            <div style={{ fontSize: '11px' }}>{"Next Month"}</div>
-          </Tooltip>
-        }
-      >
+      <Tooltip placement="top" tooltip="Next Month">
         <span
           className="pointer pt-1 px-2"
           style={{ color: 'gray', fontSize: '1.25rem', }}
-          onClick={() => onNavigate(Navigate.NEXT)}
+          onClick={() => onNavigate(Navigate.PREVIOUS)}
         >
           <i className="fa fa-chevron-circle-right" />
         </span>
-      </OverlayTrigger>
+      </Tooltip>
     </div>
     <div className="d-flex">
       {/* Task status filter */}
@@ -95,20 +82,13 @@ const CalendarToolbar = ({ self, status, onNavigate, label, setSelf, setStatus }
         options={selectOptions}
       />
       {/* Task assignee filter (own tasks and everyone's tasks) */}
-      <OverlayTrigger
-        placement="bottom"
-        overlay={
-          <Tooltip id="tooltip-bottom">
-            <div style={{ fontSize: '11px' }}>{self ? "Show Everyone's Tasks" : "Show My Tasks"}</div>
-          </Tooltip>
-        }
-      >
+      <Tooltip placement="top" tooltip={self ? "Show Everyone's Tasks" : "Show My Tasks"}>
         <ButtonGroup toggle className="ml-3">
           <ToggleButton type="checkbox" variant={self ? 'primary' : 'outline-primary'} value={self} onChange={() => setSelf(!self)}>
             <i className="fa fa-user pr-2" />{"Me"}
           </ToggleButton>
         </ButtonGroup>
-      </OverlayTrigger>
+      </Tooltip>
     </div>
   </div>
 }
