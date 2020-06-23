@@ -7,6 +7,7 @@ import { ReactComponent as LocationIcon } from "../../icons/location.svg";
 import { ReactComponent as EmailIcon } from "../../icons/email.svg";
 import "./Profile.scss";
 import Editable from "../../Components/Editable/Editable";
+import { Button } from "react-bootstrap";
 
 const Profile = () => {
   const [jobTitle, setJobTitle] = useState("software Engineer");
@@ -140,6 +141,9 @@ const Profile = () => {
                   onChange={(e) => setEmail(e.target.value)}
                 />
               </Editable>
+            </div>
+            <div className="buttons">
+              <Button type="submit">Save Details</Button>
             </div>
           </div>
         </section>
