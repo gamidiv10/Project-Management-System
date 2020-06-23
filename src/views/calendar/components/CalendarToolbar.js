@@ -65,7 +65,7 @@ const CalendarToolbar = ({ self, status, onNavigate, label, setSelf, setStatus }
         <span
           className="pointer pt-1 px-2"
           style={{ color: 'gray', fontSize: '1.25rem', }}
-          onClick={() => onNavigate(Navigate.PREVIOUS)}
+          onClick={() => onNavigate(Navigate.NEXT)}
         >
           <i className="fa fa-chevron-circle-right" />
         </span>
