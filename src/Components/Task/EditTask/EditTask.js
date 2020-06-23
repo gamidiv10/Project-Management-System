@@ -4,7 +4,6 @@ import "./EditTask.scss";
 import { Button } from "react-bootstrap";
 import { Grid } from "@material-ui/core";
 import { TextField, Autocomplete } from "mui-rff";
-import Task from "../../Task/Task";
 import { ReactComponent as CloseIcon } from "../../../icons/close.svg";
 import { Comments } from "../../Comments/Comments";
 
@@ -57,7 +56,6 @@ const EditTask = ({ dismiss }) => {
           required={true}
           options={projects}
           variant="outlined"
-          getOptionValue={(option) => option}
           renderOption={(option) => <>{option}</>}
         />
       ),
@@ -71,7 +69,6 @@ const EditTask = ({ dismiss }) => {
           variant="outlined"
           required={true}
           options={issueTypes}
-          getOptionValue={(option) => option}
           renderOption={(option) => <>{option}</>}
         />
       ),
@@ -178,7 +175,7 @@ const EditTask = ({ dismiss }) => {
           </form>
         )}
       />
-      <Comments/>
+      <Comments />
     </>
   );
 };

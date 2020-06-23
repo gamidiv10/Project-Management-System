@@ -13,7 +13,7 @@ const Task = (props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleModalOpen = () => {
-    setIsModalOpen(!isModalOpen);
+    setIsModalOpen(true);
   };
   const dismissable = () => {
     setIsModalOpen(false);
