@@ -8,6 +8,7 @@ import Modal from "../../../Modal/Modal";
 import CompleteSprint from "../../../CompleteSprint/CompleteSprint";
 import { v4 as uuid } from "uuid";
 import ProjectDetailHeader from "../ProjectDetailHeader/ProjectDetailHeader";
+import EditTask from "../../../Task/EditTask/EditTask";
 
 const onDrag = (result, columns, setColumns) => {
   if (!result.destination) return;
@@ -58,12 +59,20 @@ function ProjectDetailMain() {
   const { tasks } = useContext(tasksContext);
   const itemsData = tasks;
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpenEdit, setIsModalOpenEdit] = useState(false);
 
   const handleModalOpen = () => {
     setIsModalOpen(!isModalOpen);
   };
   const dismissable = () => {
     setIsModalOpen(false);
+  };
+
+  const handleModalOpenEdit = () => {
+    setIsModalOpenEdit(!isModalOpenEdit);
+  };
+  const dismissableEdit = () => {
+    setIsModalOpenEdit(false);
   };
 
   const columnsData = {
@@ -93,8 +102,7 @@ function ProjectDetailMain() {
     setColumns(columnsData);
   }, [tasks]);
 
-  useEffect(() => {
-  }, []);
+  useEffect(() => {}, []);
 
   return (
     <ProjectDetail>
@@ -157,6 +165,7 @@ function ProjectDetailMain() {
                                               userSelect: "none",
                                               ...provided.draggableProps.style,
                                             }}
+                                            onClick={handleModalOpenEdit}
                                           >
                                             {item.content}
                                           </div>
@@ -182,6 +191,11 @@ function ProjectDetailMain() {
       <Modal
         visible={isModalOpen}
         children={isModalOpen ? <CompleteSprint dismiss={dismissable} /> : ""}
+      />
+
+      <Modal
+        visible={isModalOpenEdit}
+        children={isModalOpenEdit ? <EditTask dismiss={dismissableEdit} /> : ""}
       />
     </ProjectDetail>
   );

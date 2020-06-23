@@ -14,8 +14,9 @@
   left: 0;
   right: 0;
   width: 60vw;
+  max-height: 550px;
   height: max-content;
-  overflow: hidden;
+  overflow: auto;
   margin: 70px auto;
   box-sizing: border-box;
   z-index: 1;

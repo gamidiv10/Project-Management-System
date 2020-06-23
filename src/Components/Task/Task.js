@@ -6,19 +6,8 @@ import { ReactComponent as LowIcon } from "../../icons/low.svg";
 import { ReactComponent as LowestIcon } from "../../icons/lowest.svg";
 import { ReactComponent as AssigneeIcon } from "../../icons/assignee.svg";
 import "./Task.scss";
-import Modal from "../Modal/Modal";
-import EditTask from "./EditTask/EditTask";
 
 const Task = (props) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const handleModalOpen = () => {
-    setIsModalOpen(true);
-  };
-  const dismissable = () => {
-    setIsModalOpen(false);
-  };
-
   const priorityIcon = (type) => {
     switch (type) {
       case "Highest":
@@ -37,7 +26,7 @@ const Task = (props) => {
   };
   return (
     <>
-      <div className="taskCard" onClick={handleModalOpen}>
+      <div className="taskCard">
         <div>{props.taskSummary}</div>
         <div className="taskDetails">
           <div>
@@ -53,10 +42,6 @@ const Task = (props) => {
             </span>
           </div>
         </div>
-        <Modal
-          visible={isModalOpen}
-          children={isModalOpen ? <EditTask dismiss={dismissable} /> : ""}
-        />
       </div>
     </>
   );
