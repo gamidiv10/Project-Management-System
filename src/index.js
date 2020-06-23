@@ -1,10 +1,10 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import "./index.css";
+import "./scss/index.scss";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import "bootstrap/dist/css/bootstrap.css";
-import 'react-big-calendar/lib/css/react-big-calendar.css'
+import "react-big-calendar/lib/css/react-big-calendar.css"
 
 ReactDOM.render(
   // <React.StrictMode>

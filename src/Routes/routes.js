@@ -12,7 +12,7 @@ import ProjectDetailMain from "../Components/Projects/ProjectDetail/ProjectDetai
 import { Reports } from "../Components/Reports/Reports";
 import { InviteUser } from '../Components/InviteUser/InviteUser';
 import AddUser from '../Components/AddUser/AddUser';
-import Calendar from '../Components/Calendar'
+import Calendar from "../views/calendar/pages/CalendarView"
 
 const routes = [
   {

@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Router } from "react-router-dom";
 import history from "./services/history";
-import Routes from "./Routes/index";
-import "./App.scss";
+import Routes from "./Routes";
 import Navigationbar from "./Components/Navbar/Navbar";
 import userContext from "./Context/userContext";
 import tasksItemsContext from "./Context/tasksItemsContext";
