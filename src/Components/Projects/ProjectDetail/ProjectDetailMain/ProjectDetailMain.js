@@ -93,6 +93,9 @@ function ProjectDetailMain() {
     setColumns(columnsData);
   }, [tasks]);
 
+  useEffect(() => {
+  }, []);
+
   return (
     <ProjectDetail>
       <main className="ProjectDetailMain">

@@ -6,7 +6,13 @@ $nav-size: 60px;
 $border: 1px solid #474a4d;
 $border-radius: 8px;
 $speed: 500ms;
-
+.navbar-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 11111111;
+}
 .home-navbar {
   height: $nav-size;
   background-color: $primary-color;

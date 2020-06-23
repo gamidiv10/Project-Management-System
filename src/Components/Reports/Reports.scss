@@ -1,9 +1,14 @@
-.chart-container{
-    margin: 0 auto;
-    width: 75%;
-    padding: 5%;
+.chart-container {
+  padding: 5%;
+  margin: 0 10px;
+  height: 100%;
 
-    .projectSprintHeading {
-        font-size: 40px;
-      }
+  .projectSprintHeading {
+    font-size: 40px;
+  }
+
+  .chart {
+    position: relative;
+    width: 100%;
+  }
 }
