@@ -6,6 +6,7 @@ import ForgotPassword from "../Components/ForgotPassword/ForgotPassword";
 import ResetPassword from "../Components/ResetPassword/ResetPassword";
 import Task from "../Components/Task/Task";
 import Projects from "../Components/Projects/Projects";
+import AboutUs from "../Components/AboutUs/AboutUs"
 import Profile from "../Components/Profile/Profile";
 import People from "../Components/People/People";
 import ProjectDetailMain from "../Components/Projects/ProjectDetail/ProjectDetailMain/ProjectDetailMain";
@@ -26,6 +27,11 @@ const routes = [
     path: "/home",
     exact: true,
     component: Home,
+  },
+  {
+    path: "/about-us",
+    exact: true,
+    component: AboutUs
   },
   {
     path: "/forgotpassword",

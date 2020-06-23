@@ -108,7 +108,7 @@ const Navigationbar = ({ history }) => {
       },
       {
         item: "About Us",
-        to: "/login",
+        to: "/about-us",
         appIcon: <TaskaticIcon />,
       },
       {
