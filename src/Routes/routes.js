@@ -2,6 +2,7 @@ import Error from "../Components/Error/Error";
 import Signup from "../Components/Signup/Signup";
 import Login from "../Components/Login/Login";
 import Home from "../Components/Home/Home";
+import ContactUs from "../Components/ContactUs/ContactUs"
 import ForgotPassword from "../Components/ForgotPassword/ForgotPassword";
 import ResetPassword from "../Components/ResetPassword/ResetPassword";
 import Task from "../Components/Task/Task";
@@ -32,6 +33,11 @@ const routes = [
     path: "/about-us",
     exact: true,
     component: AboutUs
+  },
+  {
+    path: "/contact-us",
+    exact: true,
+    component: ContactUs
   },
   {
     path: "/forgotpassword",
