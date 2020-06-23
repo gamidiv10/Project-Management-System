@@ -113,8 +113,8 @@ const Navigationbar = ({ history }) => {
       },
       {
         item: "Contact Us",
-        to: "/login",
-        appIcon: <TaskaticIcon />,
+        to: "/contact-us",
+        appIcon: <PeopleIcon />,
       },
     ];
     RightNavItems = [
