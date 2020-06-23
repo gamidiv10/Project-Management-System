@@ -13,8 +13,8 @@ import { Reports } from "../Components/Reports/Reports";
 import { Comments } from '../Components/Comments/Comments'
 import { InviteUser } from '../Components/InviteUser/InviteUser';
 import AddUser from '../Components/AddUser/AddUser';
-import Calendar from "../views/calendar/pages/CalendarView"
-import Notifications from "../views/notification/pages/NotificationView";
+import Calendar from "../views/calendar"
+import Notifications from "../views/notification";
 
 const routes = [
   {
