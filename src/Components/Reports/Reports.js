@@ -25,6 +25,7 @@ export const Reports = () => {
     };
   return (
     <ProjectDetail>
+    <main className="ProjectDetailMain">
     <div className="chart-container">
     <div className="projectSprintHeading">Velocity Chart</div>
 
@@ -42,6 +43,7 @@ export const Reports = () => {
       
       />
     </div>
+    </main>
     </ProjectDetail>
   );
 };
