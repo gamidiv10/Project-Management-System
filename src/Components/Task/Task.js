@@ -13,7 +13,7 @@ const Task = (props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleModalOpen = () => {
-    setIsModalOpen(!isModalOpen);
+    setIsModalOpen(true);
   };
   const dismissable = () => {
     setIsModalOpen(false);
@@ -53,11 +53,11 @@ const Task = (props) => {
             </span>
           </div>
         </div>
+        <Modal
+          visible={isModalOpen}
+          children={isModalOpen ? <EditTask dismiss={dismissable} /> : ""}
+        />
       </div>
-      <Modal
-        visible={isModalOpen}
-        children={isModalOpen ? <EditTask dismiss={dismissable} /> : ""}
-      />
     </>
   );
 };

@@ -10,6 +10,7 @@ import Profile from "../Components/Profile/Profile";
 import People from "../Components/People/People";
 import ProjectDetailMain from "../Components/Projects/ProjectDetail/ProjectDetailMain/ProjectDetailMain";
 import { Reports } from "../Components/Reports/Reports";
+import {Comments} from '../Components/Comments/Comments'
 import { InviteUser } from '../Components/InviteUser/InviteUser';
 import AddUser from '../Components/AddUser/AddUser';
 import Calendar from "../views/calendar/pages/CalendarView"
@@ -41,12 +42,6 @@ const routes = [
     component: Profile,
   },
   {
-    path: "/task",
-    exact: true,
-    component: Task,
-    isPrivate: true,
-  },
-  {
     path: "/projects",
     exact: true,
     component: Projects,
@@ -72,7 +67,7 @@ const routes = [
     component: Login,
   },
   {
-    path: "/reports",
+    path: "/project/reports",
     exact: true,
     component: Reports,
   },
@@ -90,6 +85,11 @@ const routes = [
     path: "/addUser",
     exact: true,
     component: AddUser
+  },
+  {
+    path: "/comments",
+    exact: true,
+    component: Comments
   },
   {
     path: "/",

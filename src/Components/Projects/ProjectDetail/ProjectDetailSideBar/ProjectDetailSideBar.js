@@ -25,9 +25,13 @@ const ProjectDetailSideBar = ({ history }) => {
       if (window.innerWidth <= "767") {
         setSideBar(false);
         width = width - 30;
+        document.getElementsByClassName("ProjectDetailMain")[0].style.width =
+          "" + width + "px";
       } else {
         setSideBar(true);
         width = sidebar ? width - 225 : width - 15;
+        document.getElementsByClassName("ProjectDetailMain")[0].style.width =
+          "" + width + "px";
       }
     }
     window.addEventListener("resize", handleResize);

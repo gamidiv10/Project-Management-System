@@ -18,6 +18,14 @@
     width: 300px;
   }
 
+  .projectForm {
+    display: flex;
+
+    .buttons {
+      padding: 0 5%;
+    }
+  }
+
   .ProjectDetailMainLayout {
     display: flex;
     height: calc(100% - 218px);
