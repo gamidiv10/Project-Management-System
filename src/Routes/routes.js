@@ -10,10 +10,11 @@ import Profile from "../Components/Profile/Profile";
 import People from "../Components/People/People";
 import ProjectDetailMain from "../Components/Projects/ProjectDetail/ProjectDetailMain/ProjectDetailMain";
 import { Reports } from "../Components/Reports/Reports";
-import {Comments} from '../Components/Comments/Comments'
+import { Comments } from '../Components/Comments/Comments'
 import { InviteUser } from '../Components/InviteUser/InviteUser';
 import AddUser from '../Components/AddUser/AddUser';
 import Calendar from "../views/calendar/pages/CalendarView"
+import Notifications from "../views/notification/pages/NotificationView";
 
 const routes = [
   {
@@ -75,6 +76,11 @@ const routes = [
     path: "/calendar",
     exact: true,
     component: Calendar
+  },
+  {
+    path: "/notifications",
+    exact: true,
+    component: Notifications
   },
   {
     path: "/inviteUser",
