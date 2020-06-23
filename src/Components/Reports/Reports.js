@@ -1,6 +1,7 @@
 import React from "react";
 import { Bar } from "react-chartjs-2";
 import './Reports.scss'
+import ProjectDetail from '../Projects/ProjectDetail/ProjectDetail'
 
 export const Reports = () => {
     const chartData = {
@@ -23,7 +24,10 @@ export const Reports = () => {
       ]
     };
   return (
+    <ProjectDetail>
     <div className="chart-container">
+    <div className="projectSprintHeading">Velocity Chart</div>
+
       <Bar
         data={chartData}
         options={{
@@ -38,5 +42,6 @@ export const Reports = () => {
       
       />
     </div>
+    </ProjectDetail>
   );
 };

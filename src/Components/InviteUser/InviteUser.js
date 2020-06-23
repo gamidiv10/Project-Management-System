@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./InviteUser.css";
+import "./InviteUser.scss";
 import { useHistory } from "react-router-dom";
 import { Button } from "react-bootstrap";
 
@@ -54,7 +54,7 @@ export const InviteUser = () => {
                 />
               </section>
               <div className="buttons">
-                <Button>Invite</Button>
+                <Button onClick={handleInviteUser}>Invite</Button>
               </div>
               <section className="form-group">
                 <p className="user-error">{emailError}</p>
