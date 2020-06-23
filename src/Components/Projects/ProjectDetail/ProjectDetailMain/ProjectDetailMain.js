@@ -7,6 +7,7 @@ import tasksContext from "../../../../Context/tasksItemsContext";
 import Modal from "../../../Modal/Modal";
 import CompleteSprint from "../../../CompleteSprint/CompleteSprint";
 import { v4 as uuid } from "uuid";
+import ProjectDetailHeader from "../ProjectDetailHeader/ProjectDetailHeader";
 
 const onDrag = (result, columns, setColumns) => {
   if (!result.destination) return;
@@ -95,12 +96,7 @@ function ProjectDetailMain() {
   return (
     <ProjectDetail>
       <main className="ProjectDetailMain">
-        <section className="projectSprintHeader">
-          <div className="projectSprintHeading">Sprint Name</div>
-          <div className="buttons">
-            <Button onClick={handleModalOpen}>Complete Sprint</Button>
-          </div>
-        </section>
+        <ProjectDetailHeader />
         <section>
           <Form className="projectForm">
             <Form.Control type="text" placeholder="Search for Issue" />
