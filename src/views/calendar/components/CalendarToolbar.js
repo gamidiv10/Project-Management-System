@@ -42,7 +42,7 @@ const CalendarToolbar = ({ self, status, onNavigate, label, setSelf, setStatus }
     .keys(taskStatus)
     .map(value => ({ value, label: taskStatus[value], color: colorScheme[value] }))
 
-  return <div className="d-flex justify-content-between mb-3" style={{ zIndex: 100 }}>
+  return <div className="d-flex justify-content-between mb-3" style={{ zIndex: 100,  flexDirection: "column"  }}>
     <div className="d-flex">
       {/* Month Label */}
       <h4 className="mb-0 pt-1 pr-2">{label}</h4>

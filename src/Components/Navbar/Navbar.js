@@ -65,7 +65,7 @@ const Navigationbar = ({ history }) => {
       },
       {
         item: "Create",
-        to: "/home",
+        to: "/activesprint",
         button: true,
       },
     ];
@@ -134,100 +134,103 @@ const Navigationbar = ({ history }) => {
   };
 
   return (
-    <header>
-      <nav className="home-navbar">
-        <ul className="home-navbar-nav left-nav tabview">
-          {LeftNavItems.map((navitem, index) => {
-            if (navitem.button) {
-              return (
-                <Button
-                  key={index}
-                  className="createButton"
-                  onClick={handleModalOpen}
-                >
-                  {navitem.item}
-                </Button>
+    <>
+      <header>
+        <nav className="home-navbar">
+          <ul className="home-navbar-nav left-nav tabview">
+            {LeftNavItems.map((navitem, index) => {
+              if (navitem.button) {
+                return (
+                  <Button
+                    key={index}
+                    className="createButton"
+                    onClick={handleModalOpen}
+                  >
+                    {navitem.item}
+                  </Button>
+                );
+              }
+              return navitem.dropdown ? (
+                <LeftNavItem key={index} item={{ ...navitem }}>
+                  <DropdownMenu item={{ ...navitem.dropdown }}></DropdownMenu>
+                </LeftNavItem>
+              ) : (
+                <li key={index} className="left-nav-item">
+                  {navitem.appIcon ? (
+                    <span className="icon-button left-nav">
+                      {navitem.appIcon}
+                    </span>
+                  ) : (
+                    ""
+                  )}
+                  <NavLink to={navitem.to} activeClassName="linkActive">
+                    {navitem.item}
+                  </NavLink>
+                </li>
               );
-            }
-            return navitem.dropdown ? (
-              <LeftNavItem key={index} item={{ ...navitem }}>
-                <DropdownMenu item={{ ...navitem.dropdown }}></DropdownMenu>
-              </LeftNavItem>
-            ) : (
-              <li key={index} className="left-nav-item">
-                {navitem.appIcon ? (
-                  <span className="icon-button left-nav">
-                    {navitem.appIcon}
-                  </span>
-                ) : (
-                  ""
-                )}
-                <NavLink to={navitem.to} activeClassName="linkActive">
-                  {navitem.item}
-                </NavLink>
-              </li>
-            );
-          })}
-        </ul>
-        <ul className="home-navbar-nav right-nav">
-          {LeftNavItems.length > 0 ? (
-            <>
-              <span className="icon-button left-nav-icon mobileview">
-                <TaskaticIcon />
-              </span>
-              <NavItem
-                icon={<ProjectsIcon />}
-                className="mobileview"
-                to="/projects"
-              >
-                <DropdownMenu item={LeftNavItems[1].dropdown}></DropdownMenu>
-              </NavItem>
-              <NavItem icon={<CalendarIcon />} className="mobileview" />
-              <NavItem
-                icon={<PlusIcon />}
-                className="mobileview"
-                handleModalOpen={handleModalOpen}
-              />
-            </>
-          ) : (
-            ""
-          )}
-          {RightNavItems.map((item, index) => {
-            if (item.button) {
-              return (
-                <Button
-                  key={index}
-                  className="createButton"
-                  onClick={LoginHandler}
-                >
-                  {item.item}
-                </Button>
-              );
-            } else if (item.iconButton) {
-              return (
+            })}
+          </ul>
+          <ul className="home-navbar-nav right-nav">
+            {LeftNavItems.length > 0 ? (
+              <>
+                <span className="icon-button left-nav-icon mobileview">
+                  <TaskaticIcon />
+                </span>
                 <NavItem
-                  key={index}
-                  icon={item.icon}
-                  to={item.to}
-                  className=""
-                ></NavItem>
-              );
-            } else {
-              return (
-                <NavItem key={index} icon={item.icon} className="">
-                  <IconDropdownMenu dropdown={item.dropdown} />
+                  icon={<ProjectsIcon />}
+                  className="mobileview"
+                  to="/projects"
+                >
+                  <DropdownMenu item={LeftNavItems[1].dropdown}></DropdownMenu>
                 </NavItem>
-              );
-            }
-          })}
-        </ul>
+                <NavItem icon={<CalendarIcon />} className="mobileview" />
+                <NavItem
+                  icon={<PlusIcon />}
+                  to="/project/activesprint"
+                  className="mobileview"
+                  handleModalOpen={handleModalOpen}
+                />
+              </>
+            ) : (
+              ""
+            )}
+            {RightNavItems.map((item, index) => {
+              if (item.button) {
+                return (
+                  <Button
+                    key={index}
+                    className="createButton"
+                    onClick={LoginHandler}
+                  >
+                    {item.item}
+                  </Button>
+                );
+              } else if (item.iconButton) {
+                return (
+                  <NavItem
+                    key={index}
+                    icon={item.icon}
+                    to={item.to}
+                    className=""
+                  ></NavItem>
+                );
+              } else {
+                return (
+                  <NavItem key={index} icon={item.icon} className="">
+                    <IconDropdownMenu dropdown={item.dropdown} />
+                  </NavItem>
+                );
+              }
+            })}
+          </ul>
 
-        <Modal
-          visible={isModalOpen}
-          children={isModalOpen ? <CreateTask dismiss={dismissable} /> : ""}
-        />
-      </nav>
-    </header>
+          <Modal
+            visible={isModalOpen}
+            children={isModalOpen ? <CreateTask dismiss={dismissable} /> : ""}
+          />
+        </nav>
+      </header>
+    </>
   );
 };
 
