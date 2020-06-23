@@ -8,7 +8,7 @@ import { OverlayTrigger, Tooltip } from 'react-bootstrap'
  * @property {element} children - The component on which the tooltip overlay should be triggered.
  * @property {element} tooltipComponent - An HTML element to be rendered as the tooltip content instead of string message.
  * @property {object} tooltipProps - Additional props to pass to the react-bootstrap Tooltip component (https://react-bootstrap.github.io/components/overlays/#tooltip-props).
- * @property {object} rest - Additional props to pass to the react-bootstrap OverlayTrigger component (https://react-bootstrap.github.io/components/overlays/#overlay-trigger-props)
+ * @property {object} overlayProps - Additional props to pass to the react-bootstrap OverlayTrigger component (https://react-bootstrap.github.io/components/overlays/#overlay-trigger-props)
  */
 const TooltipWrapper = ({
   placement = 'auto',
@@ -16,7 +16,7 @@ const TooltipWrapper = ({
   children,
   tooltipProps,
   tooltipComponent: Component,
-  ...rest
+  overlayProps
 }) => {
 
   return <OverlayTrigger
@@ -26,7 +26,7 @@ const TooltipWrapper = ({
         {tooltip || Component}
       </Tooltip>
     }
-    {...rest}
+    {...overlayProps}
   >
     {children}
   </OverlayTrigger>
