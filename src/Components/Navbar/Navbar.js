@@ -45,7 +45,7 @@ const Navigationbar = ({ history }) => {
     LeftNavItems = [
       {
         item: "Taskatic",
-        to: "/projects",
+        to: "/",
         appIcon: <TaskaticIcon />,
       },
       {
@@ -109,7 +109,7 @@ const Navigationbar = ({ history }) => {
     LeftNavItems = [
       {
         item: "Taskatic",
-        to: "/login",
+        to: "/",
         appIcon: <TaskaticIcon />,
       },
       {
@@ -131,7 +131,7 @@ const Navigationbar = ({ history }) => {
       },
       {
         item: "Login",
-        to: "/home",
+        to: "/",
         button: true,
       },
     ];
