@@ -1,6 +1,7 @@
 import Error from "../Components/Error/Error";
 //import Signup from "../Components/SignUp/SignUp";
 import Login from "../Components/Login/Login";
+import Landing from "../Components/Landing/Landing"
 import Home from "../Components/Home/Home";
 import ContactUs from "../Components/ContactUs/ContactUs";
 import ForgotPassword from "../Components/ForgotPassword/ForgotPassword";
@@ -72,7 +73,7 @@ const routes = [
   {
     path: "/login",
     exact: true,
-    component: AboutUs,
+    component: Landing,
   },
   {
     path: "/project/reports",
@@ -107,7 +108,7 @@ const routes = [
   {
     path: "/",
     exact: true,
-    component: AboutUs,
+    component: Landing,
   },
   {
     path: "/*",
