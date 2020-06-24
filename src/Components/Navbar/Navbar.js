@@ -14,23 +14,29 @@ import { ReactComponent as LogoutIcon } from "../../icons/logout.svg";
 import { ReactComponent as ProfileSettingsIcon } from "../../icons/profilesettings.svg";
 import { NavLink } from "react-router-dom";
 import { Button } from "react-bootstrap";
-import Modal from "../Modal/Modal";
+import CreateModal from "../Modal/Modal";
+import { Modal } from "react-bootstrap";
 import CreateTask from "../Task/CreateTask/CreateTask";
 import userContext from "../../Context/userContext";
 import { withRouter } from "react-router-dom";
+import Login from "../Login/Login.js";
+import Register from "../SignUp/Register";
 
 const Navigationbar = ({ history }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpenLogin, setIsModalOpenLogin] = useState(false);
   const { user, setUser } = useContext(userContext);
+  const [show, setShow] = useState(false);
+  const [showRegister, setShowRegister] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+  const handleCloseRegister = () => setShowRegister(false);
+  const handleShowRegister = () => setShowRegister(true);
   let LeftNavItems = [];
   let RightNavItems = [];
 
   const LogoutHandler = () => {
-    setUser("");
-    history.push("/login");
-  };
-
-  const LoginHandler = () => {
     setUser("");
     history.push("/login");
   };
@@ -119,6 +125,11 @@ const Navigationbar = ({ history }) => {
     ];
     RightNavItems = [
       {
+        item: "Register",
+        to: "/home",
+        button: true,
+      },
+      {
         item: "Login",
         to: "/home",
         button: true,
@@ -129,13 +140,14 @@ const Navigationbar = ({ history }) => {
   const handleModalOpen = () => {
     setIsModalOpen(!isModalOpen);
   };
+
   const dismissable = () => {
     setIsModalOpen(false);
   };
 
   return (
     <>
-      <header>
+      <header className="nav-header-bar">
         <nav className="home-navbar">
           <ul className="home-navbar-nav left-nav tabview">
             {LeftNavItems.map((navitem, index) => {
@@ -200,7 +212,9 @@ const Navigationbar = ({ history }) => {
                   <Button
                     key={index}
                     className="createButton"
-                    onClick={LoginHandler}
+                    onClick={
+                      item.item === "Login" ? handleShow : handleShowRegister
+                    }
                   >
                     {item.item}
                   </Button>
@@ -224,10 +238,34 @@ const Navigationbar = ({ history }) => {
             })}
           </ul>
 
-          <Modal
+          <CreateModal
             visible={isModalOpen}
             children={isModalOpen ? <CreateTask dismiss={dismissable} /> : ""}
           />
+
+          <div className="container">
+            <Modal show={show} onHide={handleClose}>
+              <Modal.Header closeButton>
+                <Modal.Title>Login</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                <Login loginShow={setShow} />
+              </Modal.Body>
+              <Modal.Footer></Modal.Footer>
+            </Modal>
+          </div>
+
+          <div className="container">
+            <Modal show={showRegister} onHide={handleCloseRegister}>
+              <Modal.Header closeButton>
+                <Modal.Title>Register</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                <Register registerShow={setShowRegister} />
+              </Modal.Body>
+              <Modal.Footer></Modal.Footer>
+            </Modal>
+          </div>
         </nav>
       </header>
     </>

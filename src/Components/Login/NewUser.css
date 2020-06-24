@@ -1,0 +1,46 @@
+.NewUser {
+  width: 300px;
+  height: 400px;
+  margin: 10px;
+  margin-right: 0px;
+  background-color: white;
+  position: relative;
+  padding: 50px;
+  display: inline-block;
+}
+
+.NewAccountBackground {
+  width: 300px;
+  height: 300px;
+  /* Downloaded from google */
+  background-image: url(../../images/NewUser_backgroung_image.JPG);
+  background-size: contain;
+}
+
+.NewUser {
+  min-width: 350px;
+  height: 400px;
+  margin: 10px;
+  margin-right: 0px;
+  background-color: white;
+  position: relative;
+  display: inline-block;
+}
+.NewUser a {
+  font-weight: bold;
+  color: blue;
+}
+.NewUser a:hover {
+  font-weight: bold;
+  color: blue;
+  text-decoration: underline;
+}
+.SignUpLinkNewUser {
+  display: block;
+}
+
+@media (max-width: 1325px) {
+  .NewUser {
+    display: none;
+  }
+}

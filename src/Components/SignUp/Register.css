@@ -1,0 +1,13 @@
+.Register {
+  width: 300px;
+  height: 400px;
+  margin: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  background-color: white;
+  position: relative;
+  padding-left: 25px;
+  display: inline-block;
+}

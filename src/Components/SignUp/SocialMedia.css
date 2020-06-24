@@ -1,0 +1,51 @@
+@media all and (min-width: 480px) {
+  .SocialMedia {
+    border-radius: 10px;
+    width: 10px;
+    height: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    position: relative;
+    padding: 20px;
+    display: inline-flex;
+    margin: 5px;
+    background-size: contain;
+  }
+  .Facebook {
+    transition: 0.5s ease-in-out;
+    /* Downloaded from https://www.solarwinds.com/-/media/solarwinds/swdcv2/licensed-products/service-desk/integrations/sd-integrations-logo-google-single-sign-on.ashx?la=en&rev=aab01f816f1c4af5b415d614081150ee&hash=80ED17DEB435A7EFFC9C29101FBC92C5B05FD5D2 */
+    background-image: url(../../images/facebook_image.png);
+  }
+  .Facebook:hover {
+    transform: scale(1.2);
+    border-radius: 10px;
+    width: 10px;
+    height: 10px;
+    cursor: pointer;
+  }
+  .Google {
+    /* 
+    downloard from 
+    https://www.solarwinds.com/-/media/solarwinds/swdcv2/licensed-products/service-desk/integrations/sd-integrations-logo-google-single-sign-on.ashx?la=en&rev=aab01f816f1c4af5b415d614081150ee&hash=80ED17DEB435A7EFFC9C29101FBC92C5B05FD5D2 */
+    transition: 0.5s ease-in-out;
+    background-image: url(../../images/Google_image.png);
+  }
+  .Google:hover {
+    transform: scale(1.2);
+    border-radius: 10px;
+    width: 10px;
+    height: 10px;
+    cursor: pointer;
+  }
+  .LinkedIn {
+    transition: 0.5s ease-in-out;
+    /* Downloaded from https://media-exp1.licdn.com/dms/image/C4D0BAQGyOWvr4W0Pow/company-logo_200_200/0?e=2159024400&v=beta&t=itrwplyUUwPAVxqxN8THySQds9p401UaOtZIurSBVnA */
+    background-image: url(../../images/LinkedIn_image.png);
+  }
+  .LinkedIn:hover {
+    transform: scale(1.2);
+    border-radius: 10px;
+    width: 10px;
+    height: 10px;
+    cursor: pointer;
+  }
+}

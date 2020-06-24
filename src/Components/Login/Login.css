@@ -1,0 +1,62 @@
+.Login {
+  width: 300px;
+  height: 400px;
+  margin: 10px;
+  margin-left: 0px;
+  background-color: white;
+  position: relative;
+  padding-left: 25px;
+  display: inline-block;
+}
+
+.Title {
+  text-align: left;
+  font-size: 25px;
+  font-weight: bold;
+}
+
+.LoginHomePage {
+  display: inline-flex;
+}
+
+.Login form {
+  margin: 0 auto;
+  max-width: 320px;
+}
+.Login Button :hover {
+  text-decoration: underline;
+}
+.Login a {
+  font-weight: bold;
+  color: blue;
+}
+.Login a:hover {
+  font-weight: bold;
+  color: blue;
+  text-decoration: underline;
+}
+.NormalText {
+  font-weight: bold;
+  color: grey;
+}
+
+.ErrorText {
+  color: red;
+}
+
+.errorTextField {
+  border: 1px solid red;
+}
+.SignUpLink {
+  display: none;
+}
+
+.LoginBottom {
+  margin-left: 30px;
+}
+
+@media (max-width: 1325px) {
+  .SignUpLink {
+    display: block;
+  }
+}
