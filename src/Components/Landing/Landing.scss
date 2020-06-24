@@ -1,3 +1,36 @@
+.landing-title {
+    padding: 20px 0px 20px 0px;
+}
 .taskatic-title {
     text-align: center;
+    padding: 30px 0px 30px 0px;
+}
+.taskatic-title > h1 {
+    color: #0275d8;
+}
+.text-description {
+    word-wrap: break-word;
+}
+.feature-detail {
+    padding: 20px 0px 20px 0px;
+}
+.detail-container {
+    h2 {
+        color: #3f5b77;
+    }
+    padding: 100px 0px 70px 0px;
+    // align-content: center;
+    justify-content: center;
+}
+.border {
+    border: 50px solid #3f5b77;
+    width: 100%;
+    border-radius: 5px;
+}
+.text-wrap {
+    text-align: center;
+
+}
+h4 {
+    color: #3f5b77
 }
