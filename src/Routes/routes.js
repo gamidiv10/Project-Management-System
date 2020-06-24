@@ -72,7 +72,7 @@ const routes = [
   {
     path: "/login",
     exact: true,
-    component: Login,
+    component: AboutUs,
   },
   {
     path: "/project/reports",
