@@ -7,6 +7,7 @@ import ContactUs from "../Components/ContactUs/ContactUs";
 import ForgotPassword from "../Components/ForgotPassword/ForgotPassword";
 import ResetPassword from "../Components/ResetPassword/ResetPassword";
 import Task from "../Components/Task/Task";
+import Backlog from "../Components/Backlog/Backlog"
 import Projects from "../Components/Projects/Projects";
 import AboutUs from "../Components/AboutUs/AboutUs";
 import Profile from "../Components/Profile/Profile";
@@ -64,6 +65,11 @@ const routes = [
     path: "/project/people",
     exact: true,
     component: People,
+  },
+  {
+    path: "/project/backlog",
+    exact: true,
+    component: Backlog
   },
   {
     path: "/people/:id",
