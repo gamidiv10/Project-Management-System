@@ -1,0 +1,41 @@
+.backlog-container {
+    margin: 40px;
+}
+.backlog-row {
+    padding-bottom: 40px;
+}
+.card-body {
+    align-items: center;
+}
+.inline {
+    display: inline-block
+}
+.crd-title {
+    font-weight: 700;
+    padding-left: 15px;
+}
+.label {
+    color: white;
+    padding: 0px 8px 0px 8px;
+    float: right;
+    font-family: Arial;
+    margin-right: 25px;
+}
+.story {background-color: #ff9800}
+.task {background-color:#2196F3}
+.bug {background-color: red;}
+
+.dot {
+    height: 12px;
+    width: 12px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+@media (max-width: 600px) 
+{
+    .issue-label
+    {
+        display: none;
+    }
+}
