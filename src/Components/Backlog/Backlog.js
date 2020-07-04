@@ -28,12 +28,13 @@ const Backlog = () => {
                 key={`issues`+index}
             />
         ))
-    )
-
-    const renderSprints = () => (
-        sprints.map((item, index) => (
-            <SprintItem 
+        )
+        
+        const renderSprints = () => (
+            sprints.map((item, index) => (
+                <SprintItem 
                 item={item}
+                index={index}
                 key={`sprints`+index}
             />
         ))

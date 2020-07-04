@@ -2,7 +2,7 @@ import React from "react"
 import { Accordion, Card, Row, Col, Button, ListGroup } from "react-bootstrap"
 import { 
     FaRunning, 
-    FaSkype, 
+    FaEdit, 
     FaBullseye, 
     FaTrash,
     FaInfoCircle
@@ -14,14 +14,20 @@ const SprintItem = props => (
             <Accordion defaultActiveKey="0">
                 <Card>
                     <Accordion.Toggle as={Card.Header} eventKey="0">
-                        <FaSkype style={{ display: "inline-block", color: "#001f3f"}} size="1.8em"/>
+                        <FaRunning style={{ display: "inline-block", color: "#001f3f"}} size="1.8em"/>
                         <div style={{ fontSize: "22px" }} className="inline crd-title">
                                 {props.item.sprintName}
                         </div>
                         <div style={{ float: "right" }}>
-                            <Button style={{ height: "8%" }} variant="success">Start Sprint</Button>
+                            <Button style={{ height: "8%", fontWeight: "600" }} variant="success" disabled={props.index === 0}>
+                                {
+                                    props.index === 0
+                                    ? "Started..."
+                                    : "Start"
+                                }
+                            </Button>
                             <span style={{ marginLeft: "20px" }}>
-                                <FaRunning style={{ display: "inline-block",  color: "#001f3f"}} size="2em"/>
+                                <FaEdit style={{ display: "inline-block",  color: "#001f3f"}} size="1.9em"/>
                             </span>
                             <span style={{ marginLeft: "20px"}}>
                                 <FaTrash style={{ display: "inline-block",  color: "#001f3f"}} size="1.5em"/>
@@ -33,7 +39,7 @@ const SprintItem = props => (
                         <ListGroup>
                             <ListGroup.Item>
                                 <span style={{ marginRight: "10px" }}>
-                                    <FaBullseye style={{ color: "red" }}/>
+                                    <FaBullseye style={{ color: "#DC143C" }}/>
                                 </span>
                                 <span style={{ display: "inline-block", color: "#001f3f", paddingRight: "8px" }}>
                                     <b>Sprint Goal :</b>
