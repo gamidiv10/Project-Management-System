@@ -28,16 +28,16 @@ const Project = (props) => {
       {projects.map((project, index) => (
         <article key={index} className="project" onClick={handleModalOpen}>
           <div className="projectName icon">
-            <span>{project.name}</span>
+            <span>{project.projectName}</span>
             <span
               className="icon-project projectIcons"
-              onClick={() => editProject(project.name)}
+              onClick={() => editProject(project.projectName)}
             >
               <SettingsIcon />
             </span>
             <span
               className="icon-project"
-              onClick={() => redirectToprojectDetail(project.name)}
+              onClick={() => redirectToprojectDetail(project.projectName)}
             >
               <NewTabIcon />
             </span>
@@ -46,14 +46,14 @@ const Project = (props) => {
             <span className="icon-project">
               <KeyIcon />
             </span>
-            {project.key}
+            {project.projectKey}
           </div>
-          <div className="projectType">{project.type}</div>
+          <div className="projectType">{project.projectType}</div>
           <div className="projectLead icon">
             <span className="icon-project">
               <ProfileIcon />
             </span>
-            {project.lead}
+            {project.projectLead}
           </div>
         </article>
       ))}

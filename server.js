@@ -22,10 +22,10 @@ if(process.env.NODE_ENV === 'development')
     app.use(morgan('dev'));
 }
 
+app.use('/project', projectRoutes);
+
 app.get("/*", (req, res) => {
   res.sendFile(path.resolve(__dirname, "client/build", "index.html"));
 });
-
-app.use('/project', projectRoutes);
 
 app.listen(PORT, console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`.yellow.bold));

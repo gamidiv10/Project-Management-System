@@ -95,11 +95,13 @@ const CreateProject = ({ dismiss }) => {
     let projectName = values.projectname;
     let projectKey = values.key;
     let projectType = values.projecttype;
+    let projectLead = "Vamsi Gamidi"
     setLoading(true);
     axios.post('/project/createProject', {
       projectName,
       projectKey,
       projectType,
+      projectLead,
     })
     .then(response => {
       console.log(response);

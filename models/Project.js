@@ -14,6 +14,10 @@ const ProjectSchema = new mongoose.Schema({
     projectType:{
         type: String,
         required: [true, "Project Type is required"],
+    },
+    projectLead:{
+        type: String,
+        required: [true, "Project Lead is required"],
     }
 })
 

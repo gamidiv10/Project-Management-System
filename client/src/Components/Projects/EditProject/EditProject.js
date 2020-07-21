@@ -3,6 +3,7 @@ import Editable from "../../Editable/Editable";
 import { ReactComponent as CloseIcon } from "../../../icons/close.svg";
 import { Button } from "react-bootstrap";
 import "./EditProject.scss";
+import axios from "axios";
 
 const EditProject = ({ dismiss }) => {
   const [isLoading, setLoading] = useState(false);
@@ -26,6 +27,23 @@ const EditProject = ({ dismiss }) => {
   function request() {
     return new Promise((resolve) => setTimeout(resolve, 2000));
   }
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(projectKey, projectName);
+    axios.post('/project/editProject', {
+      projectName,
+      projectKey,
+      projectType,
+    })
+    .then(response => {
+      dismiss();
+      console.log(response);
+    }).catch(
+        error => console.log(error.message)
+      );   
+  }
+  
 
   return (
     <>
@@ -97,8 +115,8 @@ const EditProject = ({ dismiss }) => {
             </div>
           </div>
           <div className="buttons">
-            <Button disabled={isLoading} type="submit" disabled={buttonDisable}>
-              {isLoading ? "Save Details...." : "Save Details"}
+            <Button disabled={isLoading} onClick={handleSubmit}>
+              SaveDetails
             </Button>
             <Button onClick={dismiss}>Cancel</Button>
           </div>

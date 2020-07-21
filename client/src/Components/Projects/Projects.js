@@ -1,24 +1,34 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import Project from "./Project/Project";
 import "./Projects.scss";
 import ProjectHeader from "./ProjectHeader/ProjectHeader";
-
-const projectsList = [
-  { name: "Project1", key: "Pr", type: "Classic", lead: "Harry" },
-  { name: "Project2", key: "SC", type: "Software", lead: "Page" },
-  { name: "Project3", key: "HT", type: "Software", lead: "Justin" },
-  { name: "Project4", key: "PK", type: "Classic", lead: "Boss" },
-];
+import axios from "axios";
 
 const Projects = () => {
+const [projectsList, setProjectsList] = useState([]);
+
+  useEffect(() => {
+    getProjects();
+  }, []);
+
+  const getProjects = () => {
+    axios.get('/project/getProjects')
+    .then(response => {
+      setProjectsList(response.data.data);
+    }).catch(
+        error => console.log(error.message)
+      );   
+  }
   return (
+    (projectsList.length > 0 ?
     <Fragment>
       <ProjectHeader />
       <section className="projectsList">
         <Project projects={projectsList} />
       </section>
     </Fragment>
+    : null)
   );
-};
+}
 
 export default Projects;
