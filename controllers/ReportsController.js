@@ -1,4 +1,3 @@
-const connection = require('../config/db')
 
 exports.getReportData = (req, res, next) => {
     try{

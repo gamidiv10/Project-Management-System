@@ -5,6 +5,7 @@ import { Grid } from "@material-ui/core";
 import { TextField } from "mui-rff";
 import { ReactComponent as CloseIcon } from "../../../icons/close.svg";
 import "./CreateProject.scss";
+import axios from "axios";
 
 const CreateProject = ({ dismiss }) => {
   const [isLoading, setLoading] = useState(false);
@@ -91,7 +92,20 @@ const CreateProject = ({ dismiss }) => {
   }
 
   const onSubmit = (values) => {
+    let projectName = values.projectname;
+    let projectKey = values.key;
+    let projectType = values.projecttype;
     setLoading(true);
+    axios.post('/project/createProject', {
+      projectName,
+      projectKey,
+      projectType,
+    })
+    .then(response => {
+      console.log(response);
+    }).catch(
+        error => console.log(error.message)
+      );   
   };
 
   return (
