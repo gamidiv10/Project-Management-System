@@ -31,6 +31,10 @@ $primary-color: #001f3f;
   }
 }
 
+#root {
+  overflow-x: hidden;
+}
+
 .txtColor {
   color: white;
 }
@@ -72,4 +76,5 @@ $primary-color: #001f3f;
 
   to {
     transform: rotate(360deg);
-  }}
+  }
+}

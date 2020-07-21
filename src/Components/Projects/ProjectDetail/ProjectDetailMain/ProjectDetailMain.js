@@ -111,9 +111,6 @@ function ProjectDetailMain() {
         <section>
           <Form className="projectForm">
             <Form.Control type="text" placeholder="Search for Issue" />
-            <div className="buttons">
-              <Button>Me</Button>
-            </div>
           </Form>
         </section>
         <section className="ProjectDetailMainLayout" id="scrollbar-1">
