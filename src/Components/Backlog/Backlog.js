@@ -5,6 +5,7 @@ import {
     Button, 
     Row,
     } from "react-bootstrap"
+import {FaThList } from "react-icons/fa"
 import ProjectDetail from "../Projects/ProjectDetail/ProjectDetail"
 import VerticalCenteredModal from "./VerticalCenteredModal"
 import { 
@@ -46,7 +47,10 @@ const Backlog = () => {
                 <main className="ProjectDetailMain">
                     <div className="backlog-container">
                         <Row className="peopleHeader">
-                            <h1>Backlog</h1>
+                            <div>
+                                <h1>Backlog</h1>
+                                {/* <FaThList style={{ display: "inline-block" }}/> */}
+                            </div>
                             <div className="buttons">
                                 <Button onClick={() => {
                                     setData({ 

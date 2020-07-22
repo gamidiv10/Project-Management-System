@@ -1,4 +1,5 @@
-import React from "react"
+import React, { useState } from "react"
+import className from "classnames"
 import { Accordion, Card, Row, Col, Button, ListGroup } from "react-bootstrap"
 import { 
     FaRunning, 
@@ -8,12 +9,20 @@ import {
     FaInfoCircle
 } from "react-icons/fa"
 
-const SprintItem = props => (
-    <Row  style={{ paddingBottom: "15px" }}>
+const SprintItem = props => {
+const [isShow, toggleItem] = useState(false)
+return (
+    <Row  style={{ paddingBottom: "15px" }} 
+        onMouseEnter={() => toggleItem(true)}
+        onMouseLeave={() => toggleItem(false)}
+    >
         <Col xs="12">
             <Accordion defaultActiveKey="0">
                 <Card>
-                    <Accordion.Toggle as={Card.Header} eventKey="0">
+                    <Accordion.Toggle 
+                        as={Card.Header} 
+                        
+                    >
                         <FaRunning style={{ display: "inline-block", color: "#001f3f"}} size="1.8em"/>
                         <div style={{ fontSize: "22px" }} className="inline crd-title">
                                 {props.item.sprintName}
@@ -34,7 +43,14 @@ const SprintItem = props => (
                             </span>
                         </div>
                     </Accordion.Toggle>
-                    <Accordion.Collapse eventKey="0">
+                    <div className={
+                            className(
+                                "collapse",
+                                {
+                                    "show": isShow,
+                                },
+                            )
+                        }>
                     <Card.Body>
                         <ListGroup>
                             <ListGroup.Item>
@@ -57,11 +73,11 @@ const SprintItem = props => (
                             </ListGroup.Item>
                         </ListGroup>
                     </Card.Body>
-                    </Accordion.Collapse>
+                    </div>
                 </Card>
             </Accordion>
         </Col>
     </Row>
-)
+)}
 
 export default SprintItem

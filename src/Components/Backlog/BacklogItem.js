@@ -1,18 +1,28 @@
-import React from "react"
+import React, { useState } from "react"
 import {
     Row,
     Col,
     Accordion,
     Card
 } from "react-bootstrap"
+import className from "classnames"
 import { FaTrash, FaEdit } from "react-icons/fa"
 
-const BacklogItem = props =>  (
-        <Row  style={{ paddingBottom: "15px" }}>
+const BacklogItem = props =>  {
+    const [isShow, toggleItem] = useState(false)
+
+    return (
+        <Row  
+            style={{ paddingBottom: "15px" }}
+            onMouseEnter={() => toggleItem(true)}
+            onMouseLeave={() => toggleItem(false)}
+        >
             <Col xs="12">
-                <Accordion defaultActiveKey="1">
+                <Accordion>
                     <Card>
-                        <Accordion.Toggle as={Card.Header} eventKey="0">
+                        <Accordion.Toggle 
+                            as={Card.Header} 
+                        >
                             <span className={`dot `+  props.item.issueType.toLowerCase()}/>
                             <div className="inline crd-title">
                                 {props.item.issueName}
@@ -29,17 +39,24 @@ const BacklogItem = props =>  (
                                 </span>
                             </div>
                         </Accordion.Toggle>
-                        <Accordion.Collapse eventKey="0">
+                        <div className={
+                            className(
+                                "collapse",
+                                {
+                                    "show": isShow,
+                                },
+                            )
+                        }>
                         <Card.Body className="card-body">
                                 <div style={{ display: "inline-block", width: "70%" }}>
                                     {props.item.issueDesc}
                                 </div>
                         </Card.Body>
-                        </Accordion.Collapse>
+                        </div>
                     </Card>
                 </Accordion>
             </Col>
         </Row>
     )
-
+}
 export default BacklogItem
