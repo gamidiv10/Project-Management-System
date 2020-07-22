@@ -10,27 +10,29 @@ import EditProject from "../EditProject/EditProject";
 
 const Project = (props) => {
   const { projects, history } = props;
-  var [projectList, setProjectsList] = useState([]);
+  const [projectsCopy] = useState(projects);
+  const [projectList, setProjectsList] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState();
   useEffect(() => {
      setProjectsList(projects);
   }, [])
-  
+
   const handleModalOpen = () => {
     setIsModalOpen(true);
   };
+
   const dismissable = (projectName, projectKey, projectType) => {
-    setIsModalOpen(false);
     if(projectKey != null){
-      for(var i = 0; i < projectList.length; i++){
-        if(projectList[i].projectKey == projectKey){
-          projectList[i].projectName = projectName;
-          projectList[i].projectType = projectType;
+      for(var i = 0; i < projectsCopy.length; i++){
+        if(projectsCopy[i].projectKey == projectKey){
+          projectsCopy[i].projectName = projectName;
+          projectsCopy[i].projectType = projectType;
         }
       }
-      setProjectsList(projectList);
+      setProjectsList(projectsCopy);
     }
+    setIsModalOpen(false);
   };
   const redirectToprojectDetail = (name) => {
     history.push("/project/activesprint");
