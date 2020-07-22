@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import "./Project.scss";
 import { ReactComponent as KeyIcon } from "../../../icons/key.svg";
 import { ReactComponent as ProfileIcon } from "../../../icons/profile.svg";
@@ -10,28 +10,49 @@ import EditProject from "../EditProject/EditProject";
 
 const Project = (props) => {
   const { projects, history } = props;
+  var [projectList, setProjectsList] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+  const [selectedProject, setSelectedProject] = useState();
+  useEffect(() => {
+     setProjectsList(projects);
+  }, [])
+  
   const handleModalOpen = () => {
     setIsModalOpen(true);
   };
-  const dismissable = () => {
+  const dismissable = (projectName, projectKey, projectType) => {
     setIsModalOpen(false);
+    if(projectKey != null){
+      for(var i = 0; i < projectList.length; i++){
+        if(projectList[i].projectKey == projectKey){
+          projectList[i].projectName = projectName;
+          projectList[i].projectType = projectType;
+        }
+      }
+      setProjectsList(projectList);
+    }
   };
   const redirectToprojectDetail = (name) => {
     history.push("/project/activesprint");
   };
 
-  const editProject = () => {};
+  const editProject = (project) => {
+    setSelectedProject(project);
+  };
+  let editProjectProps = {
+    "project": selectedProject,
+    "dismiss": dismissable,
+  }
+
   return (
     <Fragment>
-      {projects.map((project, index) => (
+      {projectList.map((project, index) => (
         <article key={index} className="project" onClick={handleModalOpen}>
           <div className="projectName icon">
             <span>{project.projectName}</span>
             <span
               className="icon-project projectIcons"
-              onClick={() => editProject(project.projectName)}
+              onClick={() => editProject(project)}
             >
               <SettingsIcon />
             </span>
@@ -59,7 +80,7 @@ const Project = (props) => {
       ))}
       <Modal
         visible={isModalOpen}
-        children={isModalOpen ? <EditProject dismiss={dismissable} /> : ""}
+        children={isModalOpen ? <EditProject props = {editProjectProps} /> : ""}
       />
     </Fragment>
   );

@@ -5,13 +5,14 @@ import { Button } from "react-bootstrap";
 import "./EditProject.scss";
 import axios from "axios";
 
-const EditProject = ({ dismiss }) => {
+const EditProject = ( props ) => {
+  const [project, setProject] = useState(props.props.project);
   const [isLoading, setLoading] = useState(false);
-  const [projectName, setProjectName] = useState("Project1");
+  const [projectName, setProjectName] = useState(project.projectName);
   const projectNameRef = useRef();
-  const [projectKey, setProjectKey] = useState("Pr");
+  const [projectKey, setProjectKey] = useState(project.projectKey);
   const projectKeyRef = useRef();
-  const [projectType, setProjectType] = useState("Classic");
+  const [projectType, setProjectType] = useState(project.projectType);
   const projectTypeRef = useRef();
   let buttonDisable = true;
 
@@ -19,7 +20,7 @@ const EditProject = ({ dismiss }) => {
     if (isLoading) {
       request().then(() => {
         setLoading(false);
-        dismiss();
+        props.props.dismiss()
       });
     }
   }, [isLoading]);
@@ -30,15 +31,15 @@ const EditProject = ({ dismiss }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(projectKey, projectName);
     axios.post('/project/editProject', {
       projectName,
       projectKey,
       projectType,
     })
     .then(response => {
-      dismiss();
-      console.log(response);
+      props.props.dismiss(projectName,
+        projectKey,
+        projectType)
     }).catch(
         error => console.log(error.message)
       );   
@@ -49,7 +50,7 @@ const EditProject = ({ dismiss }) => {
     <>
       <div className="issueHeading">
         Edit Project
-        <span className="icon-button-close" onClick={dismiss}>
+        <span className="icon-button-close" onClick={props.props.dismiss}>
           <CloseIcon />
         </span>
       </div>
@@ -118,7 +119,7 @@ const EditProject = ({ dismiss }) => {
             <Button disabled={isLoading} onClick={handleSubmit}>
               SaveDetails
             </Button>
-            <Button onClick={dismiss}>Cancel</Button>
+            <Button onClick={props.props.dismiss}>Cancel</Button>
           </div>
         </section>
       </main>
