@@ -1,17 +1,24 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import Person from "./Person/Person";
 import PeopleHeader from "./PeopleHeader/PeopleHeader";
 import "./People.scss";
 import ProjectDetail from "../Projects/ProjectDetail/ProjectDetail";
-
-const peopleList = [
-  { name: "People1", role: "Software Engineer" },
-  { name: "People2", role: "Systems Engineer" },
-  { name: "People3", role: "DevOps Enginner" },
-  { name: "People4", role: "Data Scientist" },
-];
+import axios from "axios";
 
 const People = () => {
+  const [peopleList, setPeopleList] = useState([]);
+  useEffect(() => {
+    getPeople();
+  }, []);
+
+  const getPeople = () => {
+    axios.get('/people/getPeople')
+    .then(response => {
+      setPeopleList(response.data.data);
+    }).catch(
+        error => console.log(error.message)
+      );   
+  }
   return (
     <>
       <ProjectDetail>

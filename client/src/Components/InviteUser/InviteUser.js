@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./InviteUser.scss";
 import { useHistory } from "react-router-dom";
 import { Button } from "react-bootstrap";
+import axios from "axios";
 
 export const InviteUser = () => {
   //Used React Hook for managing state
@@ -31,7 +32,15 @@ export const InviteUser = () => {
     e.preventDefault();
     if (EmailRegex.test(email)) {
       setEmailError("");
-      history.push("/people");
+      axios.post('/people/inviteUser', {
+        email
+      })
+      .then(response => {
+        console.log(response.data);
+        history.push("/project/people");
+      }).catch(
+          error => console.log(error.message)
+        );   
     } else {
       setEmailError("Please Enter a valid email");
     }

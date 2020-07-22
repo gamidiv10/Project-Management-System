@@ -3,13 +3,24 @@ import { Form } from "react-final-form";
 import "./AddUser.scss";
 import { Button } from "react-bootstrap";
 import { Grid } from "@material-ui/core";
-import { TextField, Autocomplete } from "mui-rff";
+import { Autocomplete } from "mui-rff";
 import { ReactComponent as CloseIcon } from "../../icons/close.svg";
+import axios from "axios";
 
 const AddUser = ({ dismiss }) => {
   const [isLoading, setLoading] = useState(false);
-  let buttonDisable = true;
-  const users = ["Vamsi Gamidi", "John Wick", "Jack Reacher", "Ethan Hunt", "Jack Sparrow"];
+  var [users, setUsers] = useState([]);
+  const [selectedUser, setSelectedUser] = useState("");
+  const getPeople = () => {
+    axios
+      .get("/people/getPeople")
+      .then((response) => {
+        response.data.data.forEach((element) => {
+          users.push(element.name);
+        });
+      })
+      .catch((error) => console.log(error.message));
+  };
 
   useEffect(() => {
     if (isLoading) {
@@ -18,15 +29,15 @@ const AddUser = ({ dismiss }) => {
         dismiss();
       });
     }
+    getPeople();
   }, [isLoading]);
 
   const validate = (values) => {
+    setSelectedUser(values.user);
     const errors = {};
-    if (!values.users) {
-      errors.users = "Required";
+    if (!values.user) {
+      errors.user = "Required";
     }
-
-    buttonDisable = Object.keys(errors).length ? true : false;
     return errors;
   };
 
@@ -35,8 +46,8 @@ const AddUser = ({ dismiss }) => {
       size: 6,
       field: (
         <Autocomplete
-          label="Users"
-          name="Users"
+          label="user"
+          name="user"
           required={true}
           options={users}
           variant="outlined"
@@ -52,15 +63,14 @@ const AddUser = ({ dismiss }) => {
   }
 
   const onSubmit = () => {
+
     setLoading(true);
   };
 
   return (
     <>
       <div className="addUserHeading">
-          <div className="addUser">
-        Add User to the Project
-        </div>
+        <div className="addUser">Add User to the Project</div>
         <span className="icon-button-close" onClick={dismiss}>
           <CloseIcon />
         </span>
@@ -70,7 +80,11 @@ const AddUser = ({ dismiss }) => {
         validate={validate}
         render={({ handleSubmit }) => (
           <form onSubmit={handleSubmit} className="addUserForm">
-            <Grid container alignItems="flex-start" className="name-dropdown" spacing={2}>
+            <Grid
+              container
+              alignItems="flex-start"
+              className="name-dropdown"
+              spacing={2}>
               {formFields.map((item, id) => (
                 <Grid item xs={item.size} key={id}>
                   {item.field}
@@ -78,13 +92,7 @@ const AddUser = ({ dismiss }) => {
               ))}
             </Grid>
             <div className="buttons">
-              <Button
-                disabled={isLoading}
-                type="submit"
-                disabled={buttonDisable}
-              >
-                {isLoading ? "Add User...." : "Add User"}
-              </Button>
+              <Button type="submit">Add User</Button>
               <Button onClick={dismiss}>Cancel</Button>
             </div>
           </form>

@@ -36,7 +36,7 @@ const Landing = () => {
                 </Col>
 				<Col className="taskatic-title">
 					<h1><b>Try Taskatic Today!</b> </h1>
-                    <p className="text-wrap">Taskatic is a task management App similar to JIRA, where users can keep track of their tasks and see its progress. It aims to provides git integration in later part of project</p>
+                    <p className="text-wrap">Taskatic is a task management app where users can keep track of their tasks and see its progress. It aims to provides git integration in later part of project</p>
 				</Col>
                 <Col></Col>
 			</Row>
