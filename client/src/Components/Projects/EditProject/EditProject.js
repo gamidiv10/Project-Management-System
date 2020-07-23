@@ -35,12 +35,13 @@ const EditProject = (props) => {
       .post("/project/editProject", {
         projectName,
         projectKey,
-        projectType)
-    }).catch(
-        error => console.log(error.message)
-      );
-  }
-
+        projectType,
+      })
+      .then((response) => {
+        props.props.dismiss(projectName, projectKey, projectType);
+      })
+      .catch((error) => console.log(error.message));
+  };
 
   return (
     <>

@@ -3,7 +3,7 @@ import { ReactComponent as NewTabIcon } from "../../../icons/newtab.svg";
 import { withRouter } from "react-router-dom";
 import "./Person.scss";
 import Modal from "../../Modal/Modal";
-import AddUser from '../../AddUser/AddUser';
+import AddUser from "../../AddUser/AddUser";
 
 const Person = (props) => {
   var { people, history } = props;
@@ -11,12 +11,13 @@ const Person = (props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const selectedProject = JSON.parse(localStorage.getItem("selectedProject"));
   useEffect(() => {
-    if(selectedProject != null){
-      people = people.filter((item) => item.projectKey === selectedProject.projectKey)
+    if (selectedProject != null) {
+      people = people.filter(
+        (item) => item.projectKey === selectedProject.projectKey
+      );
     }
     setPeopleList(new Set(people));
-    console.log("people list", people);
-  }, [people])
+  }, [people]);
 
   const redirectTopeopleDetail = (name) => {
     history.push("/people/" + name);
@@ -27,12 +28,13 @@ const Person = (props) => {
   };
   const dismissable = (newUser) => {
     people.push(newUser);
-    people = people.filter((item) => item.projectKey === selectedProject.projectKey);
+    people = people.filter(
+      (item) => item.projectKey === selectedProject.projectKey
+    );
     setPeopleList(new Set(people));
-    console.log('dismiss', peopleList);
+    console.log("dismiss", peopleList);
     setIsModalOpen(false);
   };
-
 
   return (
     <Fragment>
@@ -51,15 +53,17 @@ const Person = (props) => {
         </article>
       ))}
       <article key={Math.random()} className="person">
-          <div className="personName icon">
-            <span className="add-user-span" onClick={handleModalOpen}>Add Existing User<br></br>
-            to the Project</span>
-          </div>
-        </article>
-        <Modal
-          visible={isModalOpen}
-          children={isModalOpen ? <AddUser dismiss={dismissable} /> : ""}
-        />
+        <div className="personName icon">
+          <span className="add-user-span" onClick={handleModalOpen}>
+            Add Existing User<br></br>
+            to the Project
+          </span>
+        </div>
+      </article>
+      <Modal
+        visible={isModalOpen}
+        children={isModalOpen ? <AddUser dismiss={dismissable} /> : ""}
+      />
     </Fragment>
   );
 };

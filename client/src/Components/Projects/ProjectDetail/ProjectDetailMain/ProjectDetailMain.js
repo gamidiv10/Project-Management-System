@@ -9,7 +9,7 @@ import CompleteSprint from "../../../CompleteSprint/CompleteSprint";
 import { v4 as uuid } from "uuid";
 import ProjectDetailHeader from "../ProjectDetailHeader/ProjectDetailHeader";
 import EditTask from "../../../Task/EditTask/EditTask";
-import {useLocation} from 'react-router-dom';
+import { useLocation } from "react-router-dom";
 import axios from "axios";
 import Task from "../../../Task/Task";
 
@@ -85,9 +85,6 @@ function ProjectDetailMain({ match }) {
   const [droppableId, setDroppableId] = useState("");
   const [droppableStatus, setDroppableStatus] = useState("");
   const [drag, setOnDrag] = useState(false);
-  const location = useLocation();
-  const selectedProject = location.state;
-  localStorage.setItem("selectedProject", JSON.stringify(selectedProject));
 
   useEffect(() => {
     setProjectName(match.params.projectName);
