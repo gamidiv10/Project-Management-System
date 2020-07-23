@@ -9,14 +9,19 @@ import axios from "axios";
 
 const AddUser = ({ dismiss }) => {
   const [isLoading, setLoading] = useState(false);
-  var [users, setUsers] = useState([]);
+  var [users] = useState([]);
+  var [userObjects] = useState([]);
   const [selectedUser, setSelectedUser] = useState("");
+  const selectedProject = JSON.parse(localStorage.getItem("selectedProject"));
   const getPeople = () => {
     axios
       .get("/people/getPeople")
       .then((response) => {
         response.data.data.forEach((element) => {
+          if(element.projectKey != selectedProject.projectKey){
           users.push(element.name);
+          userObjects.push(element);
+          }
         });
       })
       .catch((error) => console.log(error.message));
@@ -63,7 +68,23 @@ const AddUser = ({ dismiss }) => {
   }
 
   const onSubmit = () => {
-
+    let filteredUserObject = userObjects.filter((user) => user.name === selectedUser)[0]
+    let name = filteredUserObject.name;
+    let role = filteredUserObject.role;
+    let projectKey = selectedProject.projectKey;
+    filteredUserObject.projectKey = projectKey;
+    axios.post('/people/addUser', {
+      name,
+      role,
+      projectKey
+    })
+    .then(response => {
+      console.log(response);
+    }).catch(
+        error => console.log(error.message)
+      );   
+    
+    dismiss(filteredUserObject);
     setLoading(true);
   };
 

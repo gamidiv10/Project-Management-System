@@ -9,7 +9,7 @@ import "./ProjectDetailSideBar.scss";
 
 const ProjectDetailSideBar = ({ history }) => {
   const [sidebar, setSideBar] = useState(true);
-
+  const selectedProject = JSON.parse(localStorage.getItem("selectedProject"));
   const sidebarHandler = () => {
     setSideBar(!sidebar);
     let width = document.getElementsByClassName("ProjectDetail")[0].clientWidth;
@@ -43,7 +43,7 @@ const ProjectDetailSideBar = ({ history }) => {
     <>
       {sidebar ? (
         <aside className="ProjectDetailSideBar">
-          <div className="projectName">Project Name</div>
+          <div className="projectName">{selectedProject.projectName}</div>
           <NavLink to="/project/backlog">
             <div
               className={

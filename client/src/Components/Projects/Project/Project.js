@@ -25,7 +25,7 @@ const Project = (props) => {
   const dismissable = (projectName, projectKey, projectType) => {
     if(projectKey != null){
       for(var i = 0; i < projectsCopy.length; i++){
-        if(projectsCopy[i].projectKey == projectKey){
+        if(projectsCopy[i].projectKey === projectKey){
           projectsCopy[i].projectName = projectName;
           projectsCopy[i].projectType = projectType;
         }
@@ -34,8 +34,8 @@ const Project = (props) => {
     }
     setIsModalOpen(false);
   };
-  const redirectToprojectDetail = (name) => {
-    history.push("/project/activesprint");
+  const redirectToprojectDetail = (proj) => {
+    history.push("/project/activesprint", proj);
   };
 
   const editProject = (project) => {
@@ -54,13 +54,12 @@ const Project = (props) => {
             <span>{project.projectName}</span>
             <span
               className="icon-project projectIcons"
-              onClick={() => editProject(project)}
-            >
+              onClick={() => editProject(project)}>
               <SettingsIcon />
             </span>
             <span
               className="icon-project"
-              onClick={() => redirectToprojectDetail(project.projectName)}
+              onClick={() => redirectToprojectDetail(project)}
             >
               <NewTabIcon />
             </span>

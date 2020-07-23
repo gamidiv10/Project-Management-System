@@ -2,7 +2,6 @@ const Project = require("../models/Project");
 
 exports.createProject = async (req, res, next) => {
   try {
-    console.log("request", req.body);
     const project = await Project.create(req.body);
     return res.status(201).json({
       success: true,

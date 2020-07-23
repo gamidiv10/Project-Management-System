@@ -1,8 +1,12 @@
 const express = require('express');
 
-const { inviteUser, getPeople } = require('../controllers/PeopleController');
+const { inviteUser, getPeople, addUser } = require('../controllers/PeopleController');
 
 const router = express.Router();
+
+router
+    .route('/addUser')
+    .post(addUser)
 
 router
     .route('/inviteUser')

@@ -42,9 +42,9 @@ const EditProject = ( props ) => {
         projectType)
     }).catch(
         error => console.log(error.message)
-      );   
+      );
   }
-  
+
 
   return (
     <>

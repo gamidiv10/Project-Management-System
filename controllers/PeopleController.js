@@ -1,5 +1,30 @@
 const People = require("../models/People");
 
+exports.addUser= async (req, res, next) => {
+  try {
+    const user = await People.create(req.body);
+    return res.status(201).json({
+      success: true,
+      data: user,
+    });
+  } catch (error) {
+    if (error.name === "ValidationError") {
+      const messages = Object.values(error.errors).map((val) => val.message);
+      console.log(error)
+      return res.status(400).json({
+        success: false,
+        error: messages,
+      });
+    } else {
+      console.log("error:", error.message);
+      return res.status(500).json({
+        sucess: false,
+        error: "Server Error",
+      });
+    }
+  }
+};
+
 exports.getPeople = async (req, res, next) => {
   try {
     const people = await People.find();
@@ -43,7 +68,6 @@ exports.inviteUser = (req, res) => {
             error: "Server Error",
           });
     }
-    console.log(req.body);
 
     return res.status(201).json({
       success: true,

@@ -36,7 +36,6 @@ export const InviteUser = () => {
         email
       })
       .then(response => {
-        console.log(response.data);
         history.push("/project/people");
       }).catch(
           error => console.log(error.message)
