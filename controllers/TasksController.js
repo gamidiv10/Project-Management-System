@@ -65,8 +65,13 @@ exports.editTask = async (req, res, next) => {
 };
 
 exports.getTasks = async (req, res) => {
+  var projectName = req.params.projectName;
+  var sprintNo = req.params.sprintNumber;
   try {
-    const tasks = await Task.find();
+    const tasks = await Task.find({
+      projectName: projectName,
+      sprintNumber: sprintNo,
+    });
     return res.status(200).json({
       success: true,
       data: tasks,
@@ -80,9 +85,14 @@ exports.getTasks = async (req, res) => {
 };
 
 exports.getTaskByStatus = (req, res) => {
+  var projectName = req.params.projectName;
   var status = req.params.status;
   var sprintNo = req.params.sprintNumber;
-  Task.find({ taskStatus: status, sprintNumber: sprintNo })
+  Task.find({
+    projectName: projectName,
+    taskStatus: status,
+    sprintNumber: sprintNo,
+  })
     .exec()
     .then((data) => {
       res.status(200).json(data);

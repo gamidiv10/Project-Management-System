@@ -16,9 +16,11 @@ router.route("/addTask").post(addTask);
 
 router.route("/editTask").post(editTask);
 
-router.route("/getTasks").get(getTasks);
+router.route("/getTasks/:projectName/:sprintNumber").get(getTasks);
 
-router.route("/getTaskByStatus/:status/:sprintNumber").get(getTaskByStatus);
+router
+  .route("/getTaskByStatus/:projectName/:status/:sprintNumber")
+  .get(getTaskByStatus);
 
 router.route("/changeTaskByStatus/:status/:id").put(changeTaskByStatus);
 

@@ -15,8 +15,8 @@ const Project = (props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState();
   useEffect(() => {
-     setProjectsList(projects);
-  }, [])
+    setProjectsList(projects);
+  }, []);
 
   const handleModalOpen = () => {
     setIsModalOpen(true);
@@ -42,20 +42,20 @@ const Project = (props) => {
     setSelectedProject(project);
   };
   let editProjectProps = {
-    "project": selectedProject,
-    "dismiss": dismissable,
-  }
+    project: selectedProject,
+    dismiss: dismissable,
+  };
 
   return (
     <Fragment>
       {projectList.map((project, index) => (
-        <article key={index} className="project" onClick={handleModalOpen}>
+        <article key={index} className="project">
           <div className="projectName icon">
             <span>{project.projectName}</span>
             <span
               className="icon-project projectIcons"
               onClick={() => editProject(project)}>
-              <SettingsIcon />
+              <SettingsIcon onClick={handleModalOpen} />
             </span>
             <span
               className="icon-project"
@@ -81,7 +81,7 @@ const Project = (props) => {
       ))}
       <Modal
         visible={isModalOpen}
-        children={isModalOpen ? <EditProject props = {editProjectProps} /> : ""}
+        children={isModalOpen ? <EditProject props={editProjectProps} /> : ""}
       />
     </Fragment>
   );

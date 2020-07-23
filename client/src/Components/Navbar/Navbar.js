@@ -1,4 +1,4 @@
-import React, { useState, useContext, useLayoutEffect } from "react";
+import React, { useState, useContext, useLayoutEffect, useEffect } from "react";
 import "./Navbar.scss";
 import { ReactComponent as BellIcon } from "../../icons/bell.svg";
 import { ReactComponent as CaretIcon } from "../../icons/caret.svg";
@@ -21,6 +21,7 @@ import userContext from "../../Context/userContext";
 import { withRouter } from "react-router-dom";
 import Login from "../Login/Login.js";
 import Register from "../SignUp/Register";
+import axios from "axios";
 
 const Navigationbar = ({ history }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -28,6 +29,7 @@ const Navigationbar = ({ history }) => {
   const { user, setUser } = useContext(userContext);
   const [show, setShow] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
+  const [navProjectsList, setNavProjectsList] = useState([]);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -40,6 +42,23 @@ const Navigationbar = ({ history }) => {
     setUser("");
     history.push("/login");
   };
+
+  useEffect(() => {
+    axios
+      .get("/project/getProjects")
+      .then((response) => {
+        const projectsList = [];
+        const projectData = response.data.data;
+        projectData.map((project) => {
+          projectsList.push({
+            item: project.projectName,
+            to: `/project/${project.projectName}/activesprint`,
+          });
+        });
+        setNavProjectsList(projectsList);
+      })
+      .catch((error) => console.log(error.message));
+  }, []);
 
   if (user) {
     LeftNavItems = [
@@ -54,10 +73,7 @@ const Navigationbar = ({ history }) => {
         icon: <CaretIcon />,
         dropdown: {
           header: "Recent",
-          items: [
-            { item: "Project1", to: "/project/activesprint" },
-            { item: "Project2", to: "/project/activesprint" },
-          ],
+          items: navProjectsList,
           footer: {
             item: "View All Projects",
             to: "/projects",
@@ -198,7 +214,7 @@ const Navigationbar = ({ history }) => {
                 <NavItem icon={<CalendarIcon />} className="mobileview" />
                 <NavItem
                   icon={<PlusIcon />}
-                  to="/project/activesprint"
+                  to=""
                   className="mobileview"
                   handleModalOpen={handleModalOpen}
                 />

@@ -69,7 +69,7 @@ const onDrag = (
   }
 };
 
-function ProjectDetailMain() {
+function ProjectDetailMain({ match }) {
   const { tasks, setTasks } = useContext(tasksItemsContext);
   const [columns, setColumns] = useState([]);
   const [toDoData, setToDoData] = useState(tasks);
@@ -81,12 +81,17 @@ function ProjectDetailMain() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalOpenEdit, setIsModalOpenEdit] = useState(false);
   const [sprintNumber] = useState(2);
+  const [projectName, setProjectName] = useState(match.params.projectName);
   const [droppableId, setDroppableId] = useState("");
   const [droppableStatus, setDroppableStatus] = useState("");
   const [drag, setOnDrag] = useState(false);
   const location = useLocation();
   const selectedProject = location.state;
   localStorage.setItem("selectedProject", JSON.stringify(selectedProject));
+
+  useEffect(() => {
+    setProjectName(match.params.projectName);
+  }, [match.params.projectName]);
 
   useEffect(() => {
     setToDoData(tasks);
@@ -146,7 +151,7 @@ function ProjectDetailMain() {
 
   useEffect(() => {
     axios
-      .get(`/task/getTaskByStatus/To do/${sprintNumber}`)
+      .get(`/task/getTaskByStatus/${projectName}/To do/${sprintNumber}`)
       .then((response) => {
         const tasksData = response.data;
         const displayTasks = [];
@@ -171,7 +176,7 @@ function ProjectDetailMain() {
       .catch((error) => console.log(error.message));
 
     axios
-      .get(`/task/getTaskByStatus/In Progress/${sprintNumber}`)
+      .get(`/task/getTaskByStatus/${projectName}/In Progress/${sprintNumber}`)
       .then((response) => {
         const tasksData = response.data;
         const displayTasks = [];
@@ -195,7 +200,7 @@ function ProjectDetailMain() {
       .catch((error) => console.log(error.message));
 
     axios
-      .get(`/task/getTaskByStatus/In Review/${sprintNumber}`)
+      .get(`/task/getTaskByStatus/${projectName}/In Review/${sprintNumber}`)
       .then((response) => {
         const tasksData = response.data;
         const displayTasks = [];
@@ -219,7 +224,7 @@ function ProjectDetailMain() {
       .catch((error) => console.log(error.message));
 
     axios
-      .get(`/task/getTaskByStatus/In Testing/${sprintNumber}`)
+      .get(`/task/getTaskByStatus/${projectName}/In Testing/${sprintNumber}`)
       .then((response) => {
         const tasksData = response.data;
         const displayTasks = [];
@@ -243,7 +248,7 @@ function ProjectDetailMain() {
       .catch((error) => console.log(error.message));
 
     axios
-      .get(`/task/getTaskByStatus/Done/${sprintNumber}`)
+      .get(`/task/getTaskByStatus/${projectName}/Done/${sprintNumber}`)
       .then((response) => {
         const tasksData = response.data;
         const displayTasks = [];
@@ -265,7 +270,7 @@ function ProjectDetailMain() {
         setDone(displayTasks);
       })
       .catch((error) => console.log(error.message));
-  }, [isModalOpenEdit]);
+  }, [projectName]);
 
   return (
     <ProjectDetail>

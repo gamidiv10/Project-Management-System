@@ -1,4 +1,4 @@
-import React, { useState, useLayoutEffect } from "react";
+import React, { useState, useLayoutEffect, useEffect } from "react";
 import { NavLink, withRouter } from "react-router-dom";
 import { ReactComponent as ActiveSprintIcon } from "../../../../icons/activesprint.svg";
 import { ReactComponent as BacklogIcon } from "../../../../icons/backlog.svg";
@@ -7,9 +7,17 @@ import { ReactComponent as DotsIcon } from "../../../../icons/dots.svg";
 import { ReactComponent as PeopleIcon } from "../../../../icons/people.svg";
 import "./ProjectDetailSideBar.scss";
 
-const ProjectDetailSideBar = ({ history }) => {
+const ProjectDetailSideBar = ({ history, match }) => {
   const [sidebar, setSideBar] = useState(true);
   const selectedProject = JSON.parse(localStorage.getItem("selectedProject"));
+  const [projectName, setProjectName] = useState(match.params.projectName);
+  useEffect(() => {
+    if (match.params.projectName?.length > 0) {
+      console.log(match.params.projectName);
+      setProjectName(match.params.projectName);
+    }
+  }, [match.params.projectName]);
+
   const sidebarHandler = () => {
     setSideBar(!sidebar);
     let width = document.getElementsByClassName("ProjectDetail")[0].clientWidth;
@@ -58,10 +66,11 @@ const ProjectDetailSideBar = ({ history }) => {
               Backlog
             </div>
           </NavLink>
-          <NavLink to="/project/activesprint">
+          <NavLink to={`/project/${projectName}/activesprint`}>
             <div
               className={
-                history.location.pathname === "/project/activesprint"
+                history.location.pathname ===
+                `/project/${projectName}/activesprint`
                   ? "ProjectSideLink active"
                   : "ProjectSideLink"
               }

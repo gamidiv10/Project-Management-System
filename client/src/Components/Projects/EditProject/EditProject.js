@@ -5,7 +5,7 @@ import { Button } from "react-bootstrap";
 import "./EditProject.scss";
 import axios from "axios";
 
-const EditProject = ( props ) => {
+const EditProject = (props) => {
   const [project, setProject] = useState(props.props.project);
   const [isLoading, setLoading] = useState(false);
   const [projectName, setProjectName] = useState(project.projectName);
@@ -20,7 +20,7 @@ const EditProject = ( props ) => {
     if (isLoading) {
       request().then(() => {
         setLoading(false);
-        props.props.dismiss()
+        props.props.dismiss();
       });
     }
   }, [isLoading]);
@@ -31,13 +31,9 @@ const EditProject = ( props ) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post('/project/editProject', {
-      projectName,
-      projectKey,
-      projectType,
-    })
-    .then(response => {
-      props.props.dismiss(projectName,
+    axios
+      .post("/project/editProject", {
+        projectName,
         projectKey,
         projectType)
     }).catch(
