@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState } from "react";
 import { Form } from "react-final-form";
 import "./EditTask.scss";
 import { Button } from "react-bootstrap";
@@ -6,14 +6,29 @@ import { Grid } from "@material-ui/core";
 import { TextField, Autocomplete } from "mui-rff";
 import { ReactComponent as CloseIcon } from "../../../icons/close.svg";
 import { Comments } from "../../Comments/Comments";
+import axios from "axios";
 
-const EditTask = ({ dismiss }) => {
+const EditTask = ({ dismiss, task }) => {
   const [isLoading, setLoading] = useState(false);
+  const [projects, setProjects] = useState([]);
+  const [assigneeNames, setAssigneeNames] = useState(["A", "B"]);
   let buttonDisable = true;
-  const projects = ["Project1", "Project2"];
   const issueTypes = ["Epic", "Story", "Task", "Bug"];
   const priorityTypes = ["Highest", "High", "Medium", "Low", "Lowest"];
-  const assigneeNames = ["A", "B"];
+
+  useEffect(() => {
+    axios
+      .get("/project/getProjects")
+      .then((response) => {
+        const projectsList = [];
+        const projectData = response.data.data;
+        projectData.map((project) => {
+          projectsList.push(project.projectName);
+        });
+        setProjects(projectsList);
+      })
+      .catch((error) => console.log(error.message));
+  }, []);
 
   useEffect(() => {
     if (isLoading) {
@@ -140,6 +155,21 @@ const EditTask = ({ dismiss }) => {
 
   const onSubmit = (values) => {
     setLoading(true);
+
+    axios
+      .post("/task/editTask", {
+        id: task.id,
+        projectName: values.projectName,
+        issueType: values.issueType,
+        summary: values.taskSummary,
+        description: values.taskDescription,
+        priority: values.taskPriority,
+        assignee: values.assigneeName,
+      })
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => console.log(error.message));
   };
 
   return (
@@ -153,6 +183,14 @@ const EditTask = ({ dismiss }) => {
       <Form
         onSubmit={onSubmit}
         validate={validate}
+        initialValues={{
+          projectName: task.projectName,
+          issueType: task.issueType,
+          taskSummary: task.summary,
+          taskDescription: task.description,
+          taskPriority: task.priority,
+          assigneeName: task.assignee,
+        }}
         render={({ handleSubmit }) => (
           <form onSubmit={handleSubmit} className="taskFormField">
             <Grid container alignItems="flex-start" spacing={2}>
@@ -175,7 +213,7 @@ const EditTask = ({ dismiss }) => {
           </form>
         )}
       />
-      <Comments />
+      <Comments id={task.id} />
     </>
   );
 };

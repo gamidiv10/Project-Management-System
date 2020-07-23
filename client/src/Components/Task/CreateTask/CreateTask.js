@@ -8,15 +8,30 @@ import { v4 as uuid } from "uuid";
 import Task from "../Task";
 import { ReactComponent as CloseIcon } from "../../../icons/close.svg";
 import tasksItemsContext from "../../../Context/tasksItemsContext";
+import axios from "axios";
 
 const CreateTask = ({ dismiss }) => {
   const [isLoading, setLoading] = useState(false);
+  const [projects, setProjects] = useState([]);
+  const [assigneeNames, setAssigneeNames] = useState(["A", "B"]);
   const { tasks, setTasks } = useContext(tasksItemsContext);
   let buttonDisable = true;
-  const projects = ["Project1", "Project2"];
   const issueTypes = ["Epic", "Story", "Task", "Bug"];
   const priorityTypes = ["Highest", "High", "Medium", "Low", "Lowest"];
-  const assigneeNames = ["A", "B"];
+
+  useEffect(() => {
+    axios
+      .get("/project/getProjects")
+      .then((response) => {
+        const projectsList = [];
+        const projectData = response.data.data;
+        projectData.map((project) => {
+          projectsList.push(project.projectName);
+        });
+        setProjects(projectsList);
+      })
+      .catch((error) => console.log(error.message));
+  }, []);
 
   useEffect(() => {
     if (isLoading) {
@@ -144,12 +159,38 @@ const CreateTask = ({ dismiss }) => {
   }
 
   const onSubmit = (values) => {
+    let projectName = values.projectName;
+    let issueType = values.issueType;
+    let summary = values.taskSummary;
+    let description = values.taskDescription;
+    let priority = values.taskPriority;
+    let assignee = values.assigneeName;
+    let sprintNumber = 2;
+    let taskStatus = "To do";
+    let taskId = uuid();
     setLoading(true);
-    const value = {
-      id: uuid(),
-      content: <Task {...values} />,
-    };
-    setTasks([...tasks, value]);
+
+    axios
+      .post("/task/addTask", {
+        id: taskId,
+        projectName,
+        issueType,
+        summary,
+        description,
+        priority,
+        assignee,
+        sprintNumber,
+        taskStatus,
+      })
+      .then((response) => {
+        const value = {
+          id: taskId,
+          task: { ...values },
+          content: <Task {...values} />,
+        };
+        setTasks([...tasks, value]);
+      })
+      .catch((error) => console.log(error.message));
   };
 
   return (

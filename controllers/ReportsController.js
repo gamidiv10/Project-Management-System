@@ -1,9 +1,6 @@
-
 exports.getReportData = (req, res, next) => {
-    try{
-    
-}
-catch (e) {
+  try {
+  } catch (e) {
     console.log(e);
-}
-}
+  }
+};

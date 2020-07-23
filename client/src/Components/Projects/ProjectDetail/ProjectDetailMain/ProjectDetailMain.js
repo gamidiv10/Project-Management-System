@@ -1,16 +1,26 @@
 import React, { useState, useContext, useEffect } from "react";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import "./ProjectDetailMain.scss";
-import { Button, Form } from "react-bootstrap";
+import { Form } from "react-bootstrap";
 import ProjectDetail from "../ProjectDetail";
-import tasksContext from "../../../../Context/tasksItemsContext";
+import tasksItemsContext from "../../../../Context/tasksItemsContext";
 import Modal from "../../../Modal/Modal";
 import CompleteSprint from "../../../CompleteSprint/CompleteSprint";
 import { v4 as uuid } from "uuid";
 import ProjectDetailHeader from "../ProjectDetailHeader/ProjectDetailHeader";
 import EditTask from "../../../Task/EditTask/EditTask";
+import axios from "axios";
+import Task from "../../../Task/Task";
 
-const onDrag = (result, columns, setColumns) => {
+const onDrag = (
+  result,
+  columns,
+  setColumns,
+  setDroppableId,
+  setDroppableStatus,
+  setOnDrag,
+  drag
+) => {
   if (!result.destination) return;
   const { source, destination } = result;
 
@@ -36,6 +46,10 @@ const onDrag = (result, columns, setColumns) => {
         items: destinationItems,
       },
     });
+
+    setDroppableId(removedItems.id);
+    setDroppableStatus(columns[destination.droppableId].name);
+    setOnDrag(!drag);
   }
   // If it is dragged into same column
   else {
@@ -55,11 +69,24 @@ const onDrag = (result, columns, setColumns) => {
 };
 
 function ProjectDetailMain() {
+  const { tasks, setTasks } = useContext(tasksItemsContext);
   const [columns, setColumns] = useState([]);
-  const { tasks } = useContext(tasksContext);
-  const itemsData = tasks;
+  const [toDoData, setToDoData] = useState(tasks);
+  const [inProgress, setInProgress] = useState([]);
+  const [inReview, setInReview] = useState([]);
+  const [inTesting, setInTesting] = useState([]);
+  const [done, setDone] = useState([]);
+  const [task, setTask] = useState({});
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalOpenEdit, setIsModalOpenEdit] = useState(false);
+  const [sprintNumber] = useState(2);
+  const [droppableId, setDroppableId] = useState("");
+  const [droppableStatus, setDroppableStatus] = useState("");
+  const [drag, setOnDrag] = useState(false);
+
+  useEffect(() => {
+    setToDoData(tasks);
+  }, [tasks]);
 
   const handleModalOpen = () => {
     setIsModalOpen(!isModalOpen);
@@ -68,9 +95,11 @@ function ProjectDetailMain() {
     setIsModalOpen(false);
   };
 
-  const handleModalOpenEdit = () => {
+  const handleModalOpenEdit = (task) => {
+    setTask(task);
     setIsModalOpenEdit(!isModalOpenEdit);
   };
+
   const dismissableEdit = () => {
     setIsModalOpenEdit(false);
   };
@@ -78,31 +107,161 @@ function ProjectDetailMain() {
   const columnsData = {
     [uuid()]: {
       name: "To do",
-      items: itemsData,
+      items: toDoData,
     },
     [uuid()]: {
       name: "In Progress",
-      items: [],
+      items: inProgress,
     },
     [uuid()]: {
       name: "In Review",
-      items: [],
+      items: inReview,
     },
     [uuid()]: {
       name: "In Testing",
-      items: [],
+      items: inTesting,
     },
     [uuid()]: {
       name: "Done",
-      items: [],
+      items: done,
     },
   };
 
   useEffect(() => {
-    setColumns(columnsData);
-  }, [tasks]);
+    if (droppableId && droppableStatus) {
+      axios
+        .put(`/task/changeTaskByStatus/${droppableStatus}/${droppableId}`)
+        .then((response) => {})
+        .catch((error) => console.log(error.message));
+    }
+  }, [drag]);
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    setColumns(columnsData);
+  }, [toDoData, inProgress, inReview, inTesting, done]);
+
+  useEffect(() => {
+    axios
+      .get(`/task/getTaskByStatus/To do/${sprintNumber}`)
+      .then((response) => {
+        const tasksData = response.data;
+        const displayTasks = [];
+
+        tasksData.map((task) => {
+          const details = {
+            taskSummary: task.summary,
+            issueType: task.issueType,
+            taskPriority: task.priority,
+            assigneeName: task.assignee,
+          };
+          displayTasks.push({
+            id: task.id,
+            task: { ...task },
+            content: <Task {...details} />,
+          });
+        });
+
+        setToDoData(displayTasks);
+        setTasks(displayTasks);
+      })
+      .catch((error) => console.log(error.message));
+
+    axios
+      .get(`/task/getTaskByStatus/In Progress/${sprintNumber}`)
+      .then((response) => {
+        const tasksData = response.data;
+        const displayTasks = [];
+
+        tasksData.map((task) => {
+          const details = {
+            taskSummary: task.summary,
+            issueType: task.issueType,
+            taskPriority: task.priority,
+            assigneeName: task.assignee,
+          };
+          displayTasks.push({
+            id: task.id,
+            task: { ...task },
+            content: <Task {...details} />,
+          });
+        });
+
+        setInProgress(displayTasks);
+      })
+      .catch((error) => console.log(error.message));
+
+    axios
+      .get(`/task/getTaskByStatus/In Review/${sprintNumber}`)
+      .then((response) => {
+        const tasksData = response.data;
+        const displayTasks = [];
+
+        tasksData.map((task) => {
+          const details = {
+            taskSummary: task.summary,
+            issueType: task.issueType,
+            taskPriority: task.priority,
+            assigneeName: task.assignee,
+          };
+          displayTasks.push({
+            id: task.id,
+            task: { ...task },
+            content: <Task {...details} />,
+          });
+        });
+
+        setInReview(displayTasks);
+      })
+      .catch((error) => console.log(error.message));
+
+    axios
+      .get(`/task/getTaskByStatus/In Testing/${sprintNumber}`)
+      .then((response) => {
+        const tasksData = response.data;
+        const displayTasks = [];
+
+        tasksData.map((task) => {
+          const details = {
+            taskSummary: task.summary,
+            issueType: task.issueType,
+            taskPriority: task.priority,
+            assigneeName: task.assignee,
+          };
+          displayTasks.push({
+            id: task.id,
+            task: { ...task },
+            content: <Task {...details} />,
+          });
+        });
+
+        setInTesting(displayTasks);
+      })
+      .catch((error) => console.log(error.message));
+
+    axios
+      .get(`/task/getTaskByStatus/Done/${sprintNumber}`)
+      .then((response) => {
+        const tasksData = response.data;
+        const displayTasks = [];
+
+        tasksData.map((task) => {
+          const details = {
+            taskSummary: task.summary,
+            issueType: task.issueType,
+            taskPriority: task.priority,
+            assigneeName: task.assignee,
+          };
+          displayTasks.push({
+            id: task.id,
+            task: { ...task },
+            content: <Task {...details} />,
+          });
+        });
+
+        setDone(displayTasks);
+      })
+      .catch((error) => console.log(error.message));
+  }, [isModalOpenEdit]);
 
   return (
     <ProjectDetail>
@@ -115,7 +274,17 @@ function ProjectDetailMain() {
         </section>
         <section className="ProjectDetailMainLayout" id="scrollbar-1">
           <DragDropContext
-            onDragEnd={(result) => onDrag(result, columns, setColumns)}
+            onDragEnd={(result) =>
+              onDrag(
+                result,
+                columns,
+                setColumns,
+                setDroppableId,
+                setDroppableStatus,
+                setOnDrag,
+                drag
+              )
+            }
           >
             {Object.entries(columns).map(([columnId, column], index) => {
               return (
@@ -143,7 +312,7 @@ function ProjectDetailMain() {
                                 : "white",
                             }}
                           >
-                            {column.items
+                            {column.items.length > 0
                               ? column.items.map((item, index) => {
                                   return (
                                     <Draggable
@@ -162,7 +331,9 @@ function ProjectDetailMain() {
                                               userSelect: "none",
                                               ...provided.draggableProps.style,
                                             }}
-                                            onClick={handleModalOpenEdit}
+                                            onClick={() =>
+                                              handleModalOpenEdit(item.task)
+                                            }
                                           >
                                             {item.content}
                                           </div>
@@ -192,7 +363,13 @@ function ProjectDetailMain() {
 
       <Modal
         visible={isModalOpenEdit}
-        children={isModalOpenEdit ? <EditTask dismiss={dismissableEdit} /> : ""}
+        children={
+          isModalOpenEdit ? (
+            <EditTask dismiss={dismissableEdit} task={task} />
+          ) : (
+            ""
+          )
+        }
       />
     </ProjectDetail>
   );
