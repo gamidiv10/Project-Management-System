@@ -31,7 +31,7 @@ app.use("/task", taskRoutes);
 app.use("/people", peopleRoutes);
 
 app.get("/*", (req, res) => {
-  res.sendFile(path.resolve(__dirname, "client/build", "index.html"));
+  res.sendFile(path.resolve(__dirname, "../client/build", "index.html"));
 });
 
 app.listen(
