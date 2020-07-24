@@ -17,7 +17,7 @@ const [projectsList, setProjectsList] = useState([]);
       setProjectsList(response.data.data);
     }).catch(
         error => console.log(error.message)
-      );   
+      );
   }
   return (
     (projectsList.length > 0 ?

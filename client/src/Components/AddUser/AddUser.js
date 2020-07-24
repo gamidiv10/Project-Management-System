@@ -9,8 +9,9 @@ import axios from "axios";
 
 const AddUser = ({ dismiss }) => {
   const [isLoading, setLoading] = useState(false);
-  var [users] = useState([]);
+  var [users, setUsers] = useState([]);
   var [userObjects] = useState([]);
+  var [selectedProjUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState("");
   const selectedProject = JSON.parse(localStorage.getItem("selectedProject"));
   const getPeople = () => {
@@ -18,11 +19,17 @@ const AddUser = ({ dismiss }) => {
       .get("/people/getPeople")
       .then((response) => {
         response.data.data.forEach((element) => {
-          if(element.projectKey != selectedProject.projectKey){
+          if(element.projectKey !== selectedProject.projectKey){
           users.push(element.name);
           userObjects.push(element);
           }
+          else{
+            selectedProjUsers.push(element)
+          }
         });
+        selectedProjUsers.forEach((obj) => {
+          setUsers(users.filter((item) => item !== obj.name));
+        })
       })
       .catch((error) => console.log(error.message));
   };
@@ -82,8 +89,8 @@ const AddUser = ({ dismiss }) => {
       console.log(response);
     }).catch(
         error => console.log(error.message)
-      );   
-    
+      );
+
     dismiss(filteredUserObject);
     setLoading(true);
   };

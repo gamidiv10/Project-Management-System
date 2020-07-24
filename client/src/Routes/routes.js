@@ -62,7 +62,7 @@ const routes = [
     component: ProjectDetailMain,
   },
   {
-    path: "/project/people",
+    path: "/project/:projectName/people",
     exact: true,
     component: People,
   },
@@ -77,7 +77,7 @@ const routes = [
     component: Landing,
   },
   {
-    path: "/project/reports",
+    path: "/project/:projectName/reports",
     exact: true,
     component: Reports,
   },

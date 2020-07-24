@@ -13,7 +13,7 @@ import axios from "axios";
 const CreateTask = ({ dismiss }) => {
   const [isLoading, setLoading] = useState(false);
   const [projects, setProjects] = useState([]);
-  const [assigneeNames, setAssigneeNames] = useState(["A", "B"]);
+  const [assigneeNames] = useState(["A", "B"]);
   const { tasks, setTasks } = useContext(tasksItemsContext);
   let buttonDisable = true;
   const issueTypes = ["Epic", "Story", "Task", "Bug"];

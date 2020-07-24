@@ -11,7 +11,7 @@ import axios from "axios";
 const EditTask = ({ dismiss, task }) => {
   const [isLoading, setLoading] = useState(false);
   const [projects, setProjects] = useState([]);
-  const [assigneeNames, setAssigneeNames] = useState(["A", "B"]);
+  const [assigneeNames] = useState(["A", "B"]);
   let buttonDisable = true;
   const issueTypes = ["Epic", "Story", "Task", "Bug"];
   const priorityTypes = ["Highest", "High", "Medium", "Low", "Lowest"];
