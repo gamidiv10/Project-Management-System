@@ -9,6 +9,8 @@ import userReducer from "./users/userReducer"
     Remember here rootReducer should be object and not a function
     So not like this rootReducer = () => combineReducers({}),
     same is with store.
+
+    Give relevant name for each of your reducer
 */
 const rootReducer = combineReducers(
     {
