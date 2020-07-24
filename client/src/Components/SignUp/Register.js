@@ -1,5 +1,8 @@
-import React, { useState } from "react";
+/* Author - Vali Shaik */
+import React, { useState, useContext } from "react";
 import { withRouter } from "react-router-dom";
+import * as firebase from "firebase";
+import { AuthContext } from "../../App";
 
 import {
   TextField,
@@ -17,6 +20,7 @@ const Register = ({ history, registerShow }) => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [confirmPasswordError, setConfirmPasswordError] = useState(" ");
   const validPasswordRegex = RegExp(/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/);
+  const [error, setErrors] = useState("");
 
   const validatePasswordForm = () => {
     if (password.length === 0) {
@@ -30,8 +34,6 @@ const Register = ({ history, registerShow }) => {
   const validateConfirmPasswordForm = () => {
     if (confirmPassword.length === 0) {
       setConfirmPasswordError("* Confirm password cannot be empty");
-    } else if (confirmPassword !== password) {
-      setConfirmPasswordError("* passwords doesn't match");
     } else {
       setConfirmPasswordError("");
     }
@@ -57,16 +59,45 @@ const Register = ({ history, registerShow }) => {
       setNameError("");
     }
   };
-  const handleSubmit = (event) => {
-    event.preventDefault();
+
+  //Fetching the current auth context
+  const Auth = useContext(AuthContext);
+  const handleForm = (e) => {
+    //Validating all the required fields
     if (
       nameError.length === 0 &&
       confirmPasswordError.length === 0 &&
       emailError.length === 0 &&
       passwordError.length === 0
     ) {
-      registerShow(false);
-      history.push("/login");
+      e.preventDefault();
+      //Firebase API call
+      firebase
+        .auth()
+        .createUserWithEmailAndPassword(email, password)
+        .then((res) => {
+          //Once sign up is successfull, user properties are updated
+          var user = firebase.auth().currentUser;
+          user
+            .updateProfile({
+              displayName: name,
+            })
+            .then(function () {
+              alert("Sign up is successful, please login");
+            })
+            .catch(function (error) {
+              alert("Sign up failed, please try again!!");
+            });
+
+          if (res.user) {
+            Auth.setLoggedIn(false);
+            registerShow(false);
+            history.push("/login");
+          }
+        })
+        .catch((e) => {
+          setErrors(e.message);
+        });
     } else {
       validateEmailForm();
       validatePasswordForm();
@@ -77,7 +108,10 @@ const Register = ({ history, registerShow }) => {
 
   return (
     <div className="Register">
-      <form>
+      <form onSubmit={(e) => handleForm(e)}>
+        <FormHelperText id="my-helper-text">
+          <p className="ErrorText">{error}</p>
+        </FormHelperText>
         <FormGroup>
           <TextField
             id="nameInput"
@@ -150,7 +184,7 @@ const Register = ({ history, registerShow }) => {
             <p className="ErrorText">{confirmPasswordError}</p>
           </FormHelperText>
         </FormGroup>
-        <Button onClick={handleSubmit} variant="contained" color="primary">
+        <Button variant="contained" color="primary" type="submit">
           Register
         </Button>
       </form>

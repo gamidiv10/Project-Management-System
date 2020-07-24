@@ -1,8 +1,11 @@
+/* Author - Vali Shaik */
 import React, { useState, useContext, useEffect } from "react";
 import SocialMedia from "../SignUp/SocialMedia";
 import userContext from "../../Context/userContext";
 import { ReactComponent as CloseIcon } from "../../icons/close.svg";
 import { withRouter } from "react-router-dom";
+import * as firebase from "firebase";
+import { AuthContext } from "../../App";
 
 import {
   TextField,
@@ -17,19 +20,43 @@ const Login = ({ history, loginShow }) => {
   const [emailError, setEmailError] = useState(" ");
   const [password, setPassword] = useState("");
   const [passwordError, setPasswordError] = useState(" ");
-
+  const [error, setErrors] = useState("");
   const { user, setUser } = useContext(userContext);
 
   useEffect(() => {
     setUser("");
   }, []);
 
+  //Handling user sign in using firebase
   const handleSubmit = (event) => {
     event.preventDefault();
+    //Checking for valid email and password
     if (emailError.length === 0 && passwordError.length === 0) {
-      setUser("asd");
-      loginShow(false);
-      history.push("/home");
+      event.preventDefault();
+      //Firebase API call
+      firebase
+        .auth()
+        .setPersistence(firebase.auth.Auth.Persistence.SESSION)
+        .then(() => {
+          firebase
+            .auth()
+            .signInWithEmailAndPassword(email, password)
+            .then((res) => {
+              if (res.user) {
+                //On successful login, fetching user properties and setting it to Context
+                var user = firebase.auth().currentUser;
+                Auth.setLoggedIn(true);
+                setUser(user.displayName);
+                loginShow(false);
+                //Displaying home page to the user
+                history.push("/home");
+                alert("Successfully logged in");
+              }
+            })
+            .catch((event) => {
+              setErrors(event.message);
+            });
+        });
     } else {
       validateEmailForm();
       validatePasswordForm();
@@ -59,7 +86,7 @@ const Login = ({ history, loginShow }) => {
       setPasswordError("");
     }
   };
-
+  const Auth = useContext(AuthContext);
   return (
     <div className="LoginHomePage">
       <div>
@@ -68,6 +95,9 @@ const Login = ({ history, loginShow }) => {
       <div className="Login row">
         <p className="Title">Log In</p>
         <form>
+          <FormHelperText id="my-helper-text">
+            <p className="ErrorText">{error}</p>
+          </FormHelperText>
           <FormGroup>
             <TextField
               id="emailInput"
@@ -111,7 +141,7 @@ const Login = ({ history, loginShow }) => {
           <br></br>
           <br></br>
           <FormGroup>
-            <a href="#">Forgot Password?</a>
+            <a href="forgotPassword">Forgot Password?</a>
           </FormGroup>
         </form>
         <br></br>
@@ -122,7 +152,7 @@ const Login = ({ history, loginShow }) => {
           </div>
         </div>
         <p className="SignUpLink">
-          Dont have an account? <a href="#">Sign Up</a>
+          Dont have an account? <a href="/">Sign Up</a>
         </p>
       </div>
     </div>
