@@ -1,4 +1,7 @@
-import React, {useState, useEffect} from "react";
+/**
+ * @author Vamsi Gamidi <vamsi.gamidi@dal.ca>
+ */
+import React, { useState, useEffect } from "react";
 import Person from "./Person/Person";
 import PeopleHeader from "./PeopleHeader/PeopleHeader";
 import "./People.scss";
@@ -12,13 +15,13 @@ const People = () => {
   }, []);
 
   const getPeople = () => {
-    axios.get('/people/getPeople')
-    .then(response => {
-      setPeopleList(response.data.data);
-    }).catch(
-        error => console.log(error.message)
-      );
-  }
+    axios
+      .get("/people/getPeople")
+      .then((response) => {
+        setPeopleList(response.data.data);
+      })
+      .catch((error) => console.log(error.message));
+  };
   return (
     <>
       <ProjectDetail>

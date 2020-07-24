@@ -1,3 +1,6 @@
+/**
+ * @author Vamsi Gamidi <vamsi.gamidi@dal.ca>
+ */
 const Project = require("../models/Project");
 
 exports.createProject = async (req, res, next) => {
@@ -33,8 +36,9 @@ exports.editProject = async (req, res, next) => {
         $set: {
           projectName: req.body.projectName,
           projectType: req.body.projectType,
-        }
-      });
+        },
+      }
+    );
     return res.status(201).json({
       success: true,
       data: project,

@@ -1,3 +1,6 @@
+/**
+ * @author Vamsi Gamidi <vamsi.gamidi@dal.ca>
+ */
 import React, { useEffect, useState } from "react";
 import { Form } from "react-final-form";
 import "./AddUser.scss";

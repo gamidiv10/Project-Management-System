@@ -1,3 +1,6 @@
+/**
+ * @author Vamsi Gamidi <vamsi.gamidi@dal.ca>
+ */
 import React, { useState, useRef, useEffect } from "react";
 import Editable from "../../Editable/Editable";
 import { ReactComponent as CloseIcon } from "../../../icons/close.svg";

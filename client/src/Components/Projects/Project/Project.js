@@ -1,3 +1,6 @@
+/**
+ * @author Vamsi Gamidi <vamsi.gamidi@dal.ca>
+ */
 import React, { Fragment, useState, useEffect } from "react";
 import "./Project.scss";
 import { ReactComponent as KeyIcon } from "../../../icons/key.svg";

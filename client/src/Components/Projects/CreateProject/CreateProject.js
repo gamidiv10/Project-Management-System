@@ -1,3 +1,6 @@
+/**
+ * @author Vamsi Gamidi <vamsi.gamidi@dal.ca>
+ */
 import React, { useEffect, useState } from "react";
 import { Form } from "react-final-form";
 import { Button } from "react-bootstrap";
@@ -95,18 +98,17 @@ const CreateProject = ({ dismiss }) => {
     let projectName = values.projectname;
     let projectKey = values.key;
     let projectType = values.projecttype;
-    let projectLead = "Vamsi Gamidi"
+    let projectLead = "Vamsi Gamidi";
     setLoading(true);
-    axios.post('/project/createProject', {
-      projectName,
-      projectKey,
-      projectType,
-      projectLead,
-    })
-    .then(response => {
-    }).catch(
-        error => console.log(error.message)
-      );
+    axios
+      .post("/project/createProject", {
+        projectName,
+        projectKey,
+        projectType,
+        projectLead,
+      })
+      .then((response) => {})
+      .catch((error) => console.log(error.message));
   };
 
   return (
