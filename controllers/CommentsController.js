@@ -41,3 +41,46 @@ exports.getComments = (req, res) => {
       });
     });
 };
+
+exports.editComment = async (req, res) => {
+  try {
+    console.log("request", req.body);
+    const comment = await Comment.updateOne(
+      { commentId: req.body.commentId },
+      {
+        $set: {
+          comment: req.body.comment,
+        },
+      }
+    );
+    return res.status(201).json({
+      success: true,
+      data: comment,
+    });
+  } catch (error) {
+    if (error.name === "ValidationError") {
+      const messages = Object.values(error.errors).map((val) => val.message);
+      return res.status(400).json({
+        success: false,
+        error: messages,
+      });
+    } else {
+      console.log("error:", error.message);
+      return res.status(500).json({
+        sucess: false,
+        error: "Server Error",
+      });
+    }
+  }
+};
+
+exports.deleteComment = (req, res) => {
+  var commentId = req.params.commentId;
+  Comment.deleteOne({ commentId })
+    .then((result) => {
+      res.status(201).json({
+        message: "Comment deleted",
+      });
+    })
+    .catch((err) => console.log(err));
+};

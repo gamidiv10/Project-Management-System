@@ -11,6 +11,11 @@ const CommentSchema = new mongoose.Schema({
     type: String,
     required: [true, "Comment is required"],
   },
+  commentId: {
+    type: String,
+    required: [true, "Comment Id is required"],
+    unique: [true, "Comment Id must be unique"],
+  },
   userName: {
     type: String,
     required: [true, "User Name is required"],

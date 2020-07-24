@@ -3,6 +3,7 @@ import "./Comments.scss";
 import { Button } from "react-bootstrap";
 import Comment from "../Comments/Comment/Comment";
 import axios from "axios";
+import { v4 as uuid } from "uuid";
 
 export const Comments = ({ id }) => {
   const [textArea, setTextArea] = useState("");
@@ -24,17 +25,32 @@ export const Comments = ({ id }) => {
   };
 
   const addComment = () => {
+    const commentId = uuid();
     axios
       .post("/comment/addComment", {
         id,
         comment: textArea,
         userName: "satya",
+        commentId,
       })
       .then((response) => {
         setComments([...comments, response.data.data]);
         setTextArea("");
       })
       .catch((error) => console.log(error.message));
+  };
+
+  const deleteHandler = (commentId) => {
+    axios
+      .delete(`/comment/deleteComment/${commentId}`)
+      .then((response) => {
+        axios.get(`/comment/getComments/${id}`).then((response) => {
+          setComments(response.data);
+        });
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
   };
 
   return (
@@ -46,6 +62,8 @@ export const Comments = ({ id }) => {
             key={id}
             text={comment.comment}
             userName={comment.userName}
+            commentId={comment.commentId}
+            deleteHandler={deleteHandler}
           />
         ))}
       </div>

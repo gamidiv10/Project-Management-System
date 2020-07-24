@@ -4,6 +4,29 @@
   color: black;
   background-color: #eef7ff;
 
+  .editable {
+    word-wrap: break-word;
+  }
+
+  .deleteIcon {
+    float: right;
+
+    svg {
+      width: 15px;
+      height: 15px;
+    }
+
+    &:hover {
+      transform: scale(1.25);
+      cursor: pointer;
+    }
+  }
+
+  .commentsection {
+    display: flex;
+    justify-content: space-between;
+  }
+
   .userName {
     font-size: 22px;
     font-weight: bold;
