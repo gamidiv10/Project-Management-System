@@ -9,7 +9,6 @@ import "./ProjectDetailSideBar.scss";
 
 const ProjectDetailSideBar = ({ history, match }) => {
   const [sidebar, setSideBar] = useState(true);
-  const selectedProject = JSON.parse(localStorage.getItem("selectedProject"));
   const [projectName, setProjectName] = useState(match.params.projectName);
 
   useEffect(() => {
@@ -51,9 +50,7 @@ const ProjectDetailSideBar = ({ history, match }) => {
     <>
       {sidebar ? (
         <aside className="ProjectDetailSideBar">
-          <div className="projectName">
-            {selectedProject ? selectedProject.projectName : projectName}
-          </div>
+          <div className="projectName">{projectName}</div>
           <NavLink to="/project/backlog">
             <div
               className={
@@ -68,11 +65,11 @@ const ProjectDetailSideBar = ({ history, match }) => {
               Backlog
             </div>
           </NavLink>
-          <NavLink to={`/project/${selectedProject.projectName}/activesprint`}>
+          <NavLink to={`/project/${projectName}/activesprint`}>
             <div
               className={
                 history.location.pathname ===
-                `/project/${selectedProject.projectName}/activesprint`
+                `/project/${projectName}/activesprint`
                   ? "ProjectSideLink active"
                   : "ProjectSideLink"
               }
@@ -83,10 +80,10 @@ const ProjectDetailSideBar = ({ history, match }) => {
               Active Sprint
             </div>
           </NavLink>
-          <NavLink to="/project/reports">
+          <NavLink to={`/project/${projectName}/reports`}>
             <div
               className={
-                history.location.pathname === "/project/reports"
+                history.location.pathname === `/project/${projectName}/reports`
                   ? "ProjectSideLink active"
                   : "ProjectSideLink"
               }
@@ -97,10 +94,10 @@ const ProjectDetailSideBar = ({ history, match }) => {
               Reports
             </div>
           </NavLink>
-          <NavLink to="/project/people">
+          <NavLink to={`/project/${projectName}/people`}>
             <div
               className={
-                history.location.pathname === "/project/people"
+                history.location.pathname === `/project/${projectName}/people`
                   ? "ProjectSideLink active"
                   : "ProjectSideLink"
               }

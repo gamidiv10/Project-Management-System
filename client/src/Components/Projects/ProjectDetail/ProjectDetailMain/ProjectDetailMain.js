@@ -9,7 +9,6 @@ import CompleteSprint from "../../../CompleteSprint/CompleteSprint";
 import { v4 as uuid } from "uuid";
 import ProjectDetailHeader from "../ProjectDetailHeader/ProjectDetailHeader";
 import EditTask from "../../../Task/EditTask/EditTask";
-import { useLocation } from "react-router-dom";
 import axios from "axios";
 import Task from "../../../Task/Task";
 
