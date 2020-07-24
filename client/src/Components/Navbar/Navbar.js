@@ -4,7 +4,6 @@ import { ReactComponent as BellIcon } from "../../icons/bell.svg";
 import { ReactComponent as CaretIcon } from "../../icons/caret.svg";
 import { ReactComponent as ProjectsIcon } from "../../icons/projects.svg";
 import { ReactComponent as PlusIcon } from "../../icons/plus.svg";
-import { ReactComponent as BoltIcon } from "../../icons/bolt.svg";
 import { ReactComponent as ProfileIcon } from "../../icons/profile.svg";
 import { ReactComponent as TaskaticIcon } from "../../icons/taskatic.svg";
 import { ReactComponent as PeopleIcon } from "../../icons/people.svg";

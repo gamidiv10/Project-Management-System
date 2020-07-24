@@ -107,7 +107,7 @@ const CreateProject = ({ dismiss }) => {
       console.log(response);
     }).catch(
         error => console.log(error.message)
-      );   
+      );
   };
 
   return (

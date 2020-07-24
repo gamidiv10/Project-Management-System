@@ -32,7 +32,6 @@ const Person = (props) => {
       (item) => item.projectKey === selectedProject.projectKey
     );
     setPeopleList(new Set(people));
-    console.log("dismiss", peopleList);
     setIsModalOpen(false);
   };
 
