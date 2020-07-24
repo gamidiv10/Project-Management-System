@@ -29,27 +29,6 @@ app.use("/project", projectRoutes);
 app.use("/comment", commentRoutes);
 app.use("/task", taskRoutes);
 app.use("/people", peopleRoutes);
-const fs = require("fs");
-
-fs.readdir(__dirname, (err, files) => {
-  files.forEach((file) => {
-    console.log(file);
-  });
-  console.log("SERVER FILES DISPLAYED");
-  if (err) {
-    console.log(err);
-  }
-});
-
-fs.readdir(__dirname + "/client", (err, files) => {
-  files.forEach((file) => {
-    console.log(file);
-  });
-  console.log("CLIENT FILES DISPLAYED");
-  if (err) {
-    console.log(err);
-  }
-});
 
 app.get("/*", (req, res) => {
   res.sendFile(path.resolve(__dirname, "../client/build", "index.html"));
