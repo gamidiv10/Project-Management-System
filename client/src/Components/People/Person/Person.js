@@ -7,7 +7,7 @@ import AddUser from "../../AddUser/AddUser";
 
 const Person = (props) => {
   var { people, history, match } = props;
-  const [projectName, setProjectName] = useState(match.params.projectName);
+  const [projectName] = useState(match.params.projectName);
   const [peopleList, setPeopleList] = useState(new Set(people));
   const [isModalOpen, setIsModalOpen] = useState(false);
   useEffect(() => {
