@@ -1,3 +1,4 @@
+/* Author - Vali Shaik */
 import React, { useState, useContext, useEffect } from "react";
 import SocialMedia from "../SignUp/SocialMedia";
 import userContext from "../../Context/userContext";

@@ -1,3 +1,4 @@
+/* Author - Vali Shaik */
 //Firebase configuration
 export default {
   apiKey: "AIzaSyCyJt4OIOE6AN6S0eNowmoOMQicHvQwziA",
