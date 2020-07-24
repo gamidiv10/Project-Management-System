@@ -30,7 +30,8 @@
     "start": "node --exec babel-node server.js",
     "server": "nodemon --exec babel-node server",
     "client": "npm start --prefix client",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install & cd client & npm install & npm run build"
   },
   "repository": {
     "type": "git",
