@@ -8,14 +8,19 @@ import tasksItemsContext from "./Context/tasksItemsContext";
 import * as firebase from "firebase";
 import firebaseConfig from "./firebase.config";
 
+//Loafding the firebase configuration
 firebase.initializeApp(firebaseConfig);
 export const AuthContext = React.createContext(null);
+
 function App() {
+  //maintaining the user's login status
   const [isLoggedIn, setLoggedIn] = useState(false);
   const [isNavbar, setIsNavbar] = useState(true);
+  //initial user status
   const [user, setUser] = useState("");
   const [tasks, setTasks] = useState([]);
 
+  //Reading the current user session from Firebase authentication
   function readSession() {
     const user = window.sessionStorage.getItem(
       `firebase:authUser:${firebaseConfig.apiKey}:[DEFAULT]`

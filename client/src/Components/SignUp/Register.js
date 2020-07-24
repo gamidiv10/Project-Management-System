@@ -33,11 +33,7 @@ const Register = ({ history, registerShow }) => {
   const validateConfirmPasswordForm = () => {
     if (confirmPassword.length === 0) {
       setConfirmPasswordError("* Confirm password cannot be empty");
-    }
-    // else if (confirmPassword !== password) {
-    //   setConfirmPasswordError("* passwords doesn't match");
-    // }
-    else {
+    } else {
       setConfirmPasswordError("");
     }
   };
@@ -63,8 +59,10 @@ const Register = ({ history, registerShow }) => {
     }
   };
 
+  //Fetching the current auth context
   const Auth = useContext(AuthContext);
   const handleForm = (e) => {
+    //Validating all the required fields
     if (
       nameError.length === 0 &&
       confirmPasswordError.length === 0 &&
@@ -72,10 +70,12 @@ const Register = ({ history, registerShow }) => {
       passwordError.length === 0
     ) {
       e.preventDefault();
+      //Firebase API call
       firebase
         .auth()
         .createUserWithEmailAndPassword(email, password)
         .then((res) => {
+          //Once sign up is successfull, user properties are updated
           var user = firebase.auth().currentUser;
           user
             .updateProfile({
@@ -85,7 +85,7 @@ const Register = ({ history, registerShow }) => {
               alert("Sign up is successful, please login");
             })
             .catch(function (error) {
-              // An error happened.
+              alert("Sign up failed, please try again!!");
             });
 
           if (res.user) {

@@ -48,8 +48,10 @@ const ForgotPassword = ({ history }) => {
 
   const handleResetSubmit = (event) => {
     event.preventDefault();
+    //Validating the email
     if (emailError.length === 0) {
       event.preventDefault();
+      //Firebase API call
       firebase
         .auth()
         .sendPasswordResetEmail(email)
@@ -65,6 +67,7 @@ const ForgotPassword = ({ history }) => {
       validateEmailForm();
     }
   };
+  //Fetching auth context
   const Auth = useContext(AuthContext);
   return (
     <div class="container">
@@ -103,7 +106,7 @@ const ForgotPassword = ({ history }) => {
         <div className="message">
           Verification link will be sent to your email address
         </div>
-        <NavLink to="/login" className="link">
+        <NavLink to="/" className="link">
           <p>Doesn't want to submit? Login here.</p>
         </NavLink>
       </form>

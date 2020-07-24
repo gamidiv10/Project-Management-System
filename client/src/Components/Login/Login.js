@@ -26,10 +26,13 @@ const Login = ({ history, loginShow }) => {
     setUser("");
   }, []);
 
+  //Handling user sign in using firebase
   const handleSubmit = (event) => {
     event.preventDefault();
+    //Checking for valid email and password
     if (emailError.length === 0 && passwordError.length === 0) {
       event.preventDefault();
+      //Firebase API call
       firebase
         .auth()
         .setPersistence(firebase.auth.Auth.Persistence.SESSION)
@@ -39,10 +42,12 @@ const Login = ({ history, loginShow }) => {
             .signInWithEmailAndPassword(email, password)
             .then((res) => {
               if (res.user) {
+                //On successful login, fetching user properties and setting it to Context
                 var user = firebase.auth().currentUser;
                 Auth.setLoggedIn(true);
                 setUser(user.displayName);
                 loginShow(false);
+                //Displaying home page to the user
                 history.push("/home");
                 alert("Successfully logged in");
               }
@@ -146,7 +151,7 @@ const Login = ({ history, loginShow }) => {
           </div>
         </div>
         <p className="SignUpLink">
-          Dont have an account? <a href="#">Sign Up</a>
+          Dont have an account? <a href="/">Sign Up</a>
         </p>
       </div>
     </div>
