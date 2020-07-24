@@ -6,14 +6,14 @@ import Modal from "../../Modal/Modal";
 import AddUser from "../../AddUser/AddUser";
 
 const Person = (props) => {
-  var { people, history } = props;
+  var { people, history, match } = props;
+  const [projectName, setProjectName] = useState(match.params.projectName);
   const [peopleList, setPeopleList] = useState(new Set(people));
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const selectedProject = JSON.parse(localStorage.getItem("selectedProject"));
   useEffect(() => {
-    if (selectedProject != null) {
+    if (projectName != null) {
       people = people.filter(
-        (item) => item.projectKey === selectedProject.projectKey
+        (item) => item.projectName === projectName
       );
     }
     setPeopleList(new Set(people));
@@ -29,7 +29,7 @@ const Person = (props) => {
   const dismissable = (newUser) => {
     people.push(newUser);
     people = people.filter(
-      (item) => item.projectKey === selectedProject.projectKey
+      (item) => item.projectName === projectName
     );
     setPeopleList(new Set(people));
     setIsModalOpen(false);
@@ -61,7 +61,7 @@ const Person = (props) => {
       </article>
       <Modal
         visible={isModalOpen}
-        children={isModalOpen ? <AddUser dismiss={dismissable} /> : ""}
+        children={isModalOpen ? <AddUser dismiss={dismissable} projectName={projectName} /> : ""}
       />
     </Fragment>
   );

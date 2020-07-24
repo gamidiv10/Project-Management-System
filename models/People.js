@@ -9,9 +9,9 @@ const PeopleSchema = new mongoose.Schema({
         type: String,
         required: [true, "Role is required"],
     },
-    projectKey:{
+    projectName:{
         type: String,
-        required: [true, "Project Key is required"],
+        required: [true, "Project Name is required"],
     }
 })
 

@@ -7,19 +7,17 @@ import { Autocomplete } from "mui-rff";
 import { ReactComponent as CloseIcon } from "../../icons/close.svg";
 import axios from "axios";
 
-const AddUser = ({ dismiss }) => {
+const AddUser = ({ dismiss, projectName }) => {
   const [isLoading, setLoading] = useState(false);
   var [users, setUsers] = useState([]);
   var [userObjects] = useState([]);
   var [selectedProjUsers] = useState([]);
-  const [selectedUser, setSelectedUser] = useState("");
-  const selectedProject = JSON.parse(localStorage.getItem("selectedProject"));
   const getPeople = () => {
     axios
       .get("/people/getPeople")
       .then((response) => {
         response.data.data.forEach((element) => {
-          if(element.projectKey !== selectedProject.projectKey){
+          if(element.projectName !== projectName){
           users.push(element.name);
           userObjects.push(element);
           }
@@ -28,7 +26,8 @@ const AddUser = ({ dismiss }) => {
           }
         });
         selectedProjUsers.forEach((obj) => {
-          setUsers(users.filter((item) => item !== obj.name));
+          users = users.filter((item) => item !== obj.name);
+          setUsers(users)
         })
       })
       .catch((error) => console.log(error.message));
@@ -45,7 +44,6 @@ const AddUser = ({ dismiss }) => {
   }, [isLoading]);
 
   const validate = (values) => {
-    setSelectedUser(values.user);
     const errors = {};
     if (!values.user) {
       errors.user = "Required";
@@ -74,19 +72,18 @@ const AddUser = ({ dismiss }) => {
     return new Promise((resolve) => setTimeout(resolve, 2000));
   }
 
-  const onSubmit = () => {
-    let filteredUserObject = userObjects.filter((user) => user.name === selectedUser)[0]
+  const onSubmit = (values) => {
+    let filteredUserObject = userObjects.filter((user) => user.name === values.user)[0]
     let name = filteredUserObject.name;
     let role = filteredUserObject.role;
-    let projectKey = selectedProject.projectKey;
-    filteredUserObject.projectKey = projectKey;
+    let newProjectName = projectName;
+    filteredUserObject.projectName = projectName;
     axios.post('/people/addUser', {
       name,
       role,
-      projectKey
+      "projectName": newProjectName
     })
     .then(response => {
-      console.log(response);
     }).catch(
         error => console.log(error.message)
       );

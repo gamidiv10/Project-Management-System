@@ -41,6 +41,25 @@ exports.getPeople = async (req, res, next) => {
   }
 };
 
+exports.getPeopleByProject = async (req, res, next) => {
+  try {
+    var projectName = req.params.projectName;
+    const people = await People.find({
+      projectName: projectName
+    });
+    return res.status(200).json({
+      success: true,
+      count: people.length,
+      data: people,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      error: `Server Error ${error}`,
+    });
+  }
+};
+
 
 exports.inviteUser = (req, res) => {
     var nodemailer = require("nodemailer");

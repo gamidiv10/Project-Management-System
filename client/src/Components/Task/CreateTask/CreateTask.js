@@ -13,11 +13,30 @@ import axios from "axios";
 const CreateTask = ({ dismiss }) => {
   const [isLoading, setLoading] = useState(false);
   const [projects, setProjects] = useState([]);
-  const [assigneeNames] = useState(["A", "B"]);
+  const [assigneeNames, setAssigneeNames] = useState([]);
   const { tasks, setTasks } = useContext(tasksItemsContext);
+  const [projectName, setProjectName] = useState("");
   let buttonDisable = true;
   const issueTypes = ["Epic", "Story", "Task", "Bug"];
   const priorityTypes = ["Highest", "High", "Medium", "Low", "Lowest"];
+
+  useEffect(() => {
+    if (projectName) {
+      axios
+        .get(`/people/getPeopleByProject/${projectName}`)
+        .then((response) => {
+          const peopleList = [];
+          const peopleData = response.data.data;
+          peopleData.map((people) => {
+            peopleList.push(people.name);
+          });
+          setAssigneeNames(peopleList);
+        })
+        .catch((error) => console.log(error.message));
+    } else {
+      setAssigneeNames([]);
+    }
+  }, [projectName]);
 
   useEffect(() => {
     axios
@@ -58,6 +77,10 @@ const CreateTask = ({ dismiss }) => {
     }
     if (!values.assigneeName) {
       errors.assigneeName = "Required";
+    }
+
+    if (values.projectName) {
+      setProjectName(values.projectName);
     }
 
     buttonDisable = Object.keys(errors).length ? true : false;

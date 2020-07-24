@@ -35,7 +35,6 @@ const Project = (props) => {
     setIsModalOpen(false);
   };
   const redirectToprojectDetail = (proj) => {
-    localStorage.setItem("selectedProject", JSON.stringify(proj));
     history.push(`/project/${proj.projectName}/activesprint`, proj);
   };
 
