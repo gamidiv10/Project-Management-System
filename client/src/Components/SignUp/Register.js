@@ -5,6 +5,7 @@ import React, { useState, useContext } from "react";
 import { withRouter } from "react-router-dom";
 import * as firebase from "firebase";
 import { AuthContext } from "../../App";
+import axios from "axios";
 
 import {
   TextField,
@@ -12,7 +13,9 @@ import {
   FormGroup,
   FormHelperText,
 } from "@material-ui/core";
+import { useDispatch } from "react-redux";
 const Register = ({ history, registerShow }) => {
+  const [id, setId] = useState();
   const [name, setName] = useState("");
   const [nameError, setNameError] = useState("");
   const [email, setEmail] = useState("");
@@ -80,12 +83,27 @@ const Register = ({ history, registerShow }) => {
         .then((res) => {
           //Once sign up is successfull, user properties are updated
           var user = firebase.auth().currentUser;
+          setId(user.id);
           user
             .updateProfile({
               displayName: name,
             })
             .then(function () {
-              alert("Sign up is successful, please login");
+              //Saving user details in DB
+              axios
+                .post("/user/addUser", {
+                  id: id,
+                  userName: name,
+                  email: email,
+                  jobTitle: "Software Dev",
+                  department: "Research",
+                  organisation: "Dalhousie",
+                  country: "Canada",
+                })
+                .then((response) => {
+                  alert("Sign up is successful, please login");
+                })
+                .catch((error) => console.log(error.message));
             })
             .catch(function (error) {
               alert("Sign up failed, please try again!!");
