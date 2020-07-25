@@ -1,3 +1,6 @@
+/**
+ * @author Satya Kumar Itekela <satya.itekela@dal.ca>
+ */
 import React, { useState, useEffect } from "react";
 import "./Comments.scss";
 import { Button } from "react-bootstrap";

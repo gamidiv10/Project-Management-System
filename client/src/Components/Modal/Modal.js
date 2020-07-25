@@ -1,3 +1,6 @@
+/**
+ * @author Satya Kumar Itekela <satya.itekela@dal.ca>
+ */
 import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import "./Modal.scss";

@@ -1,3 +1,6 @@
+/**
+ * @author Satya Kumar Itekela <satya.itekela@dal.ca>
+ */
 import React from "react";
 import ProjectDetailSideBar from "./ProjectDetailSideBar/ProjectDetailSideBar";
 import "./ProjectDetail.scss";

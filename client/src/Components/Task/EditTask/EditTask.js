@@ -1,3 +1,6 @@
+/**
+ * @author Satya Kumar Itekela <satya.itekela@dal.ca>
+ */
 import React, { useEffect, useState } from "react";
 import { Form } from "react-final-form";
 import "./EditTask.scss";

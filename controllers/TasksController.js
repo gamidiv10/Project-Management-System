@@ -1,4 +1,6 @@
-/* Author - Satya Kumar Itekela */
+/**
+ * @author Satya Kumar Itekela <satya.itekela@dal.ca>
+ */
 const Task = require("../models/Task");
 
 exports.addTask = async (req, res) => {

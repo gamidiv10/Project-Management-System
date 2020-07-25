@@ -1,3 +1,6 @@
+/**
+ * @author Satya Kumar Itekela <satya.itekela@dal.ca>
+ */
 import React, { useState, useContext, useLayoutEffect, useEffect } from "react";
 import "./Navbar.scss";
 import { ReactComponent as BellIcon } from "../../icons/bell.svg";

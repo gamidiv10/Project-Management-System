@@ -1,3 +1,6 @@
+/**
+ * @author Satya Kumar Itekela <satya.itekela@dal.ca>
+ */
 import React, { useState, useRef } from "react";
 import "./Comment.scss";
 import Editable from "../../Editable/Editable";

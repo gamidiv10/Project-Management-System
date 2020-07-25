@@ -8,6 +8,9 @@ import Modal from "../../../Modal/Modal";
 import CompleteSprint from "../../../CompleteSprint/CompleteSprint";
 import { v4 as uuid } from "uuid";
 import ProjectDetailHeader from "../ProjectDetailHeader/ProjectDetailHeader";
+/**
+ * @author Satya Kumar Itekela <satya.itekela@dal.ca>
+ */
 import EditTask from "../../../Task/EditTask/EditTask";
 import axios from "axios";
 import Task from "../../../Task/Task";

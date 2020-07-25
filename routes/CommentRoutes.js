@@ -1,4 +1,6 @@
-/* Author - Satya Kumar Itekela */
+/**
+ * @author Satya Kumar Itekela <satya.itekela@dal.ca>
+ */
 
 const express = require("express");
 

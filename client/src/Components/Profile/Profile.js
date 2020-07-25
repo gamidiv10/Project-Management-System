@@ -1,3 +1,6 @@
+/**
+ * @author Satya Kumar Itekela <satya.itekela@dal.ca>
+ */
 import React, { useState, useRef } from "react";
 import { ReactComponent as DefaultProfileIcon } from "../../icons/defaultprofile.svg";
 import { ReactComponent as TitleIcon } from "../../icons/title.svg";

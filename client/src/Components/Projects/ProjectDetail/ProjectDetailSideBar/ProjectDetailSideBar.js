@@ -1,3 +1,6 @@
+/**
+ * @author Satya Kumar Itekela <satya.itekela@dal.ca>
+ */
 import React, { useState, useLayoutEffect, useEffect } from "react";
 import { NavLink, withRouter } from "react-router-dom";
 import { ReactComponent as ActiveSprintIcon } from "../../../../icons/activesprint.svg";

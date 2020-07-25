@@ -1,3 +1,6 @@
+/**
+ * @author Satya Kumar Itekela <satya.itekela@dal.ca>
+ */
 import React, { useState, useEffect } from "react";
 
 const Editable = ({ Ref, text, type, placeholder, children, ...props }) => {
