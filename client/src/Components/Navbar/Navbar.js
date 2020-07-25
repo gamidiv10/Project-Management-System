@@ -77,7 +77,7 @@ const Navigationbar = ({ history }) => {
       .catch((error) => console.log(error.message));
   }, []);
 
-  if (user) {
+  if (Auth.isLoggedIn) {
     LeftNavItems = [
       {
         item: "Taskatic",
