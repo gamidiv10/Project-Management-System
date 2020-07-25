@@ -52,7 +52,6 @@ const Login = ({ history, loginShow }) => {
                 loginShow(false);
                 //Displaying home page to the user
                 history.push("/home");
-                alert("Successfully logged in");
               }
             })
             .catch((event) => {
