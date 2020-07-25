@@ -1,3 +1,6 @@
+/**
+ * @author Vali Shaik
+ */
 const mongoose = require("mongoose");
 const UserSchema = mongoose.Schema({
   id: { type: String, required: true, unique: true },

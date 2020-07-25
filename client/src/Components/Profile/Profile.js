@@ -1,5 +1,6 @@
 /**
  * @author Satya Kumar Itekela <satya.itekela@dal.ca>
+ * @author Vali Shaik
  */
 import React, { useState, useRef, useEffect } from "react";
 import { ReactComponent as DefaultProfileIcon } from "../../icons/defaultprofile.svg";
@@ -58,6 +59,7 @@ const Profile = ({ history }) => {
       alert("Please fill all fields");
       history.push("/profile");
     } else {
+      //Updating user profile details
       axios
         .post("/user/modifyUser", {
           id: user.uid,

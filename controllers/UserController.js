@@ -1,13 +1,17 @@
+/**
+ * @author Vali Shaik
+ */
 const express = require("express");
 const router = express.Router();
 const mongoose = require("mongoose");
 
 const UserModel = require("../models/User");
 
+//Adding user to DB
 exports.addUser = async (req, res) => {
   try {
     const user = await UserModel.create(req.body);
-    console.log(req.body.id)
+    console.log(req.body.id);
     return res.status(201).json({
       success: true,
       data: user,
@@ -30,6 +34,7 @@ exports.addUser = async (req, res) => {
   }
 };
 
+//Fetching the user based on User Id
 exports.getUser = async (req, res) => {
   var userfield = req.params.userfield;
   try {
@@ -48,6 +53,7 @@ exports.getUser = async (req, res) => {
   }
 };
 
+//Updating the user details
 exports.modifyUser = async (req, res) => {
   try {
     console.log("request", req.body);
