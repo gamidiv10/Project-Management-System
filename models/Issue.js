@@ -1,9 +1,6 @@
-import { Schema, Model} from 'mongoose'
+import { Schema, model} from 'mongoose'
 
 const IssueSchema = new Schema({
-    issue_id: {
-        type: Schema.Types.ObjectId
-    },
     type: {
         type: String,
         required: true
@@ -14,8 +11,17 @@ const IssueSchema = new Schema({
     },
     description: {
         type: String,
-
     },
+    isOpen: {
+        type: Boolean,
+        required: true,
+        default: true
+    },
+    isPartOfSprint: {
+        type: Boolean,
+        required: true,
+        default: false
+    }
 })
 
-export default Model('Issue', IssueSchema)
+export default model('Issue', IssueSchema)

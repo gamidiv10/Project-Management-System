@@ -5,11 +5,12 @@ const morgan = require("morgan");
 const colors = require("colors");
 const dotenv = require("dotenv");
 
+import IssueRoutes from './routes/IssueRoutes'
+import SprintRoutes from './routes/SprintRoutes'
+
 const projectRoutes = require("./routes/ProjectRoutes");
 const commentRoutes = require("./routes/CommentRoutes");
 const taskRoutes = require("./routes/TaskRoutes");
-// const IssueRoutes = require('./routes/IssueRoutes')
-import IssueRoutes from './routes/IssueRoutes'
 const peopleRoutes = require('./routes/PeopleRoutes');
 const cors = require("cors");
 dotenv.config({ path: "./config/config.env" });
@@ -32,6 +33,7 @@ app.use("/comment", commentRoutes);
 app.use("/task", taskRoutes);
 app.use('/people', peopleRoutes);
 app.use('/backlog', IssueRoutes)
+app.use('/sprint', SprintRoutes)
 
 // app.get("/*", (req, res) => {
 //   res.sendFile(path.resolve(__dirname, "client/build", "index.html"));

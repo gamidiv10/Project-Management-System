@@ -1,12 +1,16 @@
 import { Router } from "express"
-// import bodyParser from "body-parser"
 import {
-    
+    createIssue,
+    updateIssue,
+    deleteIssue,
+    getIssues
 } from "../controllers/IssueController"
 
 const router = Router()
-// const jsonParser = bodyParser.json()
 
 router.post('/createIssue', createIssue)
+router.put('/updateIssue', updateIssue)
+router.delete('/deleteIssue', deleteIssue)
+router.post('/getIssues', getIssues)
 
 export default router

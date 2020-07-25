@@ -1,9 +1,11 @@
-import { Schema, Model} from 'mongoose'
+import { Schema, model} from 'mongoose'
+import Issue from './Issue'
 
 const SprintSchema = new Schema({
     sprint_number: {
         type: Number,
-        required: true
+        required: true,
+        default: 0
     },
     name: {
         type: String,
@@ -16,7 +18,14 @@ const SprintSchema = new Schema({
     description: {
         type: String,
     },
-    issues: [{type: Schema.Types.ObjectId}]
+    issues: {
+        type: [ Issue.Schema ],
+        default: []
+    },
+    isActive: {
+        type: Boolean,
+        default: false
+    }
 })
 
-export default Model('Sprint', SprintSchema)
+export default model('Sprint', SprintSchema)
