@@ -1,3 +1,7 @@
+/**
+ * @author Sneh Jogani <sjogani16@dal.ca>
+ */
+
 const notificaitons = [
   {
     id: 1,

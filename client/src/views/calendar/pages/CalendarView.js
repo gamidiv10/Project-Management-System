@@ -1,3 +1,7 @@
+/**
+ * @author Sneh Jogani <sjogani16@dal.ca>
+ */
+
 import React, { useState, useEffect } from 'react'
 import moment from 'moment'
 import axios from 'axios'
@@ -43,8 +47,8 @@ const CalendarView = (props) => {
               views={['month']}
               endAccessor={'dueDate'}
               startAccessor={'dueDate'}
-              tooltipAccessor={'projectName'}
-              titleAccessor={'issueType'}
+              titleAccessor={'summary'}
+              tooltipAccessor={'description'}
               localizer={momentLocalizer(moment)}
               eventPropGetter={({ taskStatus: status }) => ({ 'style': { 'backgroundColor': colorScheme[status] } })}
               onSelectEvent={event => {

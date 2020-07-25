@@ -1,3 +1,7 @@
+/**
+ * @author Sneh Jogani <sjogani16@dal.ca>
+ */
+
 import React from 'react';
 import chroma from 'chroma-js'
 import Select from 'react-select'

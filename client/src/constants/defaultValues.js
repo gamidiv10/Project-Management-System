@@ -1,3 +1,7 @@
+/**
+ * @author Sneh Jogani <sjogani16@dal.ca>
+ */
+
 module.exports = {
   notificationType: {
     'STATUS_CHANGE': 'Changed Status',

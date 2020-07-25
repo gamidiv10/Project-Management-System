@@ -1,3 +1,7 @@
+/**
+ * @author Sneh Jogani <sjogani16@dal.ca>
+ */
+
 import React, { useState } from 'react';
 import { Container } from 'react-bootstrap';
 
