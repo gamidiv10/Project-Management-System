@@ -16,7 +16,7 @@ const ProjectHeader = () => {
   };
   const dismissable = () => {
     setIsModalOpen(false);
-    history.push("/home");
+    window.location.reload();
   };
 
   return (
