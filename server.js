@@ -9,6 +9,7 @@ const commentRoutes = require("./routes/CommentRoutes");
 const taskRoutes = require("./routes/TaskRoutes");
 const userRoutes = require("./routes/UserRoutes");
 const peopleRoutes = require("./routes/PeopleRoutes");
+const reportRoutes = require("./routes/ReportRoutes");
 const cors = require("cors");
 dotenv.config({ path: "./config/config.env" });
 const connectDB = require("./config/db");
@@ -30,6 +31,7 @@ app.use("/comment", commentRoutes);
 app.use("/task", taskRoutes);
 app.use("/people", peopleRoutes);
 app.use("/user", userRoutes);
+app.use("/reports", reportRoutes);
 
 app.get("/*", (req, res) => {
   res.sendFile(path.resolve(__dirname, "../client/build", "index.html"));
