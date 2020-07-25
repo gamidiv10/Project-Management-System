@@ -52,7 +52,7 @@ const Profile = ({ history }) => {
     if (
       jobTitle.length == 0 ||
       yourDepartment.length == 0 ||
-      yourLocation.length == 0 ||
+      yourOrganization.length == 0 ||
       yourLocation.length == 0
     ) {
       alert("Please fill all fields");
