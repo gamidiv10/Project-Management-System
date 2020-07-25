@@ -14,7 +14,7 @@ const ProjectHeader = () => {
     setIsModalOpen(true);
   };
   const dismissable = () => {
-    window.location.reload();
+    // window.location.reload();
     setIsModalOpen(false);
   };
 
