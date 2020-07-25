@@ -1,4 +1,6 @@
-/* Author - Vali Shaik */
+/**
+ * @author Vali Shaik <vl216084@dal.ca>
+ */
 import React, { useState, useContext, useEffect } from "react";
 import SocialMedia from "../SignUp/SocialMedia";
 import userContext from "../../Context/userContext";
@@ -45,6 +47,7 @@ const Login = ({ history, loginShow }) => {
               if (res.user) {
                 //On successful login, fetching user properties and setting it to Context
                 var user = firebase.auth().currentUser;
+                console.log("Current logged User : ", user);
                 Auth.setLoggedIn(true);
                 setUser(user.displayName);
                 loginShow(false);

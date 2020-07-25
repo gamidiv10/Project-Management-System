@@ -8,8 +8,12 @@ import { ReactComponent as EmailIcon } from "../../icons/email.svg";
 import "./Profile.scss";
 import Editable from "../Editable/Editable";
 import { Button } from "react-bootstrap";
+import * as firebase from "firebase";
+import { AuthContext } from "../../App";
 
-const Profile = () => {
+const Profile = ({ history }) => {
+  var user = firebase.auth().currentUser;
+  const [name, setName] = useState(user.displayName);
   const [jobTitle, setJobTitle] = useState("software Engineer");
   const titleRef = useRef();
   const [yourDepartment, setYourDepartment] = useState("R&D");
@@ -18,8 +22,22 @@ const Profile = () => {
   const organizationRef = useRef();
   const [yourLocation, setYourLocation] = useState("Canada");
   const locationRef = useRef();
-  const [email, setEmail] = useState("satyaitekela@gmail.com");
+  const [email, setEmail] = useState(user.email);
   const emailRef = useRef();
+
+  const handleSubmit = (event) => {
+    user
+      .updateProfile({
+        displayName: "VS",
+      })
+      .then(function () {
+        alert("Profile details are saved!!");
+        history.push("/profile");
+      })
+      .catch(function (error) {
+        alert("Failed to save!!");
+      });
+  };
 
   return (
     <>
@@ -28,7 +46,7 @@ const Profile = () => {
           <span className="profile-icon">
             <DefaultProfileIcon />
           </span>
-          <div className="profileName">Person Name</div>
+          <div className="profileName">{name}</div>
         </header>
         <section className="AboutDetails">
           <div className="EditFields">
@@ -139,11 +157,14 @@ const Profile = () => {
                   value={email}
                   className="PlaceholderField"
                   onChange={(e) => setEmail(e.target.value)}
+                  readOnly
                 />
               </Editable>
             </div>
             <div className="buttons">
-              <Button type="submit">Save Details</Button>
+              <Button type="submit" onClick={handleSubmit}>
+                Save Details
+              </Button>
             </div>
           </div>
         </section>

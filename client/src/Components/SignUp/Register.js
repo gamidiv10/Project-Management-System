@@ -1,4 +1,6 @@
-/* Author - Vali Shaik */
+/**
+ * @author Vali Shaik <vl216084@dal.ca>
+ */
 import React, { useState, useContext } from "react";
 import { withRouter } from "react-router-dom";
 import * as firebase from "firebase";

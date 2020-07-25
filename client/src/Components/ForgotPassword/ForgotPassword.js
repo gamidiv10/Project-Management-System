@@ -1,4 +1,6 @@
-/* Author - Vali Shaik */
+/**
+ * @author Vali Shaik <vl216084@dal.ca>
+ */
 import React, { useEffect, useState, useContext } from "react";
 import { Form } from "react-final-form";
 import { NavLink } from "react-router-dom";
