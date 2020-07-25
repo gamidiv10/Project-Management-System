@@ -24,6 +24,8 @@ import { withRouter } from "react-router-dom";
 import Login from "../Login/Login.js";
 import Register from "../SignUp/Register";
 import axios from "axios";
+import * as firebase from "firebase";
+import { AuthContext } from "../../App";
 
 const Navigationbar = ({ history }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -37,12 +39,25 @@ const Navigationbar = ({ history }) => {
   const handleShow = () => setShow(true);
   const handleCloseRegister = () => setShowRegister(false);
   const handleShowRegister = () => setShowRegister(true);
+
+  const Auth = useContext(AuthContext);
+
   let LeftNavItems = [];
   let RightNavItems = [];
 
   const LogoutHandler = () => {
-    setUser("");
-    history.push("/login");
+    firebase
+      .auth()
+      .signOut()
+      .then(function () {
+        // Sign-out successful.
+        setUser("");
+        Auth.setLoggedIn(false);
+        history.push("/login");
+      })
+      .catch(function (error) {
+        // An error happened.
+      });
   };
 
   useEffect(() => {
