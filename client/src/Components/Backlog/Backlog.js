@@ -1,16 +1,17 @@
 import React from "react"
+// import { useSelector, useDispatch } from 'react-redux'
 import BacklogItem from "./BacklogItem"
 import SprintItem from "./SprintItem"
 import { 
     Button, 
     Row,
     } from "react-bootstrap"
-import {FaThList } from "react-icons/fa"
+// import { fetchBacklogIssues } from "../../redux/backlog/backlogAction"
 import ProjectDetail from "../Projects/ProjectDetail/ProjectDetail"
 import VerticalCenteredModal from "./VerticalCenteredModal"
 import { 
-    get_issues,
-    get_sprints
+    get_sprints,
+    get_issues
 } from "./dbOperations"
 import "./Backlog.scss"
 
@@ -21,7 +22,16 @@ const Backlog = () => {
     const [data, setData] = React.useState({ heading: "", isBacklog: false })
     const issues = get_issues()
     const sprints = get_sprints()
-    
+    // const dispatch = useDispatch()
+    // redux state variables
+    // const issues = useSelector(state => state.backlog.issues)
+    // const loading = useSelector(state => state.backlog.loading)
+    // const message = useSelector(state => state.backlog.message)
+    // const success = useSelector(state => state.backlog.success)
+
+    // useEffect(() => {
+    //     dispatch(fetchBacklogIssues())
+    // })
     const renderIssues = () => (
         issues.map((item, index) => (
             <BacklogItem 
@@ -90,5 +100,5 @@ const Backlog = () => {
         </>
     )
 }
-    
+
 export default Backlog

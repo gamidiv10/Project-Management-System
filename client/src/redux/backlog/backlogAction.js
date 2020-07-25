@@ -1,9 +1,12 @@
 import axios from 'axios'
+import { CancelToken  } from 'axios'
 import {
     BACKLOG_FETCH_REQUEST,
     BACKLOG_FETCH_FAILURE,
     BACKLOG_FETCH_SUCCESS
 } from "./backlogTypes"
+
+const source = CancelToken.source()
 
 const fetchBacklogRequest = () => ({
     type: BACKLOG_FETCH_REQUEST,
@@ -23,9 +26,10 @@ const fetchBacklogSuccess = (issues, message) => ({
 
 export const fetchBacklogIssues = (issueId = "") => (dispatch, getState) => {
     dispatch(fetchBacklogRequest())
-    axios.post('/backlog/getIssues', {
-        issueId
-    }).then(res => {
+    axios.post('/backlog/getIssues', 
+    { issueId }, 
+    { cancelToken: source.token }).then(res => {
+        console.log('__1', res);
         if(res.success) {
             dispatch(fetchBacklogSuccess(
                 res.issues,
@@ -38,6 +42,7 @@ export const fetchBacklogIssues = (issueId = "") => (dispatch, getState) => {
             ))
         }
     }).catch(error => {
+        console.log('__2');
         dispatch(fetchBacklogFailure(
             error,
             'Failed to fetch the backlog issue request.'
@@ -103,7 +108,7 @@ export const updateBacklogIssue = (issueId, type, name, description = "", index)
 export const deleteBacklogIssue = (issueId) => (dispatch, getState) => {
     let issues = getState().backlog.issues
     dispatch(fetchBacklogRequest())
-    axios.post('/backlog/deleteIssue', { issueId })
+    axios.delete('/backlog/deleteIssue', { issueId })
     .then(res => {
         if(res.success) {
             getState().backlog.issues.map((issue, index) => {

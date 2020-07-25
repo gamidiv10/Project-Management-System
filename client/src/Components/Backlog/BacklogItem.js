@@ -10,7 +10,7 @@ import { FaTrash, FaEdit } from "react-icons/fa"
 
 const BacklogItem = props =>  {
     const [isShow, toggleItem] = useState(false)
-
+    console.log('__backog Item props', props);
     return (
         <Row  
             style={{ paddingBottom: "15px" }}

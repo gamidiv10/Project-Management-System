@@ -1,4 +1,6 @@
 import React from "react"
+// import { useDispatch } from 'react-redux'
+
 import { 
     Button, 
     Modal,
@@ -6,12 +8,19 @@ import {
     Form, 
     } from "react-bootstrap"
 import { 
-    insert_issue,
     insert_sprint,
+    insert_issue
 } from "./dbOperations"
+
+// import {
+//     addBacklogIssue
+// } from "../../redux/backlog/backlogAction"
+
 
 const VerticalCenteredModal = props => {
     // const [error, setError] = React.useState({ name: "", goal: "", description: "" })
+    // const dispatch = useDispatch()
+
     const onSubmit = e => {
         e.preventDefault()
         const dataObj = {}
@@ -21,6 +30,7 @@ const VerticalCenteredModal = props => {
             dataObj.issueName = e.target.field1.value
             dataObj.issueType = e.target.field2.value 
             dataObj.issueDesc = e.target.field3.value || ""
+            // dispatch(addBacklogIssue(dataObj))
             insert_issue(dataObj)
             props.onHide()
         } else {
