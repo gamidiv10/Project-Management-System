@@ -1,3 +1,6 @@
+/**
+ * @author Vamsi Gamidi <vamsi.gamidi@dal.ca>
+ */
 const express = require("express");
 const morgan = require("morgan");
 const colors = require("colors");
@@ -11,7 +14,10 @@ const userRoutes = require("./routes/UserRoutes");
 const peopleRoutes = require("./routes/PeopleRoutes");
 const reportRoutes = require("./routes/ReportRoutes");
 const cors = require("cors");
+//Loading Enviroment Configuration file
 dotenv.config({ path: "./config/config.env" });
+
+//DB Connection
 const connectDB = require("./config/db");
 connectDB();
 const app = express();
@@ -26,6 +32,7 @@ if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
 }
 
+//Routes for the API requests
 app.use("/project", projectRoutes);
 app.use("/comment", commentRoutes);
 app.use("/task", taskRoutes);

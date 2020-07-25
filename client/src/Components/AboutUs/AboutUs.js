@@ -8,9 +8,7 @@ import "./AboutUs.scss";
 
 const AboutUs = () => {
   const { user, setUser } = useContext(userContext);
-  useEffect(() => {
-    setUser("");
-  }, []);
+
   return (
     <Container fluid>
       <Row style={{ paddingTop: "30px" }}>

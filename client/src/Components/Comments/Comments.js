@@ -14,6 +14,7 @@ export const Comments = ({ id }) => {
   const [disabled, setDisabled] = useState(true);
   const [comments, setComments] = useState([]);
   const { user } = useContext(userContext);
+  console.log("Current displayed user :", user);
 
   useEffect(() => {
     textArea ? setDisabled(false) : setDisabled(true);

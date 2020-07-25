@@ -3,6 +3,7 @@
  */
 const Project = require("../models/Project");
 
+//Create Project Post Request
 exports.createProject = async (req, res, next) => {
   try {
     const project = await Project.create(req.body);
@@ -27,6 +28,7 @@ exports.createProject = async (req, res, next) => {
   }
 };
 
+//Edit Project Post Request
 exports.editProject = async (req, res, next) => {
   try {
     console.log("request", req.body);
@@ -60,6 +62,7 @@ exports.editProject = async (req, res, next) => {
   }
 };
 
+//Load all Projects Get Request
 exports.getProjects = async (req, res, next) => {
   try {
     const projects = await Project.find();

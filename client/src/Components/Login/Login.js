@@ -25,18 +25,15 @@ const Login = ({ history, loginShow }) => {
   const { user, setUser } = useContext(userContext);
 
   useEffect(() => {
-    firebase.auth().onAuthStateChanged(function (user) {
-      if (user) {
-        // User is signed in.
-        setUser(user.displayName);
-      } else {
-        // No user is signed in.
-      }
-    });
-  }, []);
+    if (email) {
+      validateEmailForm();
+    }
+  }, [email]);
   useEffect(() => {
-    setUser("");
-  }, []);
+    if (password) {
+      validatePasswordForm();
+    }
+  }, [password]);
 
   //Handling user sign in using firebase
   const handleSubmit = (event) => {
@@ -55,9 +52,15 @@ const Login = ({ history, loginShow }) => {
             .then((res) => {
               if (res.user) {
                 //On successful login, fetching user properties and setting it to Context
-                var user = firebase.auth().currentUser;
+                firebase.auth().onAuthStateChanged(function (user) {
+                  if (user) {
+                    // User is signed in.
+                    setUser(user.displayName);
+                  } else {
+                    // No user is signed in.
+                  }
+                });
                 Auth.setLoggedIn(true);
-                setUser(user.displayName);
                 loginShow(false);
                 //Displaying home page to the user
                 history.push("/home");
@@ -80,7 +83,8 @@ const Login = ({ history, loginShow }) => {
   const validPasswordRegex = RegExp(/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/);
 
   const validateEmailForm = () => {
-    if (email.length === 0) {
+    console.log("Validate form email", email);
+    if (!email) {
       setEmailError("* email id cannot be empty");
     } else if (!validEmailRegex.test(email)) {
       setEmailError("* Email is not valid");
@@ -121,6 +125,7 @@ const Login = ({ history, loginShow }) => {
                 setEmailError("");
                 validateEmailForm();
               }}
+              onBlur={validateEmailForm}
               className={emailError.length > 0 ? "errorTextField" : ""}
             />
             <FormHelperText id="my-helper-text">
@@ -139,6 +144,7 @@ const Login = ({ history, loginShow }) => {
                 setPasswordError("");
                 validatePasswordForm();
               }}
+              onBlur={validatePasswordForm}
               type="password"
             />
             <FormHelperText id="my-helper-text">
@@ -161,9 +167,6 @@ const Login = ({ history, loginShow }) => {
             <SocialMedia />
           </div>
         </div>
-        <p className="SignUpLink">
-          Dont have an account? <a href="/">Sign Up</a>
-        </p>
       </div>
     </div>
   );

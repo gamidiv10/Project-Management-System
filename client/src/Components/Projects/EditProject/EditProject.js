@@ -33,6 +33,7 @@ const EditProject = (props) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    //Request to update the project details in DB
     axios
       .post("/project/editProject", {
         projectName,

@@ -1,7 +1,7 @@
 /**
  * @author Vamsi Gamidi <vamsi.gamidi@dal.ca>
  */
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { Form } from "react-final-form";
 import { Button } from "react-bootstrap";
 import { Grid } from "@material-ui/core";
@@ -9,11 +9,11 @@ import { TextField } from "mui-rff";
 import { ReactComponent as CloseIcon } from "../../../icons/close.svg";
 import "./CreateProject.scss";
 import axios from "axios";
+import userContext from "../../../Context/userContext";
 
 const CreateProject = ({ dismiss }) => {
   const [isLoading, setLoading] = useState(false);
-  let buttonDisable = true;
-
+  const { user } = useContext(userContext);
   useEffect(() => {
     if (isLoading) {
       request().then(() => {
@@ -23,6 +23,7 @@ const CreateProject = ({ dismiss }) => {
     }
   }, [isLoading]);
 
+  //validating the user input
   const validate = (values) => {
     const errors = {};
     if (!values.projectname) {
@@ -35,7 +36,6 @@ const CreateProject = ({ dismiss }) => {
       errors.projecttype = "Required";
     }
 
-    buttonDisable = Object.keys(errors).length ? true : false;
     return errors;
   };
 
@@ -98,8 +98,9 @@ const CreateProject = ({ dismiss }) => {
     let projectName = values.projectname;
     let projectKey = values.key;
     let projectType = values.projecttype;
-    let projectLead = "Vamsi Gamidi";
+    let projectLead = user ? user : "Vamsi Gamidi";
     setLoading(true);
+    //Request to save the project to DB
     axios
       .post("/project/createProject", {
         projectName,
@@ -107,7 +108,9 @@ const CreateProject = ({ dismiss }) => {
         projectType,
         projectLead,
       })
-      .then((response) => {})
+      .then((response) => {
+        dismiss();
+      })
       .catch((error) => console.log(error.message));
   };
 
@@ -132,11 +135,7 @@ const CreateProject = ({ dismiss }) => {
               ))}
             </Grid>
             <div className="buttons">
-              <Button
-                disabled={isLoading}
-                type="submit"
-                disabled={buttonDisable}
-              >
+              <Button disabled={isLoading} type="submit">
                 {isLoading ? "Create Project...." : "Create Project"}
               </Button>
               <Button onClick={dismiss}>Cancel</Button>

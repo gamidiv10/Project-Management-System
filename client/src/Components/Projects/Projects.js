@@ -14,6 +14,7 @@ const Projects = () => {
     getProjects();
   }, []);
 
+  //Loading all the projects
   const getProjects = () => {
     axios
       .get("/project/getProjects")
