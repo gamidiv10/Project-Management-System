@@ -29,10 +29,28 @@ exports.addUser = async (req, res) => {
   }
 };
 
+exports.getUser = async (req, res) => {
+  var userfield = req.params.userfield;
+  try {
+    const user = await UserModel.find({
+      id: userfield,
+    });
+    return res.status(200).json({
+      success: true,
+      data: user,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      error: `Server Error ${error}`,
+    });
+  }
+};
+
 exports.modifyUser = async (req, res) => {
   try {
     console.log("request", req.body);
-    const task = await UserModel.updateOne(
+    const user = await UserModel.updateOne(
       { id: req.body.id },
       {
         $set: {
@@ -47,7 +65,7 @@ exports.modifyUser = async (req, res) => {
     );
     return res.status(201).json({
       success: true,
-      data: task,
+      data: user,
     });
   } catch (error) {
     if (error.name === "ValidationError") {
