@@ -142,7 +142,7 @@ const routes = [
   {
     path: "/*",
     component: Error,
-    isPrivate: false,
+    isPrivate: true,
   },
 ];
 

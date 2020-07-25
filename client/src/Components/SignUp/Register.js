@@ -1,7 +1,7 @@
 /**
  * @author Vali Shaik <vl216084@dal.ca>
  */
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { withRouter } from "react-router-dom";
 import * as firebase from "firebase";
 import { AuthContext } from "../../App";
@@ -26,6 +26,28 @@ const Register = ({ history, registerShow }) => {
   const [confirmPasswordError, setConfirmPasswordError] = useState(" ");
   const validPasswordRegex = RegExp(/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/);
   const [error, setErrors] = useState("");
+
+  useEffect(() => {
+    if (email) {
+      validateEmailForm();
+    }
+  }, [email]);
+  useEffect(() => {
+    if (password) {
+      validatePasswordForm();
+    }
+  }, [password]);
+
+  useEffect(() => {
+    if (name) {
+      validateNameForm();
+    }
+  }, [name]);
+  useEffect(() => {
+    if (confirmPassword) {
+      validateConfirmPasswordForm();
+    }
+  }, [confirmPassword]);
 
   const validatePasswordForm = () => {
     if (password.length === 0) {
@@ -143,6 +165,7 @@ const Register = ({ history, registerShow }) => {
               setNameError("");
               validateNameForm();
             }}
+            onBlur={validateNameForm}
           />
           <FormHelperText id="my-helper-text">
             <p className="ErrorText">{nameError}</p>
@@ -161,6 +184,7 @@ const Register = ({ history, registerShow }) => {
               setEmailError("");
               validateEmailForm();
             }}
+            onBlur={validateEmailForm}
           />
           <FormHelperText id="my-helper-text">
             <p className="ErrorText">{emailError}</p>
@@ -179,6 +203,7 @@ const Register = ({ history, registerShow }) => {
               setPasswordError("");
               validatePasswordForm();
             }}
+            onBlur={validatePasswordForm}
           />
           <FormHelperText id="my-helper-text">
             <p className="ErrorText">{passwordError}</p>
@@ -197,6 +222,7 @@ const Register = ({ history, registerShow }) => {
               setConfirmPasswordError("");
               validateConfirmPasswordForm();
             }}
+            onBlur={validateConfirmPasswordForm}
           />
           <FormHelperText id="my-helper-text">
             <p className="ErrorText">{confirmPasswordError}</p>

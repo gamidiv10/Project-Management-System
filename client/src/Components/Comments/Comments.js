@@ -14,7 +14,6 @@ export const Comments = ({ id }) => {
   const [disabled, setDisabled] = useState(true);
   const [comments, setComments] = useState([]);
   const { user } = useContext(userContext);
-  console.log("Current displayed user :", user);
 
   useEffect(() => {
     textArea ? setDisabled(false) : setDisabled(true);
@@ -32,11 +31,12 @@ export const Comments = ({ id }) => {
 
   const addComment = () => {
     const commentId = uuid();
+    const username = user ? user : "Satya";
     axios
       .post("/comment/addComment", {
         id,
         comment: textArea,
-        userName: user,
+        userName: username,
         commentId,
       })
       .then((response) => {

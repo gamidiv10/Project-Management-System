@@ -80,8 +80,9 @@ exports.inviteUser = (req, res) => {
   var mailOptions = {
     from: "taskaticapp@gmail.com",
     to: "vamsi.gamidi01@gmail.com",
-    subject: "Sending Email using Node.js",
-    text: "That was easy!",
+    subject: "Taskatic Invitation",
+    text:
+      "You are invited to use Taskatic, Please go to this link and register: https://taskatic.herokuapp.com/",
   };
 
   try {

@@ -96,8 +96,6 @@ const Login = ({ history, loginShow }) => {
   const validatePasswordForm = () => {
     if (password.length === 0) {
       setPasswordError("* password cannot be empty");
-    } else if (!validPasswordRegex.test(password)) {
-      setPasswordError("* Password is weak");
     } else {
       setPasswordError("");
     }
@@ -169,9 +167,6 @@ const Login = ({ history, loginShow }) => {
             <SocialMedia />
           </div>
         </div>
-        <p className="SignUpLink">
-          Dont have an account? <a href="/">Sign Up</a>
-        </p>
       </div>
     </div>
   );

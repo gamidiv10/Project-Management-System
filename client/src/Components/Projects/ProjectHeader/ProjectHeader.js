@@ -6,16 +6,17 @@ import "./ProjectHeader.scss";
 import { Button, Form } from "react-bootstrap";
 import Modal from "../../Modal/Modal";
 import CreateProject from "../CreateProject/CreateProject";
+import { useHistory } from "react-router-dom";
 
 const ProjectHeader = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+  const history = useHistory();
   const handleModalOpen = () => {
     setIsModalOpen(true);
   };
   const dismissable = () => {
-    window.location.reload();
     setIsModalOpen(false);
+    window.location.reload();
   };
 
   return (

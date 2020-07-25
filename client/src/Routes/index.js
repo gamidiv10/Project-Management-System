@@ -1,18 +1,23 @@
-import React, { Component } from "react";
+import React, { useContext } from "react";
 import { Switch, Route } from "react-router-dom";
 import routes from "./routes";
-import RouteWrapper from "./authRoutes";
+import PrivateRoute from "./PrivateRoute";
+import { AuthContext } from "../App";
 
-class ClientRoute extends Component {
-  render() {
-    return (
-      <Switch>
-        {routes.map((route, k) => (
-          <RouteWrapper key={`route_${k}`} {...route} />
-        ))}
-      </Switch>
-    );
-  }
-}
+const ClientRoute = () => {
+  const Auth = useContext(AuthContext);
+  return (
+    <Switch>
+      {routes.map((route, k) => (
+        <Route
+          key={`route_${k}`}
+          exact={route.exact}
+          path={route.path}
+          component={route.component}
+        />
+      ))}
+    </Switch>
+  );
+};
 
 export default ClientRoute;

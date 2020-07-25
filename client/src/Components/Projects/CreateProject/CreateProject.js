@@ -1,7 +1,7 @@
 /**
  * @author Vamsi Gamidi <vamsi.gamidi@dal.ca>
  */
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { Form } from "react-final-form";
 import { Button } from "react-bootstrap";
 import { Grid } from "@material-ui/core";
@@ -9,10 +9,11 @@ import { TextField } from "mui-rff";
 import { ReactComponent as CloseIcon } from "../../../icons/close.svg";
 import "./CreateProject.scss";
 import axios from "axios";
+import userContext from "../../../Context/userContext";
 
 const CreateProject = ({ dismiss }) => {
   const [isLoading, setLoading] = useState(false);
-
+  const { user } = useContext(userContext);
   useEffect(() => {
     if (isLoading) {
       request().then(() => {
@@ -97,7 +98,7 @@ const CreateProject = ({ dismiss }) => {
     let projectName = values.projectname;
     let projectKey = values.key;
     let projectType = values.projecttype;
-    let projectLead = "Vamsi Gamidi";
+    let projectLead = user ? user : "Vamsi Gamidi";
     setLoading(true);
     //Request to save the project to DB
     axios
