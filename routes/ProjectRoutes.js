@@ -11,10 +11,13 @@ const {
 
 const router = express.Router();
 
+//Create Project Route
 router.route("/createProject").post(createProject);
 
+//Edit Project Route
 router.route("/editProject").post(editProject);
 
+//Load all projects Route
 router.route("/getProjects").get(getProjects);
 
 module.exports = router;

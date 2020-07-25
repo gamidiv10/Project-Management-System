@@ -3,6 +3,7 @@
  */
 const People = require("../models/People");
 
+//Add User Post Request
 exports.addUser = async (req, res, next) => {
   try {
     const user = await People.create(req.body);
@@ -28,6 +29,7 @@ exports.addUser = async (req, res, next) => {
   }
 };
 
+//Load Users Get Request
 exports.getPeople = async (req, res, next) => {
   try {
     const people = await People.find();
@@ -44,6 +46,7 @@ exports.getPeople = async (req, res, next) => {
   }
 };
 
+//Load Users by Project Get Request
 exports.getPeopleByProject = async (req, res, next) => {
   try {
     var projectName = req.params.projectName;
@@ -63,6 +66,7 @@ exports.getPeopleByProject = async (req, res, next) => {
   }
 };
 
+//Invite User Post Request
 exports.inviteUser = (req, res) => {
   var nodemailer = require("nodemailer");
   var transporter = nodemailer.createTransport({

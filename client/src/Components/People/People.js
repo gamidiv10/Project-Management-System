@@ -15,6 +15,7 @@ const People = () => {
   }, []);
 
   const getPeople = () => {
+    //Request to load all users
     axios
       .get("/people/getPeople")
       .then((response) => {

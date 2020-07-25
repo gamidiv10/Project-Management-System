@@ -12,7 +12,6 @@ import axios from "axios";
 
 const CreateProject = ({ dismiss }) => {
   const [isLoading, setLoading] = useState(false);
-  let buttonDisable = true;
 
   useEffect(() => {
     if (isLoading) {
@@ -23,6 +22,7 @@ const CreateProject = ({ dismiss }) => {
     }
   }, [isLoading]);
 
+  //validating the user input
   const validate = (values) => {
     const errors = {};
     if (!values.projectname) {
@@ -35,7 +35,6 @@ const CreateProject = ({ dismiss }) => {
       errors.projecttype = "Required";
     }
 
-    buttonDisable = Object.keys(errors).length ? true : false;
     return errors;
   };
 
@@ -100,6 +99,7 @@ const CreateProject = ({ dismiss }) => {
     let projectType = values.projecttype;
     let projectLead = "Vamsi Gamidi";
     setLoading(true);
+    //Request to save the project to DB
     axios
       .post("/project/createProject", {
         projectName,
@@ -107,7 +107,9 @@ const CreateProject = ({ dismiss }) => {
         projectType,
         projectLead,
       })
-      .then((response) => {})
+      .then((response) => {
+        dismiss();
+      })
       .catch((error) => console.log(error.message));
   };
 
@@ -132,11 +134,7 @@ const CreateProject = ({ dismiss }) => {
               ))}
             </Grid>
             <div className="buttons">
-              <Button
-                disabled={isLoading}
-                type="submit"
-                disabled={buttonDisable}
-              >
+              <Button disabled={isLoading} type="submit">
                 {isLoading ? "Create Project...." : "Create Project"}
               </Button>
               <Button onClick={dismiss}>Cancel</Button>

@@ -33,6 +33,7 @@ const Project = (props) => {
           projectsCopy[i].projectType = projectType;
         }
       }
+      //Updating the modified project details
       setProjectsList(projectsCopy);
     }
     setIsModalOpen(false);

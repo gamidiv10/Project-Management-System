@@ -3,6 +3,7 @@
  */
 const Report = require("../models/Report");
 
+//Load Report Data Get Request
 exports.getReportData = async (req, res, next) => {
   try {
     const reportData = await Report.find({

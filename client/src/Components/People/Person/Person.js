@@ -15,6 +15,7 @@ const Person = (props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   useEffect(() => {
     if (projectName != null) {
+      //Filtering users based on the project
       people = people.filter((item) => item.projectName === projectName);
     }
     setPeopleList(new Set(people));
@@ -30,6 +31,7 @@ const Person = (props) => {
   const dismissable = (newUser) => {
     people.push(newUser);
     people = people.filter((item) => item.projectName === projectName);
+    //updating the newly added user in the screen
     setPeopleList(new Set(people));
     setIsModalOpen(false);
   };
