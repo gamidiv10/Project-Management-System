@@ -18,11 +18,26 @@ import axios from "axios";
 
 const Profile = ({ history }) => {
   var user = firebase.auth().currentUser;
-  var userId = user.uid;
+  const [userId, setUserId] = useState("");
+
+  useEffect(() => {
+    firebase.auth().onAuthStateChanged(function (user) {
+      if (user) {
+        // User is signed in.
+        console.log("Current signed after refresh", user.uid);
+        setUserId(user.uid);
+      } else {
+        // No user is signed in.
+      }
+    });
+  }, []);
+
   useEffect(() => {
     getUser();
-  }, []);
+  }, [user]);
+
   const getUser = () => {
+    console.log("##Calling get user", userId);
     axios
       .get(`/user/getUser/${userId}`)
       .then((response) => {
