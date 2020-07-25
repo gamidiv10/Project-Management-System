@@ -54,10 +54,10 @@ const ProjectDetailSideBar = ({ history, match }) => {
       {sidebar ? (
         <aside className="ProjectDetailSideBar">
           <div className="projectName">{projectName}</div>
-          <NavLink to="/project/backlog">
+          <NavLink to={`/project/${projectName}/backlog`}>
             <div
               className={
-                history.location.pathname === "/project/backlog"
+                history.location.pathname === `/project/${projectName}/backlog`
                   ? "ProjectSideLink active"
                   : "ProjectSideLink"
               }

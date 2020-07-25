@@ -75,7 +75,7 @@ const routes = [
     isPrivate: true,
   },
   {
-    path: "/project/backlog",
+    path: "/project/:projectName/backlog",
     exact: true,
     component: Backlog
   },
