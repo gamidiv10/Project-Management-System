@@ -1,5 +1,6 @@
 /**
  * @author Satya Kumar Itekela <satya.itekela@dal.ca>
+ * @author Sneh Jogani <sjogani16@dal.ca>
  */
 
 const mongoose = require("mongoose");
@@ -41,6 +42,10 @@ const TaskSchema = new mongoose.Schema({
     type: String,
     required: [true, "Task Status is required"],
   },
+  dueDate: {
+    type: Date,
+    required: [true, "Task due date is required"]
+  }
 });
 
 module.exports = mongoose.model("Task", TaskSchema);

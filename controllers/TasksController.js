@@ -1,6 +1,9 @@
 /**
  * @author Satya Kumar Itekela <satya.itekela@dal.ca>
+ * @author Sneh Jogani <sjogani16@dal.ca>
  */
+
+const { keys } = require('lodash')
 const Task = require("../models/Task");
 
 exports.addTask = async (req, res) => {
@@ -123,3 +126,24 @@ exports.changeTaskByStatus = (req, res) => {
       });
     });
 };
+
+exports.getCalendarViewTasks = async (req, res) => {
+  const { query: reqQuery } = req
+  let query = {}
+
+  keys(reqQuery)
+    .forEach(key => {
+      const value = reqQuery[key]
+      if (value && value !== '') {
+        query[key] = value
+      }
+    })
+
+  try {
+    const tasks = await Task.find(query)
+    return res.status(200).json({ total: tasks.length, data: tasks })
+  } catch (error) {
+    console.log(err)
+    return res.status(500).json({ error: err })
+  }
+}
