@@ -87,6 +87,7 @@ const Profile = ({ history }) => {
         })
         .then((response) => {
           alert("Profile details are updated!!");
+          setUserId(user.uid);
           history.push("/profile");
         })
         .catch((error) => console.log(error.message));

@@ -25,6 +25,16 @@ const Login = ({ history, loginShow }) => {
   const { user, setUser } = useContext(userContext);
 
   useEffect(() => {
+    firebase.auth().onAuthStateChanged(function (user) {
+      if (user) {
+        // User is signed in.
+        setUser(user.displayName);
+      } else {
+        // No user is signed in.
+      }
+    });
+  }, []);
+  useEffect(() => {
     setUser("");
   }, []);
 
