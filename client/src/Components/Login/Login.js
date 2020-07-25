@@ -24,20 +24,6 @@ const Login = ({ history, loginShow }) => {
   const [error, setErrors] = useState("");
   const { user, setUser } = useContext(userContext);
 
-  useEffect(() => {
-    firebase.auth().onAuthStateChanged(function (user) {
-      if (user) {
-        // User is signed in.
-        setUser(user.displayName);
-      } else {
-        // No user is signed in.
-      }
-    });
-  }, []);
-  useEffect(() => {
-    setUser("");
-  }, []);
-
   //Handling user sign in using firebase
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -55,9 +41,15 @@ const Login = ({ history, loginShow }) => {
             .then((res) => {
               if (res.user) {
                 //On successful login, fetching user properties and setting it to Context
-                var user = firebase.auth().currentUser;
+                firebase.auth().onAuthStateChanged(function (user) {
+                  if (user) {
+                    // User is signed in.
+                    setUser(user.displayName);
+                  } else {
+                    // No user is signed in.
+                  }
+                });
                 Auth.setLoggedIn(true);
-                setUser(user.displayName);
                 loginShow(false);
                 //Displaying home page to the user
                 history.push("/home");

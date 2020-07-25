@@ -32,6 +32,7 @@ function App() {
   }
   useEffect(() => {
     readSession();
+    console.log("#$%### USer ", user);
   }, []);
 
   useEffect(() => {

@@ -17,9 +17,19 @@ import { AuthContext } from "../../App";
 import axios from "axios";
 
 const Profile = ({ history }) => {
-  var user = firebase.auth().currentUser;
   const [userId, setUserId] = useState("");
-
+  const [name, setName] = useState("");
+  const [jobTitle, setJobTitle] = useState("");
+  const titleRef = useRef();
+  const [yourDepartment, setYourDepartment] = useState("");
+  const departmentRef = useRef();
+  const [yourOrganization, setYourOrganization] = useState("");
+  const organizationRef = useRef();
+  const [yourLocation, setYourLocation] = useState("");
+  const locationRef = useRef();
+  const [email, setEmail] = useState("");
+  const emailRef = useRef();
+  var user = firebase.auth().currentUser;
   useEffect(() => {
     firebase.auth().onAuthStateChanged(function (user) {
       if (user) {
@@ -33,8 +43,9 @@ const Profile = ({ history }) => {
   }, []);
 
   useEffect(() => {
+    console.log("#####", userId);
     getUser();
-  }, [user]);
+  }, [userId]);
 
   const getUser = () => {
     console.log("##Calling get user", userId);
@@ -51,18 +62,6 @@ const Profile = ({ history }) => {
       })
       .catch((error) => console.log(error.message));
   };
-
-  const [name, setName] = useState("");
-  const [jobTitle, setJobTitle] = useState("");
-  const titleRef = useRef();
-  const [yourDepartment, setYourDepartment] = useState("");
-  const departmentRef = useRef();
-  const [yourOrganization, setYourOrganization] = useState("");
-  const organizationRef = useRef();
-  const [yourLocation, setYourLocation] = useState("");
-  const locationRef = useRef();
-  const [email, setEmail] = useState("");
-  const emailRef = useRef();
 
   const handleSubmit = (event) => {
     if (
