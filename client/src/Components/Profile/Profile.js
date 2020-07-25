@@ -1,7 +1,7 @@
 /**
  * @author Satya Kumar Itekela <satya.itekela@dal.ca>
  */
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { ReactComponent as DefaultProfileIcon } from "../../icons/defaultprofile.svg";
 import { ReactComponent as TitleIcon } from "../../icons/title.svg";
 import { ReactComponent as DepartmentIcon } from "../../icons/department.svg";
@@ -13,33 +13,57 @@ import Editable from "../Editable/Editable";
 import { Button } from "react-bootstrap";
 import * as firebase from "firebase";
 import { AuthContext } from "../../App";
+import axios from "axios";
 
 const Profile = ({ history }) => {
   var user = firebase.auth().currentUser;
-  const [name, setName] = useState(user.displayName);
-  const [jobTitle, setJobTitle] = useState("software Engineer");
+  var userId = user.uid;
+  useEffect(() => {
+    getUser();
+  }, []);
+  const getUser = () => {
+    axios
+      .get(`/user/getUser/${userId}`)
+      .then((response) => {
+        const userData = response.data.data[0];
+        setName(userData.userName);
+        setJobTitle(userData.jobTitle);
+        setYourDepartment(userData.department);
+        setYourOrganization(userData.organisation);
+        setEmail(userData.email);
+        setYourLocation(userData.country);
+      })
+      .catch((error) => console.log(error.message));
+  };
+
+  const [name, setName] = useState("");
+  const [jobTitle, setJobTitle] = useState("");
   const titleRef = useRef();
-  const [yourDepartment, setYourDepartment] = useState("R&D");
+  const [yourDepartment, setYourDepartment] = useState("");
   const departmentRef = useRef();
-  const [yourOrganization, setYourOrganization] = useState("ABC");
+  const [yourOrganization, setYourOrganization] = useState("");
   const organizationRef = useRef();
-  const [yourLocation, setYourLocation] = useState("Canada");
+  const [yourLocation, setYourLocation] = useState("");
   const locationRef = useRef();
-  const [email, setEmail] = useState(user.email);
+  const [email, setEmail] = useState("");
   const emailRef = useRef();
 
   const handleSubmit = (event) => {
-    user
-      .updateProfile({
-        displayName: "VS",
+    axios
+      .post("/user/modifyUser", {
+        id: user.uid,
+        userName: name,
+        email: email,
+        jobTitle: jobTitle,
+        department: yourDepartment,
+        organisation: yourOrganization,
+        country: yourLocation,
       })
-      .then(function () {
-        alert("Profile details are saved!!");
+      .then((response) => {
+        alert("Profile details are updated!!");
         history.push("/profile");
       })
-      .catch(function (error) {
-        alert("Failed to save!!");
-      });
+      .catch((error) => console.log(error.message));
   };
 
   return (

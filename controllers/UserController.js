@@ -7,6 +7,7 @@ const UserModel = require("../models/User");
 exports.addUser = async (req, res) => {
   try {
     const user = await UserModel.create(req.body);
+    console.log(req.body.id)
     return res.status(201).json({
       success: true,
       data: user,

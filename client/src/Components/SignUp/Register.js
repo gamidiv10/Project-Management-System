@@ -15,7 +15,7 @@ import {
 } from "@material-ui/core";
 import { useDispatch } from "react-redux";
 const Register = ({ history, registerShow }) => {
-  const [id, setId] = useState();
+  const [id, setId] = useState("");
   const [name, setName] = useState("");
   const [nameError, setNameError] = useState("");
   const [email, setEmail] = useState("");
@@ -83,7 +83,6 @@ const Register = ({ history, registerShow }) => {
         .then((res) => {
           //Once sign up is successfull, user properties are updated
           var user = firebase.auth().currentUser;
-          setId(user.id);
           user
             .updateProfile({
               displayName: name,
@@ -92,7 +91,7 @@ const Register = ({ history, registerShow }) => {
               //Saving user details in DB
               axios
                 .post("/user/addUser", {
-                  id: id,
+                  id: user.uid,
                   userName: name,
                   email: email,
                   jobTitle: "Software Dev",

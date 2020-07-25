@@ -47,7 +47,6 @@ const Login = ({ history, loginShow }) => {
               if (res.user) {
                 //On successful login, fetching user properties and setting it to Context
                 var user = firebase.auth().currentUser;
-                console.log("Current logged User : ", user);
                 Auth.setLoggedIn(true);
                 setUser(user.displayName);
                 loginShow(false);
