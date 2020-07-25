@@ -1,3 +1,6 @@
+/**
+ * @author Satya Kumar Itekela <satya.itekela@dal.ca>
+ */
 import React, { useState } from "react";
 import CompleteSprint from "../../../CompleteSprint/CompleteSprint";
 import Modal from "../../../Modal/Modal";

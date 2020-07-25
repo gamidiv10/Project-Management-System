@@ -1,8 +1,34 @@
+/**
+ * @author Satya Kumar Itekela <satya.itekela@dal.ca>
+ */
 .comment {
   padding: 10px 5%;
   margin: 15px;
   color: black;
   background-color: #eef7ff;
+
+  .editable {
+    word-wrap: break-word;
+  }
+
+  .deleteIcon {
+    float: right;
+
+    svg {
+      width: 15px;
+      height: 15px;
+    }
+
+    &:hover {
+      transform: scale(1.25);
+      cursor: pointer;
+    }
+  }
+
+  .commentsection {
+    display: flex;
+    justify-content: space-between;
+  }
 
   .userName {
     font-size: 22px;

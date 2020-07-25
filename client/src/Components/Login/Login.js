@@ -1,8 +1,9 @@
-/* Author - Vali Shaik */
+/**
+ * @author Vali Shaik <vl216084@dal.ca>
+ */
 import React, { useState, useContext, useEffect } from "react";
 import SocialMedia from "../SignUp/SocialMedia";
 import userContext from "../../Context/userContext";
-import { ReactComponent as CloseIcon } from "../../icons/close.svg";
 import { withRouter } from "react-router-dom";
 import * as firebase from "firebase";
 import { AuthContext } from "../../App";
@@ -24,8 +25,15 @@ const Login = ({ history, loginShow }) => {
   const { user, setUser } = useContext(userContext);
 
   useEffect(() => {
-    setUser("");
-  }, []);
+    if (email) {
+      validateEmailForm();
+    }
+  }, [email]);
+  useEffect(() => {
+    if (password) {
+      validatePasswordForm();
+    }
+  }, [password]);
 
   //Handling user sign in using firebase
   const handleSubmit = (event) => {
@@ -44,13 +52,18 @@ const Login = ({ history, loginShow }) => {
             .then((res) => {
               if (res.user) {
                 //On successful login, fetching user properties and setting it to Context
-                var user = firebase.auth().currentUser;
+                firebase.auth().onAuthStateChanged(function (user) {
+                  if (user) {
+                    // User is signed in.
+                    setUser(user.displayName);
+                  } else {
+                    // No user is signed in.
+                  }
+                });
                 Auth.setLoggedIn(true);
-                setUser(user.displayName);
                 loginShow(false);
                 //Displaying home page to the user
                 history.push("/home");
-                alert("Successfully logged in");
               }
             })
             .catch((event) => {
@@ -70,7 +83,8 @@ const Login = ({ history, loginShow }) => {
   const validPasswordRegex = RegExp(/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/);
 
   const validateEmailForm = () => {
-    if (email.length === 0) {
+    console.log("Validate form email", email);
+    if (!email) {
       setEmailError("* email id cannot be empty");
     } else if (!validEmailRegex.test(email)) {
       setEmailError("* Email is not valid");
@@ -82,6 +96,8 @@ const Login = ({ history, loginShow }) => {
   const validatePasswordForm = () => {
     if (password.length === 0) {
       setPasswordError("* password cannot be empty");
+    } else if (!validPasswordRegex.test(password)) {
+      setPasswordError("* Password is weak");
     } else {
       setPasswordError("");
     }
@@ -111,6 +127,7 @@ const Login = ({ history, loginShow }) => {
                 setEmailError("");
                 validateEmailForm();
               }}
+              onBlur={validateEmailForm}
               className={emailError.length > 0 ? "errorTextField" : ""}
             />
             <FormHelperText id="my-helper-text">
@@ -129,6 +146,7 @@ const Login = ({ history, loginShow }) => {
                 setPasswordError("");
                 validatePasswordForm();
               }}
+              onBlur={validatePasswordForm}
               type="password"
             />
             <FormHelperText id="my-helper-text">

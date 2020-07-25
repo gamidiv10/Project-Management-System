@@ -1,4 +1,6 @@
-/* Author - Vali Shaik */
+/**
+ * @author Vali Shaik <vl216084@dal.ca>
+ */
 //Firebase configuration
 export default {
   apiKey: "AIzaSyCyJt4OIOE6AN6S0eNowmoOMQicHvQwziA",

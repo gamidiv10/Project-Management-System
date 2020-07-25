@@ -1,13 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Route, Redirect } from "react-router-dom";
 import PropTypes from "prop-types";
+import { AuthContext } from "../App";
 
 export default function RouteWrapper({
   component: Component,
   isPrivate,
   ...rest
 }) {
-  const signed = true;
+  const Auth = useContext(AuthContext);
+  const signed = Auth.isLoggedIn;
 
   // if the user is not signed in and also the route is private
   if (isPrivate && !signed) {

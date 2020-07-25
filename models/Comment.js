@@ -1,4 +1,6 @@
-/* Author - Satya Kumar Itekela */
+/**
+ * @author Satya Kumar Itekela <satya.itekela@dal.ca>
+ */
 
 const mongoose = require("mongoose");
 
@@ -10,6 +12,11 @@ const CommentSchema = new mongoose.Schema({
   comment: {
     type: String,
     required: [true, "Comment is required"],
+  },
+  commentId: {
+    type: String,
+    required: [true, "Comment Id is required"],
+    unique: [true, "Comment Id must be unique"],
   },
   userName: {
     type: String,

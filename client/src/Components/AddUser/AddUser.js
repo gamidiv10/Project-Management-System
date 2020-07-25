@@ -1,3 +1,6 @@
+/**
+ * @author Vamsi Gamidi <vamsi.gamidi@dal.ca>
+ */
 import React, { useEffect, useState } from "react";
 import { Form } from "react-final-form";
 import "./AddUser.scss";
@@ -13,22 +16,22 @@ const AddUser = ({ dismiss, projectName }) => {
   var [userObjects] = useState([]);
   var [selectedProjUsers] = useState([]);
   const getPeople = () => {
+    //Request to load all the users
     axios
       .get("/people/getPeople")
       .then((response) => {
         response.data.data.forEach((element) => {
-          if(element.projectName !== projectName){
-          users.push(element.name);
-          userObjects.push(element);
-          }
-          else{
-            selectedProjUsers.push(element)
+          if (element.projectName !== projectName) {
+            users.push(element.name);
+            userObjects.push(element);
+          } else {
+            selectedProjUsers.push(element);
           }
         });
         selectedProjUsers.forEach((obj) => {
           users = users.filter((item) => item !== obj.name);
-          setUsers(users)
-        })
+          setUsers(users);
+        });
       })
       .catch((error) => console.log(error.message));
   };
@@ -43,6 +46,7 @@ const AddUser = ({ dismiss, projectName }) => {
     getPeople();
   }, [isLoading]);
 
+  //validating the user input
   const validate = (values) => {
     const errors = {};
     if (!values.user) {
@@ -73,21 +77,24 @@ const AddUser = ({ dismiss, projectName }) => {
   }
 
   const onSubmit = (values) => {
-    let filteredUserObject = userObjects.filter((user) => user.name === values.user)[0]
+    let filteredUserObject = userObjects.filter(
+      (user) => user.name === values.user
+    )[0];
     let name = filteredUserObject.name;
     let role = filteredUserObject.role;
     let newProjectName = projectName;
     filteredUserObject.projectName = projectName;
-    axios.post('/people/addUser', {
-      name,
-      role,
-      "projectName": newProjectName
-    })
-    .then(response => {
-    }).catch(
-        error => console.log(error.message)
-      );
+    //Post request to add user to the project
+    axios
+      .post("/people/addUser", {
+        name,
+        role,
+        projectName: newProjectName,
+      })
+      .then((response) => {})
+      .catch((error) => console.log(error.message));
 
+    //sending the new user object to the parent
     dismiss(filteredUserObject);
     setLoading(true);
   };
@@ -109,7 +116,8 @@ const AddUser = ({ dismiss, projectName }) => {
               container
               alignItems="flex-start"
               className="name-dropdown"
-              spacing={2}>
+              spacing={2}
+            >
               {formFields.map((item, id) => (
                 <Grid item xs={item.size} key={id}>
                   {item.field}

@@ -1,19 +1,23 @@
-const express = require('express');
+/**
+ * @author Vamsi Gamidi <vamsi.gamidi@dal.ca>
+ */
+const express = require("express");
 
-const { createProject, editProject, getProjects } = require('../controllers/ProjectController');
+const {
+  createProject,
+  editProject,
+  getProjects,
+} = require("../controllers/ProjectController");
 
 const router = express.Router();
 
-router
-    .route('/createProject')
-    .post(createProject)
-    
-router
-    .route('/editProject')
-    .post(editProject)
+//Create Project Route
+router.route("/createProject").post(createProject);
 
-router
-    .route('/getProjects')
-    .get(getProjects)
+//Edit Project Route
+router.route("/editProject").post(editProject);
+
+//Load all projects Route
+router.route("/getProjects").get(getProjects);
 
 module.exports = router;

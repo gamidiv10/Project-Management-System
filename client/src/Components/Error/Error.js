@@ -1,3 +1,7 @@
+/**
+ * @author Satya Kumar Itekela <satya.itekela@dal.ca>
+ */
+
 import React, { useEffect } from "react";
 import { withRouter } from "react-router-dom";
 

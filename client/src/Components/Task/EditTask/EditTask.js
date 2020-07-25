@@ -1,3 +1,6 @@
+/**
+ * @author Satya Kumar Itekela <satya.itekela@dal.ca>
+ */
 import React, { useEffect, useState } from "react";
 import { Form } from "react-final-form";
 import "./EditTask.scss";
@@ -79,7 +82,7 @@ const EditTask = ({ dismiss, task }) => {
     if (values.projectName) {
       setProjectName(values.projectName);
     }
-    
+
     buttonDisable = Object.keys(errors).length ? true : false;
     return errors;
   };

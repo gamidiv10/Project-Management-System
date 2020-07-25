@@ -1,3 +1,6 @@
+/**
+ * @author Vamsi Gamidi <vamsi.gamidi@dal.ca>
+ */
 import React, { useState } from "react";
 import "./InviteUser.scss";
 import { useHistory } from "react-router-dom";
@@ -32,14 +35,14 @@ export const InviteUser = () => {
     e.preventDefault();
     if (EmailRegex.test(email)) {
       setEmailError("");
-      axios.post('/people/inviteUser', {
-        email
-      })
-      .then(response => {
-        history.push("/project/people");
-      }).catch(
-          error => console.log(error.message)
-        );   
+      axios
+        .post("/people/inviteUser", {
+          email,
+        })
+        .then((response) => {
+          history.push("/project/people");
+        })
+        .catch((error) => console.log(error.message));
     } else {
       setEmailError("Please Enter a valid email");
     }

@@ -1,8 +1,11 @@
-/* Author - Vali Shaik */
+/**
+ * @author Vali Shaik <vl216084@dal.ca>
+ */
 import React, { useState, useContext } from "react";
 import { withRouter } from "react-router-dom";
 import * as firebase from "firebase";
 import { AuthContext } from "../../App";
+import axios from "axios";
 
 import {
   TextField,
@@ -10,7 +13,9 @@ import {
   FormGroup,
   FormHelperText,
 } from "@material-ui/core";
+import { useDispatch } from "react-redux";
 const Register = ({ history, registerShow }) => {
+  const [id, setId] = useState("");
   const [name, setName] = useState("");
   const [nameError, setNameError] = useState("");
   const [email, setEmail] = useState("");
@@ -43,7 +48,6 @@ const Register = ({ history, registerShow }) => {
     /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{1,})+$/
   );
   const validateEmailForm = () => {
-    debugger;
     if (email.length === 0) {
       setEmailError("* email id cannot be empty");
     } else if (!validEmailRegex.test(email)) {
@@ -83,7 +87,21 @@ const Register = ({ history, registerShow }) => {
               displayName: name,
             })
             .then(function () {
-              alert("Sign up is successful, please login");
+              //Saving user details in DB
+              axios
+                .post("/user/addUser", {
+                  id: user.uid,
+                  userName: name,
+                  email: email,
+                  jobTitle: "Software Dev",
+                  department: "Research",
+                  organisation: "Dalhousie",
+                  country: "Canada",
+                })
+                .then((response) => {
+                  alert("Sign up is successful, please login");
+                })
+                .catch((error) => console.log(error.message));
             })
             .catch(function (error) {
               alert("Sign up failed, please try again!!");

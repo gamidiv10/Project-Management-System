@@ -1,3 +1,6 @@
+/**
+ * @author Satya Kumar Itekela <satya.itekela@dal.ca>
+ */
 import React, { useEffect, useState, useContext } from "react";
 import { Form } from "react-final-form";
 import "./CreateTask.scss";
@@ -8,6 +11,7 @@ import { v4 as uuid } from "uuid";
 import Task from "../Task";
 import { ReactComponent as CloseIcon } from "../../../icons/close.svg";
 import tasksItemsContext from "../../../Context/tasksItemsContext";
+import projectContext from "../../../Context/projectContext";
 import axios from "axios";
 
 const CreateTask = ({ dismiss }) => {
@@ -15,6 +19,7 @@ const CreateTask = ({ dismiss }) => {
   const [projects, setProjects] = useState([]);
   const [assigneeNames, setAssigneeNames] = useState([]);
   const { tasks, setTasks } = useContext(tasksItemsContext);
+  const { setProject } = useContext(projectContext);
   const [projectName, setProjectName] = useState("");
   let buttonDisable = true;
   const issueTypes = ["Epic", "Story", "Task", "Bug"];
@@ -212,6 +217,7 @@ const CreateTask = ({ dismiss }) => {
           content: <Task {...values} />,
         };
         setTasks([...tasks, value]);
+        setProject(projectName);
       })
       .catch((error) => console.log(error.message));
   };

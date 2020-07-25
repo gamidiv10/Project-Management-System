@@ -1,3 +1,6 @@
+/**
+ * @author Satya Kumar Itekela <satya.itekela@dal.ca>
+ */
 import React, { useState } from "react";
 import "./ProjectHeader.scss";
 import { Button, Form } from "react-bootstrap";
@@ -11,6 +14,7 @@ const ProjectHeader = () => {
     setIsModalOpen(true);
   };
   const dismissable = () => {
+    window.location.reload();
     setIsModalOpen(false);
   };
 

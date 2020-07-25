@@ -5,10 +5,11 @@ import Routes from "./Routes";
 import Navigationbar from "./Components/Navbar/Navbar";
 import userContext from "./Context/userContext";
 import tasksItemsContext from "./Context/tasksItemsContext";
+import projectContext from "./Context/projectContext";
 import * as firebase from "firebase";
 import firebaseConfig from "./firebase.config";
 
-//Loafding the firebase configuration
+//Loading the firebase configuration
 firebase.initializeApp(firebaseConfig);
 export const AuthContext = React.createContext(null);
 
@@ -16,9 +17,11 @@ function App() {
   //maintaining the user's login status
   const [isLoggedIn, setLoggedIn] = useState(false);
   const [isNavbar, setIsNavbar] = useState(true);
+
   //initial user status
   const [user, setUser] = useState("");
   const [tasks, setTasks] = useState([]);
+  const [project, setProject] = useState("");
 
   //Reading the current user session from Firebase authentication
   function readSession() {
@@ -29,7 +32,9 @@ function App() {
   }
   useEffect(() => {
     readSession();
+    console.log("#$%### USer ", user);
   }, []);
+
   useEffect(() => {
     if (window.location.pathname === "/error") {
       setIsNavbar(false);
@@ -41,8 +46,10 @@ function App() {
       <Router history={history}>
         <userContext.Provider value={{ user, setUser }}>
           <tasksItemsContext.Provider value={{ tasks, setTasks }}>
-            {isNavbar ? <Navigationbar /> : ""}
-            <Routes />
+            <projectContext.Provider value={{ project, setProject }}>
+              {isNavbar ? <Navigationbar /> : ""}
+              <Routes />
+            </projectContext.Provider>
           </tasksItemsContext.Provider>
         </userContext.Provider>
       </Router>

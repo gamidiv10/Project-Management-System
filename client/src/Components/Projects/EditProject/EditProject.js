@@ -1,3 +1,6 @@
+/**
+ * @author Vamsi Gamidi <vamsi.gamidi@dal.ca>
+ */
 import React, { useState, useRef, useEffect } from "react";
 import Editable from "../../Editable/Editable";
 import { ReactComponent as CloseIcon } from "../../../icons/close.svg";
@@ -6,7 +9,7 @@ import "./EditProject.scss";
 import axios from "axios";
 
 const EditProject = (props) => {
-  const [project, setProject] = useState(props.props.project);
+  const [project] = useState(props.props.project);
   const [isLoading, setLoading] = useState(false);
   const [projectName, setProjectName] = useState(project.projectName);
   const projectNameRef = useRef();
@@ -14,7 +17,6 @@ const EditProject = (props) => {
   const projectKeyRef = useRef();
   const [projectType, setProjectType] = useState(project.projectType);
   const projectTypeRef = useRef();
-  let buttonDisable = true;
 
   useEffect(() => {
     if (isLoading) {
@@ -31,6 +33,7 @@ const EditProject = (props) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    //Request to update the project details in DB
     axios
       .post("/project/editProject", {
         projectName,

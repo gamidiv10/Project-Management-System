@@ -1,3 +1,6 @@
+/**
+ * @author Vamsi Gamidi <vamsi.gamidi@dal.ca>
+ */
 import React, { Fragment, useState, useEffect } from "react";
 import "./Project.scss";
 import { ReactComponent as KeyIcon } from "../../../icons/key.svg";
@@ -30,6 +33,7 @@ const Project = (props) => {
           projectsCopy[i].projectType = projectType;
         }
       }
+      //Updating the modified project details
       setProjectsList(projectsCopy);
     }
     setIsModalOpen(false);

@@ -1,3 +1,6 @@
+/**
+ * @author Satya Kumar Itekela <satya.itekela@dal.ca>
+ */
 import React, { useState, useContext, useLayoutEffect, useEffect } from "react";
 import "./Navbar.scss";
 import { ReactComponent as BellIcon } from "../../icons/bell.svg";
@@ -21,6 +24,8 @@ import { withRouter } from "react-router-dom";
 import Login from "../Login/Login.js";
 import Register from "../SignUp/Register";
 import axios from "axios";
+import * as firebase from "firebase";
+import { AuthContext } from "../../App";
 
 const Navigationbar = ({ history }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -34,12 +39,25 @@ const Navigationbar = ({ history }) => {
   const handleShow = () => setShow(true);
   const handleCloseRegister = () => setShowRegister(false);
   const handleShowRegister = () => setShowRegister(true);
+
+  const Auth = useContext(AuthContext);
+
   let LeftNavItems = [];
   let RightNavItems = [];
 
   const LogoutHandler = () => {
-    setUser("");
-    history.push("/login");
+    firebase
+      .auth()
+      .signOut()
+      .then(function () {
+        // Sign-out successful.
+        setUser("");
+        Auth.setLoggedIn(false);
+        history.push("/login");
+      })
+      .catch(function (error) {
+        // An error happened.
+      });
   };
 
   useEffect(() => {
@@ -59,7 +77,7 @@ const Navigationbar = ({ history }) => {
       .catch((error) => console.log(error.message));
   }, []);
 
-  if (user) {
+  if (Auth.isLoggedIn === true) {
     LeftNavItems = [
       {
         item: "Taskatic",

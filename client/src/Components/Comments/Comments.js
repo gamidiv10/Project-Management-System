@@ -1,13 +1,20 @@
-import React, { useState, useEffect } from "react";
+/**
+ * @author Satya Kumar Itekela <satya.itekela@dal.ca>
+ */
+import React, { useState, useEffect, useContext } from "react";
 import "./Comments.scss";
 import { Button } from "react-bootstrap";
 import Comment from "../Comments/Comment/Comment";
 import axios from "axios";
+import { v4 as uuid } from "uuid";
+import userContext from "../../Context/userContext";
 
 export const Comments = ({ id }) => {
   const [textArea, setTextArea] = useState("");
   const [disabled, setDisabled] = useState(true);
   const [comments, setComments] = useState([]);
+  const { user } = useContext(userContext);
+  console.log("Current displayed user :", user);
 
   useEffect(() => {
     textArea ? setDisabled(false) : setDisabled(true);
@@ -24,17 +31,32 @@ export const Comments = ({ id }) => {
   };
 
   const addComment = () => {
+    const commentId = uuid();
     axios
       .post("/comment/addComment", {
         id,
         comment: textArea,
-        userName: "satya",
+        userName: user,
+        commentId,
       })
       .then((response) => {
         setComments([...comments, response.data.data]);
         setTextArea("");
       })
       .catch((error) => console.log(error.message));
+  };
+
+  const deleteHandler = (commentId) => {
+    axios
+      .delete(`/comment/deleteComment/${commentId}`)
+      .then((response) => {
+        axios.get(`/comment/getComments/${id}`).then((response) => {
+          setComments(response.data);
+        });
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
   };
 
   return (
@@ -46,6 +68,8 @@ export const Comments = ({ id }) => {
             key={id}
             text={comment.comment}
             userName={comment.userName}
+            commentId={comment.commentId}
+            deleteHandler={deleteHandler}
           />
         ))}
       </div>

@@ -3,6 +3,6 @@
  */
 import React from "react";
 
-const tasksItemsContext = React.createContext("");
+const projectContext = React.createContext("");
 
-export default tasksItemsContext;
+export default projectContext;
