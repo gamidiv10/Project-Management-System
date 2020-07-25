@@ -49,21 +49,31 @@ const Profile = ({ history }) => {
   const emailRef = useRef();
 
   const handleSubmit = (event) => {
-    axios
-      .post("/user/modifyUser", {
-        id: user.uid,
-        userName: name,
-        email: email,
-        jobTitle: jobTitle,
-        department: yourDepartment,
-        organisation: yourOrganization,
-        country: yourLocation,
-      })
-      .then((response) => {
-        alert("Profile details are updated!!");
-        history.push("/profile");
-      })
-      .catch((error) => console.log(error.message));
+    if (
+      jobTitle.length == 0 ||
+      yourDepartment.length == 0 ||
+      yourLocation.length == 0 ||
+      yourLocation.length == 0
+    ) {
+      alert("Please fill all fields");
+      history.push("/profile");
+    } else {
+      axios
+        .post("/user/modifyUser", {
+          id: user.uid,
+          userName: name,
+          email: email,
+          jobTitle: jobTitle,
+          department: yourDepartment,
+          organisation: yourOrganization,
+          country: yourLocation,
+        })
+        .then((response) => {
+          alert("Profile details are updated!!");
+          history.push("/profile");
+        })
+        .catch((error) => console.log(error.message));
+    }
   };
 
   return (
