@@ -5,21 +5,19 @@ module.exports = {
     'ASSIGNED_USER': 'Assigned To'
   },
   status: {
-    'OPEN': 'Open',
-    'PENDING': 'Pending',
-    'IN_PROGRESS': 'In Progress',
-    'REVIEW': 'Under Review',
-    'STAGED': 'Staged',
-    'READY': 'Ready',
-    'CLOSED': 'Closed'
+    'To do': 'To do',
+    // 'PENDING': 'Pending',
+    'In Progress': 'In Progress',
+    'In Review': 'In Review',
+    'In Testing': 'In Testing',
+    'Done': 'Done',
   },
   colorScheme: {
-    'OPEN': 'rgb(174, 172, 176)',
-    'PENDING': 'rgb(80, 227, 194)',
-    'IN_PROGRESS': 'rgb(8, 173, 255)',
-    'REVIEW': 'rgb(255, 207, 0)',
-    'STAGED': 'rgb(255, 0, 223)',
-    'READY': 'rgb(123, 104, 238)',
-    'CLOSED': 'rgb(107, 201, 80)'
+    'To do': 'rgb(123, 104, 238)',
+    // 'PENDING': 'rgb(80, 227, 194)',
+    'In Progress': 'rgb(8, 173, 255)',
+    'In Review': 'rgb(255, 207, 0)',
+    'In Testing': 'rgb(255, 0, 223)',
+    'Done': 'rgb(107, 201, 80)'
   }
 }
