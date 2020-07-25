@@ -5,6 +5,7 @@ import Routes from "./Routes";
 import Navigationbar from "./Components/Navbar/Navbar";
 import userContext from "./Context/userContext";
 import tasksItemsContext from "./Context/tasksItemsContext";
+import projectContext from "./Context/projectContext";
 import * as firebase from "firebase";
 import firebaseConfig from "./firebase.config";
 
@@ -20,6 +21,7 @@ function App() {
   //initial user status
   const [user, setUser] = useState("");
   const [tasks, setTasks] = useState([]);
+  const [project, setProject] = useState("");
 
   //Reading the current user session from Firebase authentication
   function readSession() {
@@ -43,8 +45,10 @@ function App() {
       <Router history={history}>
         <userContext.Provider value={{ user, setUser }}>
           <tasksItemsContext.Provider value={{ tasks, setTasks }}>
-            {isNavbar ? <Navigationbar /> : ""}
-            <Routes />
+            <projectContext.Provider value={{ project, setProject }}>
+              {isNavbar ? <Navigationbar /> : ""}
+              <Routes />
+            </projectContext.Provider>
           </tasksItemsContext.Provider>
         </userContext.Provider>
       </Router>

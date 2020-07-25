@@ -4,7 +4,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import SocialMedia from "../SignUp/SocialMedia";
 import userContext from "../../Context/userContext";
-import { ReactComponent as CloseIcon } from "../../icons/close.svg";
 import { withRouter } from "react-router-dom";
 import * as firebase from "firebase";
 import { AuthContext } from "../../App";

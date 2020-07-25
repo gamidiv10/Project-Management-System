@@ -1,17 +1,19 @@
 /**
  * @author Satya Kumar Itekela <satya.itekela@dal.ca>
  */
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "./Comments.scss";
 import { Button } from "react-bootstrap";
 import Comment from "../Comments/Comment/Comment";
 import axios from "axios";
 import { v4 as uuid } from "uuid";
+import userContext from "../../Context/userContext";
 
 export const Comments = ({ id }) => {
   const [textArea, setTextArea] = useState("");
   const [disabled, setDisabled] = useState(true);
   const [comments, setComments] = useState([]);
+  const { user } = useContext(userContext);
 
   useEffect(() => {
     textArea ? setDisabled(false) : setDisabled(true);
@@ -33,7 +35,7 @@ export const Comments = ({ id }) => {
       .post("/comment/addComment", {
         id,
         comment: textArea,
-        userName: "satya",
+        userName: user,
         commentId,
       })
       .then((response) => {

@@ -1,3 +1,6 @@
+/**
+ * @author Satya Kumar Itekela <satya.itekela@dal.ca>
+ */
 import React, { useState, useContext, useEffect } from "react";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import "./ProjectDetailMain.scss";
@@ -8,12 +11,10 @@ import Modal from "../../../Modal/Modal";
 import CompleteSprint from "../../../CompleteSprint/CompleteSprint";
 import { v4 as uuid } from "uuid";
 import ProjectDetailHeader from "../ProjectDetailHeader/ProjectDetailHeader";
-/**
- * @author Satya Kumar Itekela <satya.itekela@dal.ca>
- */
 import EditTask from "../../../Task/EditTask/EditTask";
 import axios from "axios";
 import Task from "../../../Task/Task";
+import projectContext from "../../../../Context/projectContext";
 
 const onDrag = (
   result,
@@ -73,6 +74,7 @@ const onDrag = (
 
 function ProjectDetailMain({ match }) {
   const { tasks, setTasks } = useContext(tasksItemsContext);
+  const { project } = useContext(projectContext);
   const [columns, setColumns] = useState([]);
   const [toDoData, setToDoData] = useState(tasks);
   const [inProgress, setInProgress] = useState([]);
@@ -93,7 +95,9 @@ function ProjectDetailMain({ match }) {
   }, [match.params.projectName]);
 
   useEffect(() => {
-    setToDoData(tasks);
+    if (project === projectName) {
+      setToDoData(tasks);
+    }
   }, [tasks]);
 
   const handleModalOpen = () => {
