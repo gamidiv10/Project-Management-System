@@ -48,7 +48,6 @@ const Register = ({ history, registerShow }) => {
     /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{1,})+$/
   );
   const validateEmailForm = () => {
-    debugger;
     if (email.length === 0) {
       setEmailError("* email id cannot be empty");
     } else if (!validEmailRegex.test(email)) {
