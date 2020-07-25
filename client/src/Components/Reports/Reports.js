@@ -9,7 +9,7 @@ import axios from "axios";
 
 export const Reports = ({ match }) => {
   const [projectName] = useState(match.params.projectName);
-  var sprintLabels = useState([]);
+  var [sprintLabels] = useState([]);
   var [completedPoints] = useState([]);
   var [plannedPoints] = useState([]);
   var [technicalDebtPoints] = useState([]);
