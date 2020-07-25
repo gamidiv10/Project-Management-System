@@ -24,6 +24,17 @@ const Login = ({ history, loginShow }) => {
   const [error, setErrors] = useState("");
   const { user, setUser } = useContext(userContext);
 
+  useEffect(() => {
+    if (email) {
+      validateEmailForm();
+    }
+  }, [email]);
+  useEffect(() => {
+    if (password) {
+      validatePasswordForm();
+    }
+  }, [password]);
+
   //Handling user sign in using firebase
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -72,7 +83,8 @@ const Login = ({ history, loginShow }) => {
   const validPasswordRegex = RegExp(/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/);
 
   const validateEmailForm = () => {
-    if (email.length === 0) {
+    console.log("Validate form email", email);
+    if (!email) {
       setEmailError("* email id cannot be empty");
     } else if (!validEmailRegex.test(email)) {
       setEmailError("* Email is not valid");
@@ -84,6 +96,8 @@ const Login = ({ history, loginShow }) => {
   const validatePasswordForm = () => {
     if (password.length === 0) {
       setPasswordError("* password cannot be empty");
+    } else if (!validPasswordRegex.test(password)) {
+      setPasswordError("* Password is weak");
     } else {
       setPasswordError("");
     }
@@ -113,6 +127,7 @@ const Login = ({ history, loginShow }) => {
                 setEmailError("");
                 validateEmailForm();
               }}
+              onBlur={validateEmailForm}
               className={emailError.length > 0 ? "errorTextField" : ""}
             />
             <FormHelperText id="my-helper-text">
@@ -131,6 +146,7 @@ const Login = ({ history, loginShow }) => {
                 setPasswordError("");
                 validatePasswordForm();
               }}
+              onBlur={validatePasswordForm}
               type="password"
             />
             <FormHelperText id="my-helper-text">
