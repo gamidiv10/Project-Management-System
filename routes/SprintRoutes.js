@@ -1,4 +1,4 @@
-const { Router } = require("express");
+const express = require("express");
 const {
   createSprint,
   updateSprint,
@@ -8,7 +8,7 @@ const {
   removeIssueFromSprint,
 } = require("../controllers/SprintController");
 
-const router = Router();
+const router = express.Router();
 
 router.post("/createSprint", createSprint);
 router.put("/updateSprint", updateSprint);

@@ -1,4 +1,4 @@
-const Router = require("express");
+const express = require("express");
 const {
   createIssue,
   updateIssue,
@@ -6,7 +6,7 @@ const {
   getIssues,
 } = require("../controllers/IssueController");
 
-const router = Router();
+const router = express.Router();
 
 router.post("/createIssue", createIssue);
 router.put("/updateIssue", updateIssue);

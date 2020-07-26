@@ -1,5 +1,5 @@
-import Sprint from "../models/Sprint";
-import Issue from "../models/Issue";
+const Sprint = require("../models/Sprint");
+const Issue = require("../models/Issue");
 
 exports.createSprint = (req, res) => {
   const sprint = {
