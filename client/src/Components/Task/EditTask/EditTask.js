@@ -21,6 +21,7 @@ const EditTask = ({ dismiss, task }) => {
   const priorityTypes = ["Highest", "High", "Medium", "Low", "Lowest"];
 
   useEffect(() => {
+    //Request to get the people by project name
     if (projectName) {
       axios
         .get(`/people/getPeopleByProject/${projectName}`)
@@ -39,6 +40,7 @@ const EditTask = ({ dismiss, task }) => {
   }, [projectName]);
 
   useEffect(() => {
+    //Request to get projects
     axios
       .get("/project/getProjects")
       .then((response) => {
@@ -170,6 +172,19 @@ const EditTask = ({ dismiss, task }) => {
           required={true}
           options={assigneeNames}
           renderOption={(option) => <>{option}</>}
+        />
+      ),
+    },
+    {
+      size: 6,
+      field: (
+        <TextField
+          name="dueDate"
+          label="Due Date"
+          type="date"
+          InputLabelProps={{
+            shrink: true,
+          }}
         />
       ),
     },

@@ -92,6 +92,7 @@ const CreateTask = ({ dismiss }) => {
     return errors;
   };
 
+  //Creating form fields
   const formFields = [
     {
       size: 6,
@@ -180,6 +181,19 @@ const CreateTask = ({ dismiss }) => {
         />
       ),
     },
+    {
+      size: 6,
+      field: (
+        <TextField
+          name="dueDate"
+          label="Due Date"
+          type="date"
+          InputLabelProps={{
+            shrink: true,
+          }}
+        />
+      ),
+    },
   ];
 
   function request() {
@@ -198,6 +212,7 @@ const CreateTask = ({ dismiss }) => {
     let taskId = uuid();
     setLoading(true);
 
+    //Request to add the task
     axios
       .post("/task/addTask", {
         id: taskId,

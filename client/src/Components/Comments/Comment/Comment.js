@@ -25,6 +25,7 @@ const Comment = (props) => {
     if (!comment) {
       setError("Cannot be empty");
     } else {
+      //Request to edit the comments in DB
       axios
         .put("/comment/editComment", {
           commentId: props.commentId,

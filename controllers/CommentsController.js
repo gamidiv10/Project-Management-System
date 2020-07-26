@@ -3,6 +3,7 @@
  */
 const Comment = require("../models/Comment");
 
+// Add Comment post request
 exports.addComment = async (req, res) => {
   try {
     console.log("comment", req.body);
@@ -29,6 +30,7 @@ exports.addComment = async (req, res) => {
   }
 };
 
+// Get comments get request
 exports.getComments = (req, res) => {
   var id = req.params.id;
   Comment.find({ id: id })
@@ -44,6 +46,7 @@ exports.getComments = (req, res) => {
     });
 };
 
+// edit comment put request
 exports.editComment = async (req, res) => {
   try {
     console.log("request", req.body);
@@ -76,6 +79,7 @@ exports.editComment = async (req, res) => {
   }
 };
 
+// delete comment delete request
 exports.deleteComment = (req, res) => {
   var commentId = req.params.commentId;
   Comment.deleteOne({ commentId })
