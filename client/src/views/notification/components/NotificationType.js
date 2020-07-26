@@ -1,3 +1,7 @@
+/**
+ * @author Sneh Jogani <sjogani16@dal.ca>
+ */
+
 import React, { Fragment } from 'react';
 import moment from 'moment'
 import { Badge } from 'react-bootstrap';

@@ -1,8 +1,12 @@
 /**
  * @author Satya Kumar Itekela <satya.itekela@dal.ca>
+ * @author Sneh Jogani <sjogani16@dal.ca>
  */
+
+const { keys } = require('lodash')
 const Task = require("../models/Task");
 
+// add task post request
 exports.addTask = async (req, res) => {
   try {
     console.log("task", req.body);
@@ -29,6 +33,7 @@ exports.addTask = async (req, res) => {
   }
 };
 
+// edit task put request
 exports.editTask = async (req, res, next) => {
   try {
     console.log("request", req.body);
@@ -42,6 +47,7 @@ exports.editTask = async (req, res, next) => {
           description: req.body.description,
           priority: req.body.priority,
           assignee: req.body.assignee,
+          dueDate: req.body.dueDate
         },
       }
     );
@@ -66,6 +72,7 @@ exports.editTask = async (req, res, next) => {
   }
 };
 
+// get tasks get request
 exports.getTasks = async (req, res) => {
   var projectName = req.params.projectName;
   var sprintNo = req.params.sprintNumber;
@@ -86,6 +93,7 @@ exports.getTasks = async (req, res) => {
   }
 };
 
+// get tasks by status get request
 exports.getTaskByStatus = (req, res) => {
   var projectName = req.params.projectName;
   var status = req.params.status;
@@ -107,6 +115,7 @@ exports.getTaskByStatus = (req, res) => {
     });
 };
 
+// change tasks by status post request
 exports.changeTaskByStatus = (req, res) => {
   var id = req.params.id;
   var status = req.params.status;
@@ -123,3 +132,24 @@ exports.changeTaskByStatus = (req, res) => {
       });
     });
 };
+
+exports.getCalendarViewTasks = async (req, res) => {
+  const { query: reqQuery } = req
+  let query = {}
+
+  keys(reqQuery)
+    .forEach(key => {
+      const value = reqQuery[key]
+      if (value && value !== '') {
+        query[key] = value
+      }
+    })
+
+  try {
+    const tasks = await Task.find(query)
+    return res.status(200).json({ total: tasks.length, data: tasks })
+  } catch (error) {
+    console.log(err)
+    return res.status(500).json({ error: err })
+  }
+}

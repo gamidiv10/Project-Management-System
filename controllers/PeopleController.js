@@ -1,6 +1,9 @@
 /**
  * @author Vamsi Gamidi <vamsi.gamidi@dal.ca>
+ * @author Sneh Jogani <sjogani16@dal.ca>
  */
+
+const { keys } = require('lodash')
 const People = require("../models/People");
 
 //Add User Post Request
@@ -31,8 +34,19 @@ exports.addUser = async (req, res, next) => {
 
 //Load Users Get Request
 exports.getPeople = async (req, res, next) => {
+  const { query: reqQuery } = req
+  let query = {}
+
+  keys(reqQuery)
+    .forEach(key => {
+      const value = reqQuery[key]
+      if (value && value !== '') {
+        query[key] = value
+      }
+    })
+
   try {
-    const people = await People.find();
+    const people = await People.find(query);
     return res.status(200).json({
       success: true,
       count: people.length,

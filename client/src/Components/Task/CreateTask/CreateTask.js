@@ -1,6 +1,8 @@
 /**
  * @author Satya Kumar Itekela <satya.itekela@dal.ca>
+ * @author Sneh Jogani <sjogani16@dal.ca>
  */
+
 import React, { useEffect, useState, useContext } from "react";
 import { Form } from "react-final-form";
 import "./CreateTask.scss";
@@ -64,7 +66,7 @@ const CreateTask = ({ dismiss }) => {
         dismiss();
       });
     }
-  }, [isLoading]);
+  }, [dismiss, isLoading]);
 
   const validate = (values) => {
     const errors = {};
@@ -92,6 +94,7 @@ const CreateTask = ({ dismiss }) => {
     return errors;
   };
 
+  //Creating form fields
   const formFields = [
     {
       size: 6,
@@ -180,6 +183,20 @@ const CreateTask = ({ dismiss }) => {
         />
       ),
     },
+    {
+      size: 6,
+      field: (
+        <TextField
+          name="dueDate"
+          label="Due Date"
+          type="date"
+          required={true}
+          InputLabelProps={{
+            shrink: true,
+          }}
+        />
+      ),
+    },
   ];
 
   function request() {
@@ -193,11 +210,13 @@ const CreateTask = ({ dismiss }) => {
     let description = values.taskDescription;
     let priority = values.taskPriority;
     let assignee = values.assigneeName;
+    let dueDate = new Date(values.dueDate).toISOString();
     let sprintNumber = 2;
     let taskStatus = "To do";
     let taskId = uuid();
     setLoading(true);
 
+    // Request to add the task
     axios
       .post("/task/addTask", {
         id: taskId,
@@ -209,6 +228,7 @@ const CreateTask = ({ dismiss }) => {
         assignee,
         sprintNumber,
         taskStatus,
+        dueDate
       })
       .then((response) => {
         const value = {
@@ -243,11 +263,7 @@ const CreateTask = ({ dismiss }) => {
               ))}
             </Grid>
             <div className="buttons">
-              <Button
-                disabled={isLoading}
-                type="submit"
-                disabled={buttonDisable}
-              >
+              <Button disabled={isLoading || buttonDisable} type="submit">
                 {isLoading ? "CreateTask...." : "CreateTask"}
               </Button>
               <Button onClick={dismiss}>Cancel</Button>

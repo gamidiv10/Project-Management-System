@@ -141,6 +141,7 @@ function ProjectDetailMain({ match }) {
 
   useEffect(() => {
     if (droppableId && droppableStatus) {
+      //Request to change the status of the task
       axios
         .put(`/task/changeTaskByStatus/${droppableStatus}/${droppableId}`)
         .then((response) => {})
@@ -153,6 +154,7 @@ function ProjectDetailMain({ match }) {
   }, [toDoData, inProgress, inReview, inTesting, done]);
 
   useEffect(() => {
+    //Request to get the status of the tasks
     axios
       .get(`/task/getTaskByStatus/${projectName}/To do/${sprintNumber}`)
       .then((response) => {

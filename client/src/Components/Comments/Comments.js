@@ -20,6 +20,7 @@ export const Comments = ({ id }) => {
   }, [textArea]);
 
   useEffect(() => {
+    //Request to get the comments from DB
     axios.get(`/comment/getComments/${id}`).then((response) => {
       setComments(response.data);
     });
@@ -32,6 +33,7 @@ export const Comments = ({ id }) => {
   const addComment = () => {
     const commentId = uuid();
     const username = user ? user : "Satya";
+    //Request to post the comments to DB
     axios
       .post("/comment/addComment", {
         id,
@@ -47,6 +49,7 @@ export const Comments = ({ id }) => {
   };
 
   const deleteHandler = (commentId) => {
+    //Request to delete the comment in DB
     axios
       .delete(`/comment/deleteComment/${commentId}`)
       .then((response) => {
