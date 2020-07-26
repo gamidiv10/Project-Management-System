@@ -1,6 +1,8 @@
 /**
  * @author Satya Kumar Itekela <satya.itekela@dal.ca>
+ * @author Sneh Jogani <sjogani16@dal.ca>
  */
+
 import React, { useEffect, useState } from "react";
 import { Form } from "react-final-form";
 import "./EditTask.scss";
@@ -61,7 +63,7 @@ const EditTask = ({ dismiss, task }) => {
         dismiss();
       });
     }
-  }, [isLoading]);
+  }, [dismiss, isLoading]);
 
   const validate = (values) => {
     const errors = {};
@@ -182,6 +184,7 @@ const EditTask = ({ dismiss, task }) => {
           name="dueDate"
           label="Due Date"
           type="date"
+          required={true}
           InputLabelProps={{
             shrink: true,
           }}
@@ -206,6 +209,7 @@ const EditTask = ({ dismiss, task }) => {
         description: values.taskDescription,
         priority: values.taskPriority,
         assignee: values.assigneeName,
+        dueDate: new Date(values.dueDate).toISOString()
       })
       .then((response) => {
         console.log(response);
@@ -231,6 +235,7 @@ const EditTask = ({ dismiss, task }) => {
           taskDescription: task.description,
           taskPriority: task.priority,
           assigneeName: task.assignee,
+          dueDate: task.dueDate.substring(0, 10)
         }}
         render={({ handleSubmit }) => (
           <form onSubmit={handleSubmit} className="taskFormField">
@@ -242,11 +247,7 @@ const EditTask = ({ dismiss, task }) => {
               ))}
             </Grid>
             <div className="buttons">
-              <Button
-                disabled={isLoading}
-                type="submit"
-                disabled={buttonDisable}
-              >
+              <Button disabled={isLoading || buttonDisable} type="submit">
                 {isLoading ? "Edit Issue...." : "Edit Issue"}
               </Button>
               <Button onClick={dismiss}>Cancel</Button>
