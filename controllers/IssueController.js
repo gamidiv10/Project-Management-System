@@ -1,6 +1,6 @@
 const Issue = require("../models/Issue");
 
-export const createIssue = (req, res) => {
+exports.createIssue = (req, res) => {
   const issue = {
     type: req.body.type,
     name: req.body.name,
@@ -24,7 +24,7 @@ export const createIssue = (req, res) => {
     });
 };
 
-export const updateIssue = (req, res) => {
+exports.updateIssue = (req, res) => {
   const id = req.body.issueId;
   const issue = {
     type: req.body.type,
@@ -49,7 +49,7 @@ export const updateIssue = (req, res) => {
     });
 };
 
-export const deleteIssue = (req, res) => {
+exports.deleteIssue = (req, res) => {
   Issue.findOneAndDelete({ _id: req.body.issueId })
     .then((deletedItem) => {
       if (deletedItem) {
@@ -70,7 +70,7 @@ export const deleteIssue = (req, res) => {
     });
 };
 
-export const getIssues = (req, res) => {
+exports.getIssues = (req, res) => {
   const query = req.body.issueId ? { _id: req.body.issueId } : {};
   Issue.find(query)
     .then((issues) => {
