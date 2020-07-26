@@ -11,7 +11,7 @@ export const InviteUser = () => {
   //Used React Hook for managing state
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
-
+  const projectName = localStorage.getItem("selectedProject");
   //Regular Expressions to validate the Email ID and Password
   const EmailRegex = RegExp(
     /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i
@@ -40,7 +40,7 @@ export const InviteUser = () => {
           email,
         })
         .then((response) => {
-          history.push("/project/people");
+          history.push(`/project/${projectName}/people`);
         })
         .catch((error) => console.log(error.message));
     } else {

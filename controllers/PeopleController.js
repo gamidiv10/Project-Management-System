@@ -3,7 +3,7 @@
  * @author Sneh Jogani <sjogani16@dal.ca>
  */
 
-const { keys } = require('lodash')
+const { keys } = require("lodash");
 const People = require("../models/People");
 
 //Add User Post Request
@@ -34,16 +34,15 @@ exports.addUser = async (req, res, next) => {
 
 //Load Users Get Request
 exports.getPeople = async (req, res, next) => {
-  const { query: reqQuery } = req
-  let query = {}
+  const { query: reqQuery } = req;
+  let query = {};
 
-  keys(reqQuery)
-    .forEach(key => {
-      const value = reqQuery[key]
-      if (value && value !== '') {
-        query[key] = value
-      }
-    })
+  keys(reqQuery).forEach((key) => {
+    const value = reqQuery[key];
+    if (value && value !== "") {
+      query[key] = value;
+    }
+  });
 
   try {
     const people = await People.find(query);
@@ -86,14 +85,13 @@ exports.inviteUser = (req, res) => {
   var transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
-      user: "taskaticapp@gmail.com",
-      pass: "taskatic@12",
+      user: "taskaticapp1@gmail.com",
+      pass: "taskatic@123",
     },
   });
-
   var mailOptions = {
     from: "taskaticapp@gmail.com",
-    to: "vamsi.gamidi01@gmail.com",
+    to: req.body.email,
     subject: "Taskatic Invitation",
     text:
       "You are invited to use Taskatic, Please go to this link and register: https://taskatic.herokuapp.com/",

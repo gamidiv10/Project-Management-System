@@ -1,14 +1,14 @@
 import React from "react";
 import { Button, Form } from "react-bootstrap";
-import {useHistory} from 'react-router-dom';
+import { useHistory } from "react-router-dom";
 import "./PeopleHeader.scss";
 
 const PeopleHeader = () => {
   const history = useHistory();
   const inviteUser = (e) => {
     e.preventDefault();
-    history.push("/inviteUser")
-  }
+    history.push("/inviteUser");
+  };
   return (
     <>
       <header className="peopleHeader">
