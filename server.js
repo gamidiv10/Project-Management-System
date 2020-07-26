@@ -7,8 +7,8 @@ const colors = require("colors");
 const path = require("path");
 const dotenv = require("dotenv");
 
-import IssueRoutes from './routes/IssueRoutes'
-import SprintRoutes from './routes/SprintRoutes'
+const IssueRoutes = require("./routes/IssueRoutes");
+const SprintRoutes = require("./routes/SprintRoutes");
 
 const projectRoutes = require("./routes/ProjectRoutes");
 const commentRoutes = require("./routes/CommentRoutes");
@@ -39,8 +39,8 @@ if (process.env.NODE_ENV === "development") {
 app.use("/project", projectRoutes);
 app.use("/comment", commentRoutes);
 app.use("/task", taskRoutes);
-app.use('/backlog', IssueRoutes)
-app.use('/sprint', SprintRoutes)
+app.use("/backlog", IssueRoutes);
+app.use("/sprint", SprintRoutes);
 app.use("/people", peopleRoutes);
 app.use("/user", userRoutes);
 app.use("/reports", reportRoutes);
