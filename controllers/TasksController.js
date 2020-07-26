@@ -47,6 +47,7 @@ exports.editTask = async (req, res, next) => {
           description: req.body.description,
           priority: req.body.priority,
           assignee: req.body.assignee,
+          dueDate: req.body.dueDate
         },
       }
     );
