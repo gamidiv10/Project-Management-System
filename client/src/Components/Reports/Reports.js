@@ -23,8 +23,9 @@ export const Reports = ({ match }) => {
           sprintLabels.push(`Sprint-${item.sprint}`);
           completedPoints.push(item.completedPoints);
           plannedPoints.push(item.plannedPoints);
-          technicalDebtPoints.push(item.plannedPoints - item.plannedPoints);
+          technicalDebtPoints.push(item.technicalDebt);
         });
+        console.log(completedPoints, plannedPoints, technicalDebtPoints);
         setChartData({
           labels: sprintLabels,
           datasets: [

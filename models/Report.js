@@ -20,6 +20,10 @@ const ReportSchema = new mongoose.Schema({
     type: Number,
     required: [true, "Completed Points is required"],
   },
+  technicalDebt: {
+    type: Number,
+    required: [true, "Technical Debt Points is required"],
+  },
 });
 
 module.exports = mongoose.model("Report", ReportSchema);

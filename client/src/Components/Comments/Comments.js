@@ -14,13 +14,13 @@ export const Comments = ({ id }) => {
   const [disabled, setDisabled] = useState(true);
   const [comments, setComments] = useState([]);
   const { user } = useContext(userContext);
-  console.log("Current displayed user :", user);
 
   useEffect(() => {
     textArea ? setDisabled(false) : setDisabled(true);
   }, [textArea]);
 
   useEffect(() => {
+    //Request to get the comments from DB
     axios.get(`/comment/getComments/${id}`).then((response) => {
       setComments(response.data);
     });
@@ -32,11 +32,13 @@ export const Comments = ({ id }) => {
 
   const addComment = () => {
     const commentId = uuid();
+    const username = user ? user : "Satya";
+    //Request to post the comments to DB
     axios
       .post("/comment/addComment", {
         id,
         comment: textArea,
-        userName: user,
+        userName: username,
         commentId,
       })
       .then((response) => {
@@ -47,6 +49,7 @@ export const Comments = ({ id }) => {
   };
 
   const deleteHandler = (commentId) => {
+    //Request to delete the comment in DB
     axios
       .delete(`/comment/deleteComment/${commentId}`)
       .then((response) => {
