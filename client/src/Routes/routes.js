@@ -17,6 +17,7 @@ import { InviteUser } from "../Components/InviteUser/InviteUser";
 import AddUser from "../Components/AddUser/AddUser";
 import Calendar from "../views/calendar";
 import Notifications from "../views/notification";
+import HelpAndSupport from "../Components/HelpAndSupport/HelpAndSupport";
 import ReduxDemo from "../Components/ReduxDemo";
 
 const routes = [
@@ -125,6 +126,12 @@ const routes = [
     path: "/comments",
     exact: true,
     component: Comments,
+    isPrivate: true,
+  },
+  {
+    path: "/help_and_support",
+    exact: true,
+    component: HelpAndSupport,
     isPrivate: true,
   },
   {

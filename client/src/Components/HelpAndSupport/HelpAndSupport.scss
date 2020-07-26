@@ -1,0 +1,29 @@
+.title-help-support {
+    text-align: center;
+    font-weight: 500;
+    font-size: 60px;
+    padding-top: 20px;
+    color: #001f3f;
+}
+.faq-parent {
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+    padding-top: 10px;
+    display: block;
+    float: none;
+}
+
+.q_and_a {
+    padding-top: 10px;
+    .question {
+        color: #001f3f;
+        font-size: 30px;
+        padding-top: 5px;
+    }
+}
+
+.answer {
+    color: #3f5b77;
+    padding-top: 5px;
+}

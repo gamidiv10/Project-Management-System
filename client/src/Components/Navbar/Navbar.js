@@ -116,7 +116,7 @@ const Navigationbar = ({ history }) => {
       },
       {
         icon: <SupportIcon />,
-        to: "/helpandsupport",
+        to: "/help_and_support",
         iconButton: true,
       },
       {
