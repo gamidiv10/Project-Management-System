@@ -27,3 +27,9 @@
     color: #3f5b77;
     padding-top: 5px;
 }
+
+@media only screen and (max-width: 800px) {
+    .link-button {
+        padding-top: 10px;
+    }
+}

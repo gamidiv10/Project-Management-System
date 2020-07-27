@@ -9,7 +9,7 @@ const dotenv = require("dotenv");
 
 const IssueRoutes = require("./routes/IssueRoutes");
 const SprintRoutes = require("./routes/SprintRoutes");
-
+const QueryRoutes = require('./routes/QueryRoutes');
 const projectRoutes = require("./routes/ProjectRoutes");
 const commentRoutes = require("./routes/CommentRoutes");
 const taskRoutes = require("./routes/TaskRoutes");
@@ -44,6 +44,7 @@ app.use("/sprint", SprintRoutes);
 app.use("/people", peopleRoutes);
 app.use("/user", userRoutes);
 app.use("/reports", reportRoutes);
+app.use("/query", QueryRoutes);
 
 app.get("/*", (req, res) => {
   res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));

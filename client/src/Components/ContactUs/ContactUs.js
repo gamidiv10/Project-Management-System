@@ -1,4 +1,5 @@
 import React, {useState } from "react"
+import { useDispatch, useSelector } from 'react-redux'
 import { Form, 
     Button,
     Row,
@@ -7,9 +8,14 @@ import { Form,
     Alert
 } from "react-bootstrap"
 import { FaPenFancy } from "react-icons/fa"
+
+import { fetchQuery } from '../../redux/query/queryAction'
 import "./ContactUs.scss"
 
 const ContactUs = () => {
+    const query = useSelector(state => state.query)
+    const dispatch = useDispatch()
+
     const [error, setError] = useState({ isFormOkay: false, fullName: "", email: "" })
     
     const validEmailRegex = RegExp(
@@ -19,24 +25,31 @@ const ContactUs = () => {
     const onSubmit = e => {
         e.preventDefault()
         const message = {}
-        const fullName = e.target.fullName.value
-        const email = e.target.userEmail.value
-        const description = e.target.description.value
+        const query = {
+            fullName: e.target.fullName.value,
+            subject: e.target.querySubject.value,
+            email: e.target.userEmail.value,
+            description: e.target.description.value
+        }
         
-        if (!fullName) {
+        if (!query.fullName) {
             message.fullName = "Full name cannot be empty."
-        } else if (fullName.split(" ").length < 2) {
+        } else if (query.fullName.split(" ").length < 2) {
             message.fullName = "Full name should have first name and last name."
         }
-        if (!email || !validEmailRegex.test(email)) {
+        if (!query.email || !validEmailRegex.test(query.email)) {
             message.email = "Invalid email! Please enter valid email."
         }
-        if (!description) {
+        if (!query.subject) {
+            message.subject = 'Query subject cannot be empty.'
+        }
+        if (!query.description) {
             message.description = "Description cannot be empty."
-        } else if (description.split(" ").length < 10) {
+        } else if (query.description.split(" ").length < 10) {
             message.description = "Description must at least be 10 words long."
         }
         if (Object.keys(message).length === 0) {
+            dispatch(fetchQuery(query))
             setError({ isFormOkay: true })
         } else {
             setError(message)
@@ -50,19 +63,33 @@ const ContactUs = () => {
 
     const getView = () => {
         if (error.isFormOkay) {
-            return (
-                <Alert variant="success">
-                    <Alert.Heading>Thank you! for submitting your response</Alert.Heading>
-                    <p>
-                        Your response is been recorded, our representative will contact you shortly on your provided email.
-                    </p>
-                    <hr />
-                    <p className="mb-0">
-                        For further queries contact <b>taskatic@gmail.com</b>
-                    </p>
-                </Alert>
-            )
-            
+            if (!query.isIdle && query.isError) {
+                return (
+                    <Alert variant="danger">
+                        <Alert.Heading>Oops! Some error occurred in adding query response</Alert.Heading>
+                        <p>
+                            Please refresh the page and submit your response again.
+                        </p>
+                        <hr />
+                        <p className="mb-0">
+                            For further queries contact <b>taskatic@gmail.com</b>
+                        </p>
+                    </Alert>
+                )
+            } else if (!query.isIdle && !query.isError) {
+                return (
+                    <Alert variant="success">
+                        <Alert.Heading>Thank you! for submitting your response</Alert.Heading>
+                        <p>
+                            Your response is been recorded, our representative will contact you shortly on your provided email.
+                        </p>
+                        <hr />
+                        <p className="mb-0">
+                            For further queries contact <b>taskatic@gmail.com</b>
+                        </p>
+                    </Alert>
+                )
+            }
         } else {
             return (
                 <Form onSubmit={onSubmit}>
@@ -89,9 +116,15 @@ const ContactUs = () => {
                             We'll never share your email with anyone else.
                         </Form.Text>
                     </Form.Group>
-                    <Form.Group controlId="formQuerySubject">
+                    <Form.Group controlId="querySubject">
                         <Form.Label>Query Subject</Form.Label>
-                        <Form.Control type="text" placeholder="Enter subject of your query" />
+                        <div className={error.subject ? "error" : ""}>
+                            <Form.Control type="text" placeholder="Enter subject of your query" />
+                        </div>
+                        {
+                            error.subject && 
+                            <p style={{ color: "red", fontSize: "13px" }}>{error.subject}</p>
+                        }
                     </Form.Group>
                     
                     <Form.Group controlId="description">

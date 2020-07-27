@@ -3,6 +3,7 @@ import cakeReducer from "./cake/cakeReducer"
 import iceCreamReducer from "./ice-cream/iceCreamReducer"
 import userReducer from "./users/userReducer"
 import backlogReducer from './backlog/backlogReducer'
+import queryReducer from './query/queryReducer'
 
 /* 
     This is where all reducers combine into one object of root reducer
@@ -18,7 +19,8 @@ const rootReducer = combineReducers(
         cake: cakeReducer,
         iceCream: iceCreamReducer,
         users: userReducer,
-        backlog: backlogReducer
+        backlog: backlogReducer,
+        query: queryReducer
     }
 )
 

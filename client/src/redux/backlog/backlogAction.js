@@ -29,7 +29,6 @@ export const fetchBacklogIssues = (issueId = "") => (dispatch, getState) => {
     axios.post('/backlog/getIssues', 
     { issueId }, 
     { cancelToken: source.token }).then(res => {
-        console.log('__1', res);
         if(res.success) {
             dispatch(fetchBacklogSuccess(
                 res.issues,
