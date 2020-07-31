@@ -15,6 +15,8 @@ import EditTask from "../../../Task/EditTask/EditTask";
 import axios from "axios";
 import Task from "../../../Task/Task";
 import projectContext from "../../../../Context/projectContext";
+import { filter } from "lodash";
+import { Button } from "react-bootstrap";
 
 const onDrag = (
   result,
@@ -22,6 +24,7 @@ const onDrag = (
   setColumns,
   setDroppableId,
   setDroppableStatus,
+  setDroppableFromStatus,
   setOnDrag,
   drag
 ) => {
@@ -53,6 +56,7 @@ const onDrag = (
 
     setDroppableId(removedItems.id);
     setDroppableStatus(columns[destination.droppableId].name);
+    setDroppableFromStatus(columns[source.droppableId].name);
     setOnDrag(!drag);
   }
   // If it is dragged into same column
@@ -82,13 +86,19 @@ function ProjectDetailMain({ match }) {
   const [inTesting, setInTesting] = useState([]);
   const [done, setDone] = useState([]);
   const [task, setTask] = useState({});
+  const [isModalCompleteOpen, setIsModalCompleteOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalOpenEdit, setIsModalOpenEdit] = useState(false);
   const [sprintNumber] = useState(2);
   const [projectName, setProjectName] = useState(match.params.projectName);
   const [droppableId, setDroppableId] = useState("");
   const [droppableStatus, setDroppableStatus] = useState("");
+  const [droppableFromStatus, setDroppableFromStatus] = useState("");
   const [drag, setOnDrag] = useState(false);
+  const [taskName, setTaskName] = useState("");
+  const [receivedData, setReceivedData] = useState(false);
+  const [issuesCount, setIssueCount] = useState(0);
+  const [completedCount, setCompletedCount] = useState(0);
 
   useEffect(() => {
     setProjectName(match.params.projectName);
@@ -114,6 +124,13 @@ function ProjectDetailMain({ match }) {
 
   const dismissableEdit = () => {
     setIsModalOpenEdit(false);
+  };
+
+  const handleModalCompleteOpen = () => {
+    setIsModalCompleteOpen(!isModalCompleteOpen);
+  };
+  const dismissableComplete = () => {
+    setIsModalCompleteOpen(false);
   };
 
   const columnsData = {
@@ -147,6 +164,14 @@ function ProjectDetailMain({ match }) {
         .then((response) => {})
         .catch((error) => console.log(error.message));
     }
+
+    if (droppableStatus === "Done") {
+      setCompletedCount(completedCount + 1);
+      setIssueCount(issuesCount - 1);
+    } else if (droppableFromStatus === "Done") {
+      setCompletedCount(completedCount - 1);
+      setIssueCount(issuesCount + 1);
+    }
   }, [drag]);
 
   useEffect(() => {
@@ -155,6 +180,8 @@ function ProjectDetailMain({ match }) {
 
   useEffect(() => {
     //Request to get the status of the tasks
+    setIssueCount(0);
+    setCompletedCount(0);
     axios
       .get(`/task/getTaskByStatus/${projectName}/To do/${sprintNumber}`)
       .then((response) => {
@@ -177,6 +204,7 @@ function ProjectDetailMain({ match }) {
 
         setToDoData(displayTasks);
         setTasks(displayTasks);
+        setIssueCount((issuesCount) => issuesCount + displayTasks.length);
       })
       .catch((error) => console.log(error.message));
 
@@ -201,6 +229,7 @@ function ProjectDetailMain({ match }) {
         });
 
         setInProgress(displayTasks);
+        setIssueCount((issuesCount) => issuesCount + displayTasks.length);
       })
       .catch((error) => console.log(error.message));
 
@@ -225,6 +254,7 @@ function ProjectDetailMain({ match }) {
         });
 
         setInReview(displayTasks);
+        setIssueCount((issuesCount) => issuesCount + displayTasks.length);
       })
       .catch((error) => console.log(error.message));
 
@@ -249,6 +279,7 @@ function ProjectDetailMain({ match }) {
         });
 
         setInTesting(displayTasks);
+        setIssueCount((issuesCount) => issuesCount + displayTasks.length);
       })
       .catch((error) => console.log(error.message));
 
@@ -273,18 +304,59 @@ function ProjectDetailMain({ match }) {
         });
 
         setDone(displayTasks);
+        setCompletedCount((issuesCount) => issuesCount + displayTasks.length);
+
+        setReceivedData(!receivedData);
       })
       .catch((error) => console.log(error.message));
-  }, [projectName]);
+  }, [projectName, taskName]);
+
+  const onTaskChangeHandler = (e) => {
+    setTaskName(e.target.value);
+  };
+
+  useEffect(() => {
+    let filteredToDo = toDoData.filter((task) =>
+      task.task.summary.includes(taskName)
+    );
+    setToDoData(filteredToDo);
+
+    let inprogessData = inProgress.filter((task) =>
+      task.task.summary.includes(taskName)
+    );
+    setInProgress(inprogessData);
+
+    let inReviewData = inReview.filter((task) =>
+      task.task.summary.includes(taskName)
+    );
+    setInReview(inReviewData);
+
+    let inTestingData = inTesting.filter((task) =>
+      task.task.summary.includes(taskName)
+    );
+    setInTesting(inTestingData);
+
+    let doneData = done.filter((task) => task.task.summary.includes(taskName));
+    setDone(doneData);
+  }, [receivedData]);
 
   return (
     <ProjectDetail>
       <main className="ProjectDetailMain">
         <ProjectDetailHeader />
-        <section>
+        <section className="flexButtons">
           <Form className="projectForm">
-            <Form.Control type="text" placeholder="Search for Issue" />
+            <Form.Control
+              type="text"
+              name="taskName"
+              value={taskName}
+              placeholder="Search for Issue"
+              onChange={onTaskChangeHandler}
+            />
           </Form>
+          <div className="buttons">
+            <Button onClick={handleModalCompleteOpen}>Complete Sprint</Button>
+          </div>
         </section>
         <section className="ProjectDetailMainLayout" id="scrollbar-1">
           <DragDropContext
@@ -295,6 +367,7 @@ function ProjectDetailMain({ match }) {
                 setColumns,
                 setDroppableId,
                 setDroppableStatus,
+                setDroppableFromStatus,
                 setOnDrag,
                 drag
               )
@@ -380,6 +453,21 @@ function ProjectDetailMain({ match }) {
         children={
           isModalOpenEdit ? (
             <EditTask dismiss={dismissableEdit} task={task} />
+          ) : (
+            ""
+          )
+        }
+      />
+
+      <Modal
+        visible={isModalCompleteOpen}
+        children={
+          isModalCompleteOpen ? (
+            <CompleteSprint
+              dismiss={dismissableComplete}
+              issuesCount={issuesCount}
+              completedCount={completedCount}
+            />
           ) : (
             ""
           )

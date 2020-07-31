@@ -4,7 +4,6 @@
 import React, { useState } from "react";
 import CompleteSprint from "../../../CompleteSprint/CompleteSprint";
 import Modal from "../../../Modal/Modal";
-import { Button } from "react-bootstrap";
 
 const ProjectDetailHeader = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -20,9 +19,6 @@ const ProjectDetailHeader = () => {
     <>
       <section className="projectSprintHeader">
         <div className="projectSprintHeading">Sprint Name</div>
-        <div className="buttons">
-          <Button onClick={handleModalOpen}>Complete Sprint</Button>
-        </div>
       </section>
 
       <Modal

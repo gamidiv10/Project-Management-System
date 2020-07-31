@@ -1,7 +1,7 @@
 /**
  * @author Satya Kumar Itekela <satya.itekela@dal.ca>
  */
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState } from "react";
 import { Form } from "react-final-form";
 import "./CompleteSprint.scss";
 import { Button } from "react-bootstrap";
@@ -9,10 +9,10 @@ import { Grid } from "@material-ui/core";
 import { Autocomplete } from "mui-rff";
 import { ReactComponent as CloseIcon } from "../../icons/close.svg";
 
-const CompleteSprint = ({ dismiss }) => {
+const CompleteSprint = ({ dismiss, issuesCount, completedCount }) => {
   const [isLoading, setLoading] = useState(false);
-  let buttonDisable = true;
-  const projects = ["Project1", "Project2"];
+  const sprintNames = ["Sprint 1", "Sprint 2", "Backlog"];
+  const errors = {};
 
   useEffect(() => {
     if (isLoading) {
@@ -24,11 +24,11 @@ const CompleteSprint = ({ dismiss }) => {
   }, [isLoading]);
 
   const validate = (values) => {
-    const errors = {};
     if (!values.types) {
       errors.projects = "Required";
+    } else {
+      errors.projects = "";
     }
-    buttonDisable = Object.keys(errors).length ? true : false;
     return errors;
   };
 
@@ -40,7 +40,7 @@ const CompleteSprint = ({ dismiss }) => {
           label="Move to"
           name="types"
           required={true}
-          options={projects}
+          options={sprintNames}
           variant="outlined"
           getOptionValue={(option) => option}
           renderOption={(option) => <>{option}</>}
@@ -53,7 +53,14 @@ const CompleteSprint = ({ dismiss }) => {
     return new Promise((resolve) => setTimeout(resolve, 2000));
   }
 
-  const onSubmit = (values) => {
+  const handleSubmit = (values) => {
+    if (!values.types) {
+      errors.projects = "Required";
+      return false;
+    } else {
+      errors.projects = "";
+    }
+    console.log("here");
     setLoading(true);
   };
 
@@ -66,27 +73,32 @@ const CompleteSprint = ({ dismiss }) => {
         </span>
       </div>
       <Form
-        onSubmit={onSubmit}
+        onSubmit={handleSubmit}
         validate={validate}
         render={({ handleSubmit }) => (
-          <form onSubmit={handleSubmit} className="taskFormField">
+          <form className="taskFormField">
             <div>
-              <div>Issues to be completed</div>
+              <div>{issuesCount} Issues to be completed</div>
+              <div>{completedCount} Issues are completed</div>
             </div>
-            <div>Select where the remaining issues to be moved: </div>
-            <Grid container alignItems="flex-start" spacing={2}>
-              {formFields.map((item, id) => (
-                <Grid item xs={item.size} key={id}>
-                  {item.field}
+            <br />
+            {issuesCount ? (
+              <>
+                <div>Select where the remaining issues to be moved: </div>
+                <Grid container alignItems="flex-start" spacing={2}>
+                  {formFields.map((item, id) => (
+                    <Grid item xs={item.size} key={id}>
+                      {item.field}
+                    </Grid>
+                  ))}
                 </Grid>
-              ))}
-            </Grid>
+              </>
+            ) : (
+              ""
+            )}
+
             <div className="buttons">
-              <Button
-                disabled={isLoading}
-                type="submit"
-                disabled={buttonDisable}
-              >
+              <Button disabled={isLoading} type="submit">
                 {isLoading ? "Complete...." : "Complete"}
               </Button>
               <Button onClick={dismiss}>Cancel</Button>

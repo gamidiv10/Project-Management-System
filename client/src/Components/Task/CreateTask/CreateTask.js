@@ -85,6 +85,12 @@ const CreateTask = ({ dismiss }) => {
     if (!values.assigneeName) {
       errors.assigneeName = "Required";
     }
+    if (!values.dueDate) {
+      errors.dueDate = "Required";
+    }
+    if (!values.storyPoints) {
+      errors.storyPoints = "Required";
+    }
 
     if (values.projectName) {
       setProjectName(values.projectName);
@@ -187,6 +193,20 @@ const CreateTask = ({ dismiss }) => {
       size: 6,
       field: (
         <TextField
+          name="storyPoints"
+          label="Story Points"
+          type="number"
+          required={true}
+          InputLabelProps={{
+            shrink: true,
+          }}
+        />
+      ),
+    },
+    {
+      size: 6,
+      field: (
+        <TextField
           name="dueDate"
           label="Due Date"
           type="date"
@@ -211,6 +231,7 @@ const CreateTask = ({ dismiss }) => {
     let priority = values.taskPriority;
     let assignee = values.assigneeName;
     let dueDate = new Date(values.dueDate).toISOString();
+    let storyPoints = values.storyPoints;
     let sprintNumber = 2;
     let taskStatus = "To do";
     let taskId = uuid();
@@ -228,7 +249,8 @@ const CreateTask = ({ dismiss }) => {
         assignee,
         sprintNumber,
         taskStatus,
-        dueDate
+        dueDate,
+        storyPoints,
       })
       .then((response) => {
         const value = {

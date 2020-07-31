@@ -3,7 +3,7 @@
  * @author Sneh Jogani <sjogani16@dal.ca>
  */
 
-const { keys } = require('lodash')
+const { keys } = require("lodash");
 const Task = require("../models/Task");
 
 // add task post request
@@ -47,7 +47,8 @@ exports.editTask = async (req, res, next) => {
           description: req.body.description,
           priority: req.body.priority,
           assignee: req.body.assignee,
-          dueDate: req.body.dueDate
+          dueDate: req.body.dueDate,
+          storyPoints: req.body.storyPoints,
         },
       }
     );
@@ -134,22 +135,21 @@ exports.changeTaskByStatus = (req, res) => {
 };
 
 exports.getCalendarViewTasks = async (req, res) => {
-  const { query: reqQuery } = req
-  let query = {}
+  const { query: reqQuery } = req;
+  let query = {};
 
-  keys(reqQuery)
-    .forEach(key => {
-      const value = reqQuery[key]
-      if (value && value !== '') {
-        query[key] = value
-      }
-    })
+  keys(reqQuery).forEach((key) => {
+    const value = reqQuery[key];
+    if (value && value !== "") {
+      query[key] = value;
+    }
+  });
 
   try {
-    const tasks = await Task.find(query)
-    return res.status(200).json({ total: tasks.length, data: tasks })
+    const tasks = await Task.find(query);
+    return res.status(200).json({ total: tasks.length, data: tasks });
   } catch (error) {
-    console.log(err)
-    return res.status(500).json({ error: err })
+    console.log(err);
+    return res.status(500).json({ error: err });
   }
-}
+};

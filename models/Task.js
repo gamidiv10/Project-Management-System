@@ -42,10 +42,14 @@ const TaskSchema = new mongoose.Schema({
     type: String,
     required: [true, "Task Status is required"],
   },
+  storyPoints: {
+    type: Number,
+    required: [true, "Story Points is required"],
+  },
   dueDate: {
     type: Date,
-    required: [true, "Task due date is required"]
-  }
+    required: [true, "Task due date is required"],
+  },
 });
 
 module.exports = mongoose.model("Task", TaskSchema);

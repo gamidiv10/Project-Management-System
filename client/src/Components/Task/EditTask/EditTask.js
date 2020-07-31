@@ -82,6 +82,12 @@ const EditTask = ({ dismiss, task }) => {
     if (!values.assigneeName) {
       errors.assigneeName = "Required";
     }
+    if (!values.dueDate) {
+      errors.dueDate = "Required";
+    }
+    if (!values.storyPoints) {
+      errors.storyPoints = "Required";
+    }
 
     if (values.projectName) {
       setProjectName(values.projectName);
@@ -181,6 +187,20 @@ const EditTask = ({ dismiss, task }) => {
       size: 6,
       field: (
         <TextField
+          name="storyPoints"
+          label="Story Points"
+          type="number"
+          required={true}
+          InputLabelProps={{
+            shrink: true,
+          }}
+        />
+      ),
+    },
+    {
+      size: 6,
+      field: (
+        <TextField
           name="dueDate"
           label="Due Date"
           type="date"
@@ -209,11 +229,10 @@ const EditTask = ({ dismiss, task }) => {
         description: values.taskDescription,
         priority: values.taskPriority,
         assignee: values.assigneeName,
-        dueDate: new Date(values.dueDate).toISOString()
+        storyPoints: values.storyPoints,
+        dueDate: new Date(values.dueDate).toISOString(),
       })
-      .then((response) => {
-        console.log(response);
-      })
+      .then((response) => {})
       .catch((error) => console.log(error.message));
   };
 
@@ -235,7 +254,8 @@ const EditTask = ({ dismiss, task }) => {
           taskDescription: task.description,
           taskPriority: task.priority,
           assigneeName: task.assignee,
-          dueDate: task.dueDate.substring(0, 10)
+          storyPoints: task.storyPoints,
+          dueDate: task.dueDate.substring(0, 10),
         }}
         render={({ handleSubmit }) => (
           <form onSubmit={handleSubmit} className="taskFormField">
