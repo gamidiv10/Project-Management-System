@@ -3,7 +3,7 @@ import { Router } from "react-router-dom";
 import history from "./services/history";
 import Routes from "./Routes";
 import Navigationbar from "./Components/Navbar/Navbar";
-import userContext from "./Context/userContext";
+import { UserProvider } from "./Context/userContext";
 import tasksItemsContext from "./Context/tasksItemsContext";
 import projectContext from "./Context/projectContext";
 import * as firebase from "firebase";
@@ -32,7 +32,6 @@ function App() {
   }
   useEffect(() => {
     readSession();
-    console.log("#$%### USer ", user);
   }, []);
 
   useEffect(() => {
@@ -43,16 +42,16 @@ function App() {
 
   return (
     <AuthContext.Provider value={{ isLoggedIn, setLoggedIn }}>
-      <Router history={history}>
-        <userContext.Provider value={{ user, setUser }}>
+      <UserProvider>
+        <Router history={history}>
           <tasksItemsContext.Provider value={{ tasks, setTasks }}>
             <projectContext.Provider value={{ project, setProject }}>
               {isNavbar ? <Navigationbar /> : ""}
               <Routes />
             </projectContext.Provider>
           </tasksItemsContext.Provider>
-        </userContext.Provider>
-      </Router>
+        </Router>
+      </UserProvider>
     </AuthContext.Provider>
   );
 }

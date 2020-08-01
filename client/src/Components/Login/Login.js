@@ -3,7 +3,7 @@
  */
 import React, { useState, useContext, useEffect } from "react";
 import SocialMedia from "../SignUp/SocialMedia";
-import userContext from "../../Context/userContext";
+import { UserContext } from "../../Context/userContext";
 import { withRouter } from "react-router-dom";
 import * as firebase from "firebase";
 import { AuthContext } from "../../App";
@@ -22,7 +22,7 @@ const Login = ({ history, loginShow }) => {
   const [password, setPassword] = useState("");
   const [passwordError, setPasswordError] = useState(" ");
   const [error, setErrors] = useState("");
-  const { user, setUser } = useContext(userContext);
+  const { user, setUser } = useContext(UserContext);
 
   useEffect(() => {
     if (email) {
@@ -56,12 +56,14 @@ const Login = ({ history, loginShow }) => {
                   if (user) {
                     // User is signed in.
                     setUser(user.displayName);
+                    localStorage.setItem("user", user.displayName);
                   } else {
                     // No user is signed in.
                   }
                 });
                 Auth.setLoggedIn(true);
                 loginShow(false);
+                localStorage.setItem("user", res.user.displayName);
                 //Displaying home page to the user
                 history.push("/home");
               }
@@ -83,7 +85,6 @@ const Login = ({ history, loginShow }) => {
   const validPasswordRegex = RegExp(/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/);
 
   const validateEmailForm = () => {
-    console.log("Validate form email", email);
     if (!email) {
       setEmailError("* email id cannot be empty");
     } else if (!validEmailRegex.test(email)) {

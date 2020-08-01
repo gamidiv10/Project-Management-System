@@ -9,11 +9,12 @@ import { TextField } from "mui-rff";
 import { ReactComponent as CloseIcon } from "../../../icons/close.svg";
 import "./CreateProject.scss";
 import axios from "axios";
-import userContext from "../../../Context/userContext";
+import { UserContext } from "../../../Context/userContext";
 
 const CreateProject = ({ dismiss }) => {
   const [isLoading, setLoading] = useState(false);
-  const { user } = useContext(userContext);
+  const { user } = useContext(UserContext);
+
   useEffect(() => {
     if (isLoading) {
       request().then(() => {

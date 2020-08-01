@@ -3,11 +3,11 @@ import { Card, Button, Row, Col, Container } from "react-bootstrap";
 import Jerry from "../../assets/jerry.jpg";
 import Lisa from "../../assets/lisa.jpg";
 import Steve from "../../assets/steve.jpeg";
-import userContext from "../../Context/userContext";
+import { UserContext } from "../../Context/userContext";
 import "./AboutUs.scss";
 
 const AboutUs = () => {
-  const { user, setUser } = useContext(userContext);
+  const { user, setUser } = useContext(UserContext);
 
   return (
     <Container fluid>

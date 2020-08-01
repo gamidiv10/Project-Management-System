@@ -7,13 +7,13 @@ import { Button } from "react-bootstrap";
 import Comment from "../Comments/Comment/Comment";
 import axios from "axios";
 import { v4 as uuid } from "uuid";
-import userContext from "../../Context/userContext";
+import { UserContext } from "../../Context/userContext";
 
 export const Comments = ({ id }) => {
   const [textArea, setTextArea] = useState("");
   const [disabled, setDisabled] = useState(true);
   const [comments, setComments] = useState([]);
-  const { user } = useContext(userContext);
+  const { user } = useContext(UserContext);
 
   useEffect(() => {
     textArea ? setDisabled(false) : setDisabled(true);

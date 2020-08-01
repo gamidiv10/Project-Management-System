@@ -19,7 +19,7 @@ import { Button } from "react-bootstrap";
 import CreateModal from "../Modal/Modal";
 import { Modal } from "react-bootstrap";
 import CreateTask from "../Task/CreateTask/CreateTask";
-import userContext from "../../Context/userContext";
+import { UserContext } from "../../Context/userContext";
 import { withRouter } from "react-router-dom";
 import Login from "../Login/Login.js";
 import Register from "../SignUp/Register";
@@ -30,10 +30,12 @@ import { AuthContext } from "../../App";
 const Navigationbar = ({ history }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalOpenLogin, setIsModalOpenLogin] = useState(false);
-  const { user, setUser } = useContext(userContext);
+  const { user, setUser } = useContext(UserContext);
   const [show, setShow] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
   const [navProjectsList, setNavProjectsList] = useState([]);
+  const [userName, setUserName] = useState(localStorage.getItem("user"));
+  const [loggedOut, setLoggedOut] = useState(true);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -53,6 +55,8 @@ const Navigationbar = ({ history }) => {
         // Sign-out successful.
         setUser("");
         Auth.setLoggedIn(false);
+        setLoggedOut(!loggedOut);
+        localStorage.clear();
         history.push("/login");
       })
       .catch(function (error) {
@@ -77,7 +81,11 @@ const Navigationbar = ({ history }) => {
       .catch((error) => console.log(error.message));
   }, []);
 
-  if (Auth.isLoggedIn === true) {
+  useEffect(() => {
+    setUserName(localStorage.getItem("user"));
+  }, [user]);
+
+  if (userName) {
     LeftNavItems = [
       {
         item: "Taskatic",
