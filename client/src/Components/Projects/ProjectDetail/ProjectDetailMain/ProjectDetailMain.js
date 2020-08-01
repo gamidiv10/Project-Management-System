@@ -280,33 +280,35 @@ function ProjectDetailMain({ match }) {
 
         setInTesting(displayTasks);
         setIssueCount((issuesCount) => issuesCount + displayTasks.length);
-      })
-      .catch((error) => console.log(error.message));
 
-    axios
-      .get(`/task/getTaskByStatus/${projectName}/Done/${sprintNumber}`)
-      .then((response) => {
-        const tasksData = response.data;
-        const displayTasks = [];
+        axios
+          .get(`/task/getTaskByStatus/${projectName}/Done/${sprintNumber}`)
+          .then((response) => {
+            const tasksData = response.data;
+            const displayTasks = [];
 
-        tasksData.map((task) => {
-          const details = {
-            taskSummary: task.summary,
-            issueType: task.issueType,
-            taskPriority: task.priority,
-            assigneeName: task.assignee,
-          };
-          displayTasks.push({
-            id: task.id,
-            task: { ...task },
-            content: <Task {...details} />,
-          });
-        });
+            tasksData.map((task) => {
+              const details = {
+                taskSummary: task.summary,
+                issueType: task.issueType,
+                taskPriority: task.priority,
+                assigneeName: task.assignee,
+              };
+              displayTasks.push({
+                id: task.id,
+                task: { ...task },
+                content: <Task {...details} />,
+              });
+            });
 
-        setDone(displayTasks);
-        setCompletedCount((issuesCount) => issuesCount + displayTasks.length);
+            setDone(displayTasks);
+            setCompletedCount(
+              (issuesCount) => issuesCount + displayTasks.length
+            );
 
-        setReceivedData(!receivedData);
+            setReceivedData(!receivedData);
+          })
+          .catch((error) => console.log(error.message));
       })
       .catch((error) => console.log(error.message));
   }, [projectName, taskName]);
