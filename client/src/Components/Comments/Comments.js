@@ -13,7 +13,7 @@ export const Comments = ({ id }) => {
   const [textArea, setTextArea] = useState("");
   const [disabled, setDisabled] = useState(true);
   const [comments, setComments] = useState([]);
-  const { user } = useContext(UserContext);
+  const userName = localStorage.getItem("user");
 
   useEffect(() => {
     textArea ? setDisabled(false) : setDisabled(true);
@@ -32,13 +32,12 @@ export const Comments = ({ id }) => {
 
   const addComment = () => {
     const commentId = uuid();
-    const username = user ? user : "Satya";
     //Request to post the comments to DB
     axios
       .post("/comment/addComment", {
         id,
         comment: textArea,
-        userName: username,
+        userName: userName,
         commentId,
       })
       .then((response) => {
