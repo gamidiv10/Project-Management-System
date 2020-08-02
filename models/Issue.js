@@ -5,6 +5,10 @@ const IssueSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  projectId: {
+    type: Number,
+    required: true,
+  },
   name: {
     type: String,
     required: true,

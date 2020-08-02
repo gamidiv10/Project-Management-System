@@ -2,10 +2,14 @@ const mongoose = require("mongoose");
 const Issue = require("./Issue");
 
 const SprintSchema = new mongoose.Schema({
-  sprint_number: {
+  sprintNumber: {
     type: Number,
     required: true,
     default: 0,
+  },
+  projectId: {
+    type: Number,
+    required: true,
   },
   name: {
     type: String,

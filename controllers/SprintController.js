@@ -5,8 +5,16 @@ exports.createSprint = (req, res) => {
   const sprint = {
     name: req.body.name,
     goal: req.body.goal,
+    projectId: req.body.projectId,
     description: req.body.description ? req.body.description : "",
   };
+  if(!(sprint.name || sprint.goal || sprint.projectId)) {
+    res.send({
+      success: false,
+      isError: false,
+      message: 'Some data seems missing. Make sure you are providing mandatory parameters i.e. sprint name, sprint goal and projectId.'
+    })
+  }
   Sprint.create(sprint)
     .then((createdSprint) => {
       res.send({
@@ -25,11 +33,20 @@ exports.createSprint = (req, res) => {
     });
 };
 exports.updateSprint = (req, res) => {
+  const sprintId = req.body.sprintId
   const sprint = {
     name: req.body.name,
     goal: req.body.goal,
+    projectId: req.body.projectId,
     description: req.body.description ? req.body.description : "",
   };
+  if(!(sprintId || sprint.name || sprint.goal || sprint.projectId)) {
+    res.send({
+      success: false,
+      isError: false,
+      message: 'Some data seems missing. Make sure you are providing mandatory parameters i.e. sprintId, sprint name, sprint goal and projectId.'
+    })
+  }
   Sprint.findOneAndUpdate({ _id: req.body.sprintId }, sprint, { new: true })
     .then((updatedSprint) => {
       res.send({
@@ -49,6 +66,13 @@ exports.updateSprint = (req, res) => {
 };
 
 exports.deleteSprint = (req, res) => {
+  if (!(req.body.projectId || req.body.sprintId)) {
+    res.send({
+      success: false,
+      isError: false,
+      message: 'Some input data seems missing. Make sure to provide projectId and sprintId for deleting a sprint.'
+    })
+  }
   Sprint.findOneAndDelete({ _id: req.body.sprintId })
     .then((deletedSprint) => {
       if (deletedSprint && deletedSprint.issues !== []) {
@@ -67,11 +91,7 @@ exports.deleteSprint = (req, res) => {
           });
         });
       }
-      res.send({
-        success: true,
-        isError: false,
-        message: "Sprint successfully got deleted.",
-      });
+      this.getSprints(req, res)
     })
     .catch((error) => {
       res.send({
@@ -84,8 +104,16 @@ exports.deleteSprint = (req, res) => {
 };
 
 exports.getSprints = (req, res) => {
-  const query = req.body.sprintId ? { _id: req.body.sprintId } : {};
-  Sprint.find(query)
+  const projectId = req.body.projectId
+  
+  if (!projectId) {
+    res.send({
+      success: false,
+      isError: false,
+      message: 'Provided project Id is not valid.'
+    })
+  }
+  Sprint.find({ projectId })
     .then((sprints) => {
       res.send({
         success: true,

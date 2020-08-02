@@ -19,7 +19,7 @@ const EditTask = ({ dismiss, task }) => {
   const [assigneeNames, setAssigneeNames] = useState([]);
   const [projectName, setProjectName] = useState("");
   let buttonDisable = true;
-  const issueTypes = ["Epic", "Story", "Task", "Bug"];
+  const issueTypes = ["Story", "Task", "Bug"];
   const priorityTypes = ["Highest", "High", "Medium", "Low", "Lowest"];
 
   useEffect(() => {

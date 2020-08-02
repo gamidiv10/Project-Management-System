@@ -9,6 +9,8 @@ import {
 // import { fetchBacklogIssues } from "../../redux/backlog/backlogAction"
 import ProjectDetail from "../Projects/ProjectDetail/ProjectDetail"
 import VerticalCenteredModal from "./VerticalCenteredModal"
+import CreateModal from "../Modal/Modal"
+import CreateTask from "../Task/CreateTask/CreateTask"
 import { 
     get_sprints,
     get_issues
@@ -31,7 +33,14 @@ const Backlog = () => {
 
     // useEffect(() => {
     //     dispatch(fetchBacklogIssues())
-    // })
+    // }, [])
+    const [isModalOpen, setIsModalOpen] = React.useState(false);
+    const dismissable = () => {
+        setIsModalOpen(false);
+    };
+    const handleModalOpen = () => {
+        setIsModalOpen(!isModalOpen);
+    };
     const renderIssues = () => (
         issues.map((item, index) => (
             <BacklogItem 
@@ -63,13 +72,7 @@ const Backlog = () => {
                             </div>
                             <div className="buttons">
                                 <Button onClick={() => {
-                                    setData({ 
-                                        heading: "Create Issue", 
-                                        name:"Issue Name", 
-                                        description: "Issue Description", 
-                                        isBacklog: true 
-                                    })
-                                    setModalShow(true)
+                                    handleModalOpen()
                                 }}>Create Issue</Button>
                             </div>
                         </Row>
@@ -96,6 +99,10 @@ const Backlog = () => {
                         />
                     </div>
                 </main>
+                <CreateModal
+                    visible={isModalOpen}
+                    children={isModalOpen ? <CreateTask dismiss={dismissable} /> : ""}
+                />
             </ProjectDetail>
         </>
     )

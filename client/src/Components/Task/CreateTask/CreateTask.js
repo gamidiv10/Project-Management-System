@@ -24,7 +24,7 @@ const CreateTask = ({ dismiss }) => {
   const { setProject } = useContext(projectContext);
   const [projectName, setProjectName] = useState("");
   let buttonDisable = true;
-  const issueTypes = ["Epic", "Story", "Task", "Bug"];
+  const issueTypes = [ "Story", "Task", "Bug"];
   const priorityTypes = ["Highest", "High", "Medium", "Low", "Lowest"];
 
   useEffect(() => {
