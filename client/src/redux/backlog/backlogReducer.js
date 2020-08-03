@@ -6,7 +6,7 @@ import {
 
 const initialBacklogState = {
     loading: false,
-    issues: [],
+    tasks: [],
     error: '',
     success: false,
     message: ''
@@ -24,17 +24,37 @@ const backlogReducer = (state = initialBacklogState, action) => {
                 ...state,
                 loading: false,
                 success: false,
-                error: action.payload,
-                message: action.message
+                error: action.payload.error,
+                message: action.payload.message
             }
-        case BACKLOG_FETCH_SUCCESS:
+        case TASK_LIST_SUCCESS:
+            let tasks = action.payload
+            action.payload.map((task, index) => {
+                if (task.sprintNumber != 0) {
+                    tasks.splice(index, 1)
+                }
+            })
             return {
                 ...state,
                 loading: false,
-                issues: action.payload,
+                tasks,
                 success: true,
                 error: '',
-                message: action.message
+                message: 'Successfully fetched all tasks for given sprint number and project name.'
+            }
+        case UPDATE_TASK_FOR_SPRINT_SUCCESS:
+            let tasks = state.tasks
+            action.payload.map((task, index) => {
+                if (tasks[index].id === task.id) {
+                    tasks[index] = task
+                }
+            })
+            return {
+                ...state,
+                loading: false,
+                tasks,
+                success: true,
+                message: action.payload.message
             }
         default: return state
     }

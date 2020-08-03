@@ -7,7 +7,7 @@ exports.createSprint = (req, res) => {
     name: req.body.name,
     goal: req.body.goal,
     projectName: req.body.projectName,
-    description: req.body.description ? req.body.description : "",
+    description: req.body.description,
   };
   // default it is first sprint with sprint number 1
   if(!(sprint.name || sprint.goal || sprint.projectName)) {
@@ -41,7 +41,7 @@ exports.updateSprint = (req, res) => {
     name: req.body.name,
     goal: req.body.goal,
     projectName: req.body.projectName,
-    description: req.body.description ? req.body.description : "",
+    description: req.body.description,
   };
   if(!sprintId || !sprint.name || !sprint.goal || !sprint.projectName) {
     res.send({
