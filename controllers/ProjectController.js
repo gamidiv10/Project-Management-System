@@ -32,7 +32,6 @@ exports.createProject = async (req, res, next) => {
 //Edit Project Post Request
 exports.editProject = async (req, res, next) => {
   try {
-    console.log("request", req.body);
     const project = await Project.updateOne(
       { projectKey: req.body.projectKey },
       {

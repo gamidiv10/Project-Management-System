@@ -18,14 +18,12 @@ export const Reports = ({ match }) => {
     axios
       .get(`/reports/getReportData/${projectName}`)
       .then((response) => {
-        console.log(response.data.data);
         response.data.data.forEach((item) => {
           sprintLabels.push(`Sprint-${item.sprint}`);
           completedPoints.push(item.completedPoints);
           plannedPoints.push(item.plannedPoints);
           technicalDebtPoints.push(item.technicalDebt);
         });
-        console.log(completedPoints, plannedPoints, technicalDebtPoints);
         setChartData({
           labels: sprintLabels,
           datasets: [

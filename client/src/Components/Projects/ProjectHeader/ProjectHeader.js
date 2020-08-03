@@ -3,14 +3,12 @@
  */
 import React, { useState } from "react";
 import "./ProjectHeader.scss";
-import { Button, Form } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import Modal from "../../Modal/Modal";
 import CreateProject from "../CreateProject/CreateProject";
-import { useHistory } from "react-router-dom";
 
 const ProjectHeader = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const history = useHistory();
   const handleModalOpen = () => {
     setIsModalOpen(true);
   };
@@ -26,11 +24,6 @@ const ProjectHeader = () => {
         <div className="buttons">
           <Button onClick={handleModalOpen}>Create Project</Button>
         </div>
-      </section>
-      <section>
-        <Form className="projectForm">
-          <Form.Control type="text" placeholder="Search for project" />
-        </Form>
       </section>
       <Modal
         visible={isModalOpen}

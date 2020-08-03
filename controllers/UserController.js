@@ -19,7 +19,6 @@ exports.addUser = async (req, res) => {
       projectType: "Dummy Project",
       projectLead: "Dummy Lead",
     });
-    console.log(req.body.id);
     return res.status(201).json({
       success: true,
       data: user,
@@ -64,7 +63,6 @@ exports.getUser = async (req, res) => {
 //Updating the user details
 exports.modifyUser = async (req, res) => {
   try {
-    console.log("request", req.body);
     const user = await UserModel.updateOne(
       { id: req.body.id },
       {

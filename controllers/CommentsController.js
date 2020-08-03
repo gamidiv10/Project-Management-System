@@ -6,7 +6,6 @@ const Comment = require("../models/Comment");
 // Add Comment post request
 exports.addComment = async (req, res) => {
   try {
-    console.log("comment", req.body);
     const comment = await Comment.create(req.body);
     return res.status(201).json({
       success: true,
@@ -15,7 +14,6 @@ exports.addComment = async (req, res) => {
   } catch (error) {
     if (error.name === "ValidationError") {
       const messages = Object.values(error.errors).map((val) => val.message);
-      console.log(messages);
       return res.status(400).json({
         success: false,
         error: messages,
@@ -49,7 +47,6 @@ exports.getComments = (req, res) => {
 // edit comment put request
 exports.editComment = async (req, res) => {
   try {
-    console.log("request", req.body);
     const comment = await Comment.updateOne(
       { commentId: req.body.commentId },
       {
