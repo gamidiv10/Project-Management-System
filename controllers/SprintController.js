@@ -1,18 +1,20 @@
 const Sprint = require("../models/Sprint");
-const Issue = require("../models/Issue");
+const Task = require("../models/Task");
+const { editTask } = require('../controllers/TasksController')
 
 exports.createSprint = (req, res) => {
   const sprint = {
     name: req.body.name,
     goal: req.body.goal,
-    projectId: req.body.projectId,
+    projectName: req.body.projectName,
     description: req.body.description ? req.body.description : "",
   };
-  if(!(sprint.name || sprint.goal || sprint.projectId)) {
+  // default it is first sprint with sprint number 1
+  if(!(sprint.name || sprint.goal || sprint.projectName)) {
     res.send({
       success: false,
       isError: false,
-      message: 'Some data seems missing. Make sure you are providing mandatory parameters i.e. sprint name, sprint goal and projectId.'
+      message: 'Some data seems missing. Make sure you are providing mandatory parameters i.e. sprint name, sprint goal and projectName.'
     })
   }
   Sprint.create(sprint)
@@ -23,7 +25,8 @@ exports.createSprint = (req, res) => {
         message: "Successfully created Sprint.",
       });
     })
-    .catch((error) => {
+    .catch(error => {
+      console.log('Error', error);
       res.send({
         success: false,
         isError: true,
@@ -37,14 +40,14 @@ exports.updateSprint = (req, res) => {
   const sprint = {
     name: req.body.name,
     goal: req.body.goal,
-    projectId: req.body.projectId,
+    projectName: req.body.projectName,
     description: req.body.description ? req.body.description : "",
   };
-  if(!(sprintId || sprint.name || sprint.goal || sprint.projectId)) {
+  if(!sprintId || !sprint.name || !sprint.goal || !sprint.projectName) {
     res.send({
       success: false,
       isError: false,
-      message: 'Some data seems missing. Make sure you are providing mandatory parameters i.e. sprintId, sprint name, sprint goal and projectId.'
+      message: 'Some data seems missing. Make sure you are providing mandatory parameters i.e. sprintId, sprint name, sprint goal and projectName.'
     })
   }
   Sprint.findOneAndUpdate({ _id: req.body.sprintId }, sprint, { new: true })
@@ -66,54 +69,62 @@ exports.updateSprint = (req, res) => {
 };
 
 exports.deleteSprint = (req, res) => {
-  if (!(req.body.projectId || req.body.sprintId)) {
+  if (!req.body.projectName || !req.body.sprintId) {
     res.send({
       success: false,
       isError: false,
-      message: 'Some input data seems missing. Make sure to provide projectId and sprintId for deleting a sprint.'
+      message: 'Some input data seems missing. Make sure to provide projectName, sprintId for deleting a sprint.'
     })
   }
-  Sprint.findOneAndDelete({ _id: req.body.sprintId })
-    .then((deletedSprint) => {
-      if (deletedSprint && deletedSprint.issues !== []) {
-        deletedSprint.issues.map((issueId) => {
-          Issue.findOneAndUpdate(
-            { _id: issueId },
-            { isPartOfSprint: false },
-            { new: true }
-          ).catch((err1) => {
+  Sprint.findOneAndDelete({ _id: req.body.sprintId, sprintNumber: req.body.sprintNumber })
+    .then(deletedSprint => {
+      if (deletedSprint && deletedSprint.sprintNumber) {
+        Task.updateMany(
+          { sprintNumber: deletedSprint.sprintNumber, projectName: req.body.projectName },
+          { sprintNumber: 0 }
+        ).then(updatedTask => {
             res.send({
-              success: false,
-              isError: true,
-              error: err1,
-              message: "Error occurred while updating Issues for Sprint.",
-            });
-          });
-        });
+              success: true,
+              isError: false,
+              message: 'Successfully deleted the sprint and updated ' + updatedTask.nModified +' task/s.'
+            })
+        }).catch((err1) => {
+          res.send({
+            success: false,
+            isError: true,
+            error: err1,
+            message: "Error occurred while updating Tasks for the Sprint.",
+          })
+        })
+      } else {
+        res.send({
+          success: false,
+          isError: false,
+          message: 'No sprint with given id and/or sprintNumber is present.'
+        })
       }
-      this.getSprints(req, res)
     })
-    .catch((error) => {
+    .catch(error => {
       res.send({
         success: false,
         isError: true,
         error,
         message: "Error occurred while deleting Sprint.",
       });
-    });
+    })
 };
 
 exports.getSprints = (req, res) => {
-  const projectId = req.body.projectId
+  const projectName = req.body.projectName
   
-  if (!projectId) {
+  if (!projectName) {
     res.send({
       success: false,
       isError: false,
-      message: 'Provided project Id is not valid.'
+      message: 'Provided project Name is not valid.'
     })
   }
-  Sprint.find({ projectId })
+  Sprint.find({ projectName })
     .then((sprints) => {
       res.send({
         success: true,
@@ -132,38 +143,53 @@ exports.getSprints = (req, res) => {
     });
 };
 
-exports.addIssueToSprint = (req, res) => {
-  Issue.findOne({ _id: req.body.issueId })
-    .then((issue) => {
-      if (issue) {
-        Sprint.findOne({ _id: req.body.sprintId }).then((sprintFound) => {
+exports.taskToSprintUpdate = (req, res) => {
+  const sprintNumber = req.body.sprintNumber
+  const taskId = req.body.taskId
+  const sprintId = req.body.sprintId
+  const updateSprintTo = req.body.updateSprintTo
+
+  if (!sprintNumber || !taskId || !sprintId || !updateSprintTo ) {
+    res.send({
+      success: false,
+      isError: false,
+      message: 'Some data seems missing. Make sure you are providing mandatory parameters i.e. sprintNumber taskId sprintId and updateSprintTo.'
+    })
+  }
+  Task.find({ _id: taskId })
+    .then(task => {
+      if (task) {
+        Sprint.findOne({ _id: sprintId, sprintNumber }).then(sprintFound => {
           if (sprintFound) {
-            const sprint = sprintFound;
-            sprint.issues.push(issue);
-            Sprint.findOneAndUpdate({ _id: req.body.sprintId }, sprint, {
-              new: true,
-            }).then((updatedSprint) => {
-              if (updatedSprint) {
-                Issue.findOneAndUpdate(
-                  { _id: req.body.issueId },
-                  { isPartOfSprint: true },
-                  { new: true }
-                ).then((updatedIssue) => {
-                  res.send({
-                    success: true,
-                    isError: false,
-                    issue: updatedIssue,
-                    sprint: updatedSprint,
-                    message: "Successfully added issue to the sprint.",
-                  });
-                });
+            Task.findOneAndUpdate({ _id: taskId }, { sprintNumber: updateSprintTo })
+            .then(updatedTask => {
+              if (updatedTask) {
+                res.send({
+                  success: true,
+                  isError: false,
+                  task: updatedTask,
+                  message: 'Successfully updated task for the given sprint.'
+                })
+              } else {
+                res.send({
+                  success: false,
+                  isError: false,
+                  message: 'There is no task which got updated.'
+                })
               }
-            });
+            }).catch(updatingErr => {
+                res.send({
+                  success: false,
+                  isError: false,
+                  error: updatingErr,
+                  message: "Error occurred while updating task for the given sprint.",
+                });
+            })
           } else {
             res.send({
               success: false,
               isError: false,
-              message: "No Sprint with provided sprintId found.",
+              message: "No Sprint with provided sprintId and sprintNumber found.",
             });
           }
         });
@@ -171,7 +197,7 @@ exports.addIssueToSprint = (req, res) => {
         res.send({
           success: false,
           isError: false,
-          message: "No issue with provided issueId found.",
+          message: "No Task with provided taskId found.",
         });
       }
     })
@@ -180,69 +206,81 @@ exports.addIssueToSprint = (req, res) => {
         success: false,
         isError: false,
         error,
-        message: "Error occurred while looking for an issue.",
+        message: "Error occurred while looking for an Task.",
       });
     });
 };
 
-exports.removeIssueFromSprint = (req, res) => {
-  let sprint = {};
+exports.getTasksForSprint = (req, res) => {
+  const sprintNumber = req.body.sprintNumber
+  const sprintId = req.body.sprintId
 
-  Issue.findOne({ _id: req.body.issueId })
-    .then((issue) => {
-      if (issue) {
-        console.log("__Issue Found", issue);
-        Sprint.findOne({ _id: req.body.sprintId }).then((sprintFound) => {
-          if (sprintFound) {
-            sprint = sprintFound;
-            sprintFound.issues.map((issue, index) => {
-              if (issue._id.toString() === req.body.issueId) {
-                console.log("__Sprint Found__", index);
-                sprint.issues.splice(index, 1);
-                console.log("_Issues", sprint);
-                Sprint.findOneAndUpdate({ _id: req.body.sprintId }, sprint, {
-                  new: true,
-                }).then((updatedSprint) => {
-                  if (updatedSprint) {
-                    Issue.findOneAndUpdate(
-                      { _id: req.body.issueId },
-                      { isPartOfSprint: false },
-                      { new: true }
-                    ).then((updatedIssue) => {
-                      res.send({
-                        success: true,
-                        isError: false,
-                        issue: updatedIssue,
-                        sprint: updatedSprint,
-                        message: "Successfully removed issue from the sprint.",
-                      });
-                    });
-                  }
-                });
-              }
-            });
-          } else {
-            res.send({
-              success: false,
-              isError: false,
-              message: "No Sprint with provided sprintId found.",
-            });
-          }
-        });
-      } else {
-        res.send({
-          success: false,
-          isError: false,
-          message: "No issue with provided issueId found.",
-        });
-      }
+  if (!sprintNumber || !sprintId) {
+    res.send({
+      success: false,
+      isError: false,
+      message: 'Some data seems missing. Make sure you are providing mandatory parameters i.e. sprintNumber and sprintId.'
     })
-    .catch((error) => {
+  }
+  Sprint.find({ _id: sprintId, sprintNumber })
+  .then(() => {
+      Task.find({ sprintNumber })
+      .then(tasks => {
+        res.send({
+          success: true,
+          isError: false,
+          tasks,
+          message: 'Successfully fetched the tasks.'
+        })
+      }) 
+  })
+  .catch(err => {
+    res.send({
+      success: false,
+      isError: true,
+      error: err,
+      message: 'Error occurred while finding sprint with provided sprint data.'
+    })
+  })
+}
+exports.completeSprint = (req, res) => {
+  const sprintNumber = req.body.sprintNumber
+  const sprintId = req.body.sprintId
+
+  if (!sprintNumber || !sprintId) {
+    res.send({
+      success: false,
+      isError: false,
+      message: 'Some data seems missing. Make sure you are providing mandatory parameters i.e. sprintNumber and sprintId.'
+    })
+  }
+  Sprint.findOneAndUpdate(
+    { _id: sprintId, sprintNumber }, 
+    { isSprintComplete: true, isActive: false }, 
+    { new: true }
+  )
+  .then(sprint => {
+    if(sprint) {
+      Task.updateMany(
+        { sprintNumber, projectName: sprint.projectName },
+        { sprintNumber: 0 }
+      )
+      .then(updatedTask => {
+        if (updatedTask.ok === 1) {
+          res.send({
+            success: true,
+            isError: false,
+            sprint,
+            message: 'Successfully completed sprint and updated ' + updatedTask.nModified +' task/s.'
+          })
+        }
+      })
+    } else {
       res.send({
         success: false,
         isError: false,
-        error,
-        message: "Error occurred while looking for an issue.",
-      });
-    });
-};
+        message: 'Could not find the sprint with given id'
+      })
+    }
+  })
+}

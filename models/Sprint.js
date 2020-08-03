@@ -1,14 +1,14 @@
 const mongoose = require("mongoose");
-const Issue = require("./Issue");
+const CounterModel = require('./Counter')
 
-const SprintSchema = new mongoose.Schema({
+const sprintSchema =  new mongoose.Schema({
   sprintNumber: {
     type: Number,
     required: true,
-    default: 0,
+    default: 0
   },
-  projectId: {
-    type: Number,
+  projectName: {
+    type: String,
     required: true,
   },
   name: {
@@ -22,13 +22,22 @@ const SprintSchema = new mongoose.Schema({
   description: {
     type: String,
   },
-  issues: {
-    type: [Issue.Schema],
-    default: [],
+  isSprintComplete: {
+    type: Boolean,
+    default: false,
   },
   isActive: {
     type: Boolean,
     default: false,
   },
+})
+
+sprintSchema.pre('save', async function() {
+  // Don't increment if this is NOT a newly created document
+  if(!this.isNew) return;
+
+  const sprintNumber = await CounterModel.increment('sprintNumber');
+  this.sprintNumber = sprintNumber;
 });
-module.exports = mongoose.model("Sprint", SprintSchema);
+
+module.exports = mongoose.model('Sprint', sprintSchema)

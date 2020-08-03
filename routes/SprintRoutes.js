@@ -4,8 +4,9 @@ const {
   updateSprint,
   deleteSprint,
   getSprints,
-  addIssueToSprint,
-  removeIssueFromSprint,
+  taskToSprintUpdate,
+  getTasksForSprint,
+  completeSprint
 } = require("../controllers/SprintController");
 
 const router = express.Router();
@@ -14,7 +15,9 @@ router.post("/createSprint", createSprint);
 router.put("/updateSprint", updateSprint);
 router.delete("/deleteSprint", deleteSprint);
 router.post("/getSprints", getSprints);
-router.post("/addIssueToSprint", addIssueToSprint);
-router.post("/removeIssueFromSprint", removeIssueFromSprint);
+router.put("/taskToSprintUpdate", taskToSprintUpdate);
+router.post("/getTasksForSprint", getTasksForSprint);
+router.post("/completeSprint", completeSprint);
+
 
 module.exports = router;

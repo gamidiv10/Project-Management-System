@@ -11,6 +11,7 @@ import {
     insert_sprint,
     insert_issue
 } from "./dbOperations"
+import "../ContactUs/ContactUs.scss"
 
 // import {
 //     addBacklogIssue
@@ -18,8 +19,13 @@ import {
 
 
 const VerticalCenteredModal = props => {
-    // const [error, setError] = React.useState({ name: "", goal: "", description: "" })
+    const [error, setError] = React.useState({ name: "", goal: "" })
     // const dispatch = useDispatch()
+
+    const onChange = (e) => {
+        e.preventDefault()
+        setError({ name: "", goal: "" })
+    }
 
     const onSubmit = e => {
         e.preventDefault()
@@ -37,8 +43,22 @@ const VerticalCenteredModal = props => {
             dataObj.sprintName = e.target.field1.value
             dataObj.sprintGoal = e.target.field2.value 
             dataObj.sprintDesc = e.target.field3.value || ""
-            insert_sprint(dataObj)
-            props.onHide()
+            const error = {}
+            let isError = false
+            if (!dataObj.sprintName) {
+                isError = true
+                error.name = "Sprint name cannot be empty."
+            }
+            if (!dataObj.sprintGoal) {
+                isError = true
+                error.goal = "Issue type cannot be empty."
+            }
+            if (isError) {
+                setError(error)
+            } else {
+                insert_sprint(dataObj)
+                props.onHide()
+            }
         }
     }
     return (
@@ -58,7 +78,17 @@ const VerticalCenteredModal = props => {
                     <Form id="modal-form" onSubmit={onSubmit}>
                         <Form.Group controlId="field1">
                             <Form.Label>{props.data.name}</Form.Label>
-                            <Form.Control required type="text" placeholder={"Enter " + props.data.name + " please."}/>
+                            <div className={error.name ? "error" : ""}>
+                                <Form.Control 
+                                    type="text" 
+                                    placeholder={"Please enter" + props.data.name  + "."}
+                                    onChange={onChange}
+                                />
+                            </div>
+                            {
+                                error.name && 
+                                <p style={{ color: "red", fontSize: "13px" }}>{error.name}</p>
+                            }
                         </Form.Group>
                         {
                             props.data.isBacklog 
@@ -74,12 +104,27 @@ const VerticalCenteredModal = props => {
                             :
                                 <Form.Group controlId="field2">
                                     <Form.Label>Sprint Goal</Form.Label>
-                                    <Form.Control required type="text" placeholder="Please enter sprint goal." />
+                                    <div className={error.goal ? "error" : ""}>
+                                        <Form.Control 
+                                            type="text" 
+                                            placeholder="Please enter sprint goal." 
+                                            onChange={onChange}
+                                        />
+                                    </div>
+                                    {
+                                        error.goal && 
+                                        <p style={{ color: "red", fontSize: "13px" }}>{error.goal}</p>
+                                    }
                                 </Form.Group>
                         }
                         <Form.Group controlId="field3">
                             <Form.Label>{props.data.description}</Form.Label>
-                            <Form.Control  as="textarea" rows="3" placeholder={"Enter " + props.data.description + " please."}/>
+                            <Form.Control  
+                                as="textarea" 
+                                rows="3" 
+                                placeholder={"Enter " + props.data.description + " please."}
+                                onChange={onChange}
+                            />
                         </Form.Group>
                     </Form>
                 </Container>
