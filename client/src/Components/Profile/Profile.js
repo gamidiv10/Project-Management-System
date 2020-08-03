@@ -34,7 +34,6 @@ const Profile = ({ history }) => {
     firebase.auth().onAuthStateChanged(function (user) {
       if (user) {
         // User is signed in.
-        console.log("Current signed after refresh", user.uid);
         setUserId(user.uid);
       } else {
         // No user is signed in.
@@ -43,12 +42,10 @@ const Profile = ({ history }) => {
   }, []);
 
   useEffect(() => {
-    console.log("#####", userId);
     getUser();
   }, [userId]);
 
   const getUser = () => {
-    console.log("##Calling get user", userId);
     axios
       .get(`/user/getUser/${userId}`)
       .then((response) => {
