@@ -6,11 +6,19 @@ const router = express.Router();
 const mongoose = require("mongoose");
 
 const UserModel = require("../models/User");
-
+const People = require("../models/People");
 //Adding user to DB
 exports.addUser = async (req, res) => {
   try {
     const user = await UserModel.create(req.body);
+    await People.create({
+      name: req.body.userName,
+      role: req.body.jobTitle,
+      projectName: "Project 0",
+      projectKey: "P0",
+      projectType: "Dummy Project",
+      projectLead: "Dummy Lead",
+    });
     console.log(req.body.id);
     return res.status(201).json({
       success: true,

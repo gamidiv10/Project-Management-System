@@ -18,6 +18,6 @@ router.route("/createProject").post(createProject);
 router.route("/editProject").post(editProject);
 
 //Load all projects Route
-router.route("/getProjects").get(getProjects);
+router.route("/getProjects/:userName").get(getProjects);
 
 module.exports = router;

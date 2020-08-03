@@ -9,7 +9,7 @@ import axios from "axios";
 
 const Projects = () => {
   const [projectsList, setProjectsList] = useState([]);
-
+  const userName = localStorage.getItem("user");
   useEffect(() => {
     getProjects();
   }, []);
@@ -17,7 +17,7 @@ const Projects = () => {
   //Loading all the projects
   const getProjects = () => {
     axios
-      .get("/project/getProjects")
+      .get(`/project/getProjects/${userName}`)
       .then((response) => {
         setProjectsList(response.data.data);
       })
