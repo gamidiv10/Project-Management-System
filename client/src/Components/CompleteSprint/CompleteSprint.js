@@ -119,15 +119,16 @@ const CompleteSprint = ({
       }
     });
 
-    setTimeout(
+    function complete() {
       axios
         .post(`/sprint/completeSprint`, {
           sprintNumber: activeSprint,
         })
         .then((response) => {})
-        .catch((error) => console.log(error.message)),
-      2000
-    );
+        .catch((error) => console.log(error.message));
+    }
+
+    setTimeout(complete, 2000);
 
     setLoading(false);
     setSprintNumber(99999999);
