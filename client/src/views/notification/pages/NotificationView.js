@@ -19,12 +19,18 @@ const NotificationView = () => {
       url: "/notification/list",
       params: { user }
     })
-      .then(({ data: { data } }) => setNotifications(data))
+      .then(({ data: { data, total } }) => {
+        if (total !== notifications.length) {
+          setNotifications(data)
+        }
+      })
       .catch(err => err)
   }
 
   useEffect(() => {
-    fetchNotifications()
+    setInterval(() => {
+      fetchNotifications()
+    }, [5000])
   }, [])
 
   const markAsRead = (id) => {
