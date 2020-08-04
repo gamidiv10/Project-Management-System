@@ -27,6 +27,7 @@ const NotificationSchema = new mongoose.Schema({
     default: Date.now,
     // required: [true, "Task created at required"]
   },
+  for: String,
   read: {
     type: Boolean,
     default: false
