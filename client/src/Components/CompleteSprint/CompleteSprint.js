@@ -113,22 +113,18 @@ const CompleteSprint = ({
             .catch((error) => console.log(error.message));
           axios
             .put(`/task/changeTaskByStatus/To do/${item.id}/${user}`)
-            .then((response) => {})
+            .then((response) => {
+              axios
+                .post(`/sprint/completeSprint`, {
+                  sprintNumber: activeSprint,
+                })
+                .then((response) => {})
+                .catch((error) => console.log(error.message));
+            })
             .catch((error) => console.log(error.message));
         });
       }
     });
-
-    function complete() {
-      axios
-        .post(`/sprint/completeSprint`, {
-          sprintNumber: activeSprint,
-        })
-        .then((response) => {})
-        .catch((error) => console.log(error.message));
-    }
-
-    setTimeout(complete, 2000);
 
     setLoading(false);
     setSprintNumber(99999999);
