@@ -1,7 +1,8 @@
 import {
     BACKLOG_FETCH_REQUEST,
     BACKLOG_FETCH_FAILURE,
-    BACKLOG_FETCH_SUCCESS
+    TASK_LIST_SUCCESS,
+    UPDATE_TASK_FOR_SPRINT_SUCCESS
 } from "./backlogTypes"
 
 const initialBacklogState = {
@@ -44,7 +45,7 @@ const backlogReducer = (state = initialBacklogState, action) => {
                 message: 'Successfully fetched all tasks for given sprint number and project name.'
             }
         case UPDATE_TASK_FOR_SPRINT_SUCCESS:
-            let tasks = state.tasks
+            tasks = state.tasks
             state.tasks.map((task, index) => {
                 if (task.id === action.payload.task.id) {
                     tasks[index] = action.payload.task

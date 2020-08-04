@@ -13,10 +13,13 @@ import {
     FETCH_SPRINT_LIST_SUCCESS,
     DELETE_SPRINT_SUCCESS,
     CREATE_SPRINT_SUCCESS,
-    UPDATE_SPRINT_SUCCESS
+    UPDATE_SPRINT_SUCCESS,
+    UPDATE_SPRINT_FOR_TASK_SUCCESS
 } from './sprintType'
 
-import { UPDATE_TASK_FOR_SPRINT_SUCCESS } from '../backlog/backlogTypes'
+import { 
+    UPDATE_TASK_FOR_SPRINT_SUCCESS 
+} from '../backlog/backlogTypes'
 
 
 const fetchSprintRequest = () => ({
@@ -194,7 +197,7 @@ export const fetchSprintList = projectName => dispatch => {
     })
 }
 
-export const updateTaskToSprint = (sprint, taskId, updateSprintTo) => {
+export const updateTaskToSprint = (sprint, taskId, updateSprintTo) => dispatch => {
     const paramObj = {
         sprintNumber: sprint.sprintNumber,
         taskId,

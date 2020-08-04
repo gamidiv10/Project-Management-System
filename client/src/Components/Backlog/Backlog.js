@@ -24,15 +24,10 @@ const Backlog = () => {
     const [data, setData] = React.useState({ heading: "", isBacklog: false })
     const issues = get_issues()
     const sprints = get_sprints()
-    // const dispatch = useDispatch()
-    // redux state variables
-    // const issues = useSelector(state => state.backlog.issues)
-    // const loading = useSelector(state => state.backlog.loading)
-    // const message = useSelector(state => state.backlog.message)
-    // const success = useSelector(state => state.backlog.success)
+    
 
     // useEffect(() => {
-    //     dispatch(fetchBacklogIssues())
+    //     dispatch(fetchTasks())
     // }, [])
     const [isModalOpen, setIsModalOpen] = React.useState(false);
     const dismissable = () => {

@@ -4,7 +4,8 @@ import {
     FETCH_SPRINT_LIST_SUCCESS,
     UPDATE_SPRINT_FOR_TASK_SUCCESS,
     DELETE_SPRINT_SUCCESS,
-    CREATE_SPRINT_SUCCESS
+    CREATE_SPRINT_SUCCESS,
+    UPDATE_SPRINT_SUCCESS
 } from './sprintType.js'
 
 const initialSprintState = {
@@ -23,7 +24,7 @@ const sprintReducer = (state = initialSprintState, action) => {
         success: true,
         error: '',
         sprints: [],
-        message: action.payload.message
+        message: ''
     }
 
     switch(action.type) {
@@ -43,6 +44,7 @@ const sprintReducer = (state = initialSprintState, action) => {
             }
         case FETCH_SPRINT_LIST_SUCCESS:
             bluePrintSuccessObj.sprints = action.payload.sprints
+            bluePrintSuccessObj.message = action.payload.message
             return bluePrintSuccessObj
 
         case UPDATE_SPRINT_FOR_TASK_SUCCESS:
@@ -60,10 +62,11 @@ const sprintReducer = (state = initialSprintState, action) => {
                     sprints[spInd] = tasks
                 }})
             bluePrintSuccessObj.sprints = sprints
+            bluePrintSuccessObj.message = action.payload.message
             return bluePrintSuccessObj
 
         case DELETE_SPRINT_SUCCESS:
-            let sprints = state.sprints
+            sprints = state.sprints
             state.sprints.map((sprint, ind) => {
                 if (
                         sprint._id === action.helper.sprintId &&
@@ -73,16 +76,20 @@ const sprintReducer = (state = initialSprintState, action) => {
                     }
             })
             bluePrintSuccessObj.sprints = sprints
+            bluePrintSuccessObj.message = action.payload.message
             return bluePrintSuccessObj
 
         case CREATE_SPRINT_SUCCESS:
-            let sprints = state.sprints
-            sprints.push(action.payload.sprint)
+            sprints = state.sprints
+            const sprint = action.payload.sprint
+            sprint.tasks = []
+            sprints.push(sprint)
             bluePrintSuccessObj.sprints = sprints
+            bluePrintSuccessObj.message = action.payload.message
             return bluePrintSuccessObj
 
         case UPDATE_SPRINT_SUCCESS:
-            let sprints = state.sprints
+            sprints = state.sprints
             const updatedSprint = action.payload.sprint
             
             state.sprints.map((sprint, index) => {
@@ -94,6 +101,7 @@ const sprintReducer = (state = initialSprintState, action) => {
                     }
             })
             bluePrintSuccessObj.sprints = sprints
+            bluePrintSuccessObj.message = action.payload.message
             return bluePrintSuccessObj
 
         default:

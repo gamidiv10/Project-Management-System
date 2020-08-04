@@ -78,7 +78,8 @@ const routes = [
   {
     path: "/project/:projectName/backlog",
     exact: true,
-    component: Backlog
+    component: Backlog,
+    isPrivate: true,
   },
   {
     path: "/people/:id",
