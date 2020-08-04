@@ -15,7 +15,7 @@ exports.getNotifications = async (req, res) => {
 
     const query = { for: { $eq: user } }
     const notifications = await Notification.find(query).sort([['createdAt', -1]]).exec()
-    return res.status(200).json({ data: notifications })
+    return res.status(200).json({ total: notifications.length, data: notifications })
 
   } catch (error) {
     console.log("error", error)
