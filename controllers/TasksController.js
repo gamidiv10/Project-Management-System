@@ -3,14 +3,30 @@
  * @author Sneh Jogani <sjogani16@dal.ca>
  */
 
+const moment = require('moment')
 const { keys } = require("lodash");
 const Task = require("../models/Task");
+const Notification = require("../models/Notification");
 
 // add task post request
 exports.addTask = async (req, res) => {
   try {
     console.log("task", req.body);
     const task = await Task.create(req.body);
+
+    const { summary, projectName, assignee } = task
+    const notificationData = {
+      projectName,
+      taskName: summary,
+      type: 'TASK_CREATE',
+      user: req.body.user,
+      updates: JSON.stringify({ assignee })
+    }
+
+    // console.log('notification', notificationData)
+
+    await Notification.create(notificationData)
+
     return res.status(201).json({
       success: true,
       data: task,
@@ -37,6 +53,9 @@ exports.addTask = async (req, res) => {
 exports.editTask = async (req, res, next) => {
   try {
     console.log("request", req.body);
+
+    const oldTask = await Task.findOne({ id: req.body.id })
+
     const task = await Task.updateOne(
       { id: req.body.id },
       {
@@ -52,6 +71,60 @@ exports.editTask = async (req, res, next) => {
         },
       }
     );
+
+    console.log('task', task)
+    // console.log('summary', task.summary)
+    // console.log(`dueDate ${moment(dueDate).isSame(task.dueDate)}`)
+
+    const updateFields = []
+
+    const notificationData = {
+      projectName: req.body.projectName,
+      taskName: req.body.summary,
+      user: req.body.user,
+      type: 'TASK_UPDATE'
+    }
+
+    if (req.body.projectName !== oldTask.projectName) {
+      updateFields.push('projectName')
+    }
+
+    if (req.body.issueType !== oldTask.issueType) {
+      updateFields.push('issueType')
+    }
+
+    if (req.body.summary !== oldTask.summary) {
+      updateFields.push('summary')
+    }
+
+    if (req.body.description !== oldTask.description) {
+      updateFields.push('description')
+    }
+
+    if (req.body.priority !== oldTask.priority) {
+      updateFields.push('priority')
+    }
+
+    updateFields.forEach((field) => {
+      notificationData['updates'] = JSON.stringify({ newValue: req.body[field], oldValue: oldTask[field], field })
+      console.log(field, notificationData)
+      Notification.create(notificationData)
+    })
+
+    if (req.body.assignee !== oldTask.assignee) {
+      notificationData['type'] = 'TASK_ASSIGN'
+      notificationData['updates'] = JSON.stringify({ newValue: req.body.assignee, oldValue: oldTask.assignee })
+      console.log('assignee', notificationData)
+      Notification.create(notificationData)
+    }
+
+    if (!moment(req.body.dueDate).isSame(oldTask.dueDate)) {
+      notificationData['type'] = 'DUE_DATE_UPDATE'
+      notificationData['updates'] = JSON.stringify({ newValue: req.body.dueDate, oldValue: oldTask.dueDate })
+      console.log('dueDate', notificationData)
+      Notification.create(notificationData)
+    }
+
     return res.status(201).json({
       success: true,
       data: task,
@@ -117,21 +190,31 @@ exports.getTaskByStatus = (req, res) => {
 };
 
 // change tasks by status post request
-exports.changeTaskByStatus = (req, res) => {
-  var id = req.params.id;
-  var status = req.params.status;
+exports.changeTaskByStatus = async (req, res) => {
+  const { params: { id, status, user } } = req
 
-  Task.updateOne({ id: id }, { $set: { taskStatus: status } })
-    .exec()
-    .then((data) => {
-      res.status(200).json(data);
-    })
-    .catch((err) => {
-      console.log(err);
-      res.status(500).json({
-        error: err,
-      });
-    });
+  try {
+
+    const task = await Task.findOne({ id }).exec()
+
+    const data = await Task.updateOne({ id: id }, { $set: { taskStatus: status } }).exec()
+
+    const notificationData = {
+      projectName: task.projectName,
+      taskName: task.summary,
+      user: user,
+      type: 'STATUS_UPDATE',
+      updates: JSON.stringify({ oldValue: task.taskStatus, newValue: status })
+    }
+
+    Notification.create(notificationData)
+
+    return res.status(200).json(data);
+  } catch (error) {
+
+    console.log(error);
+    return res.status(500).json({ error });
+  }
 };
 
 exports.getCalendarViewTasks = async (req, res) => {

@@ -31,7 +31,7 @@ router
   .get(getTaskByStatus);
 
 // Change task by status route
-router.route("/changeTaskByStatus/:status/:id").put(changeTaskByStatus);
+router.route("/changeTaskByStatus/:status/:id/:user").put(changeTaskByStatus);
 
 router.route("/calendar").get(getCalendarViewTasks);;
 
