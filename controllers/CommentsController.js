@@ -13,8 +13,10 @@ exports.addComment = async (req, res) => {
     const comment = await Comment.create(req.body);
 
     const { body: { comment: commentText, id: taskId, userName } } = req
+    // fetching task for which the comment was created to generate a notification for the same
     const task = await Task.findOne({ id: taskId }, 'projectName summary').exec()
 
+    // generating notification data
     const notificationData = {
       projectName: task._doc['projectName'],
       taskName: task._doc['summary'],
@@ -23,11 +25,8 @@ exports.addComment = async (req, res) => {
       updates: JSON.stringify({ newValue: commentText })
     }
 
-    // console.log('notification', notificationData)
-
-    const notification = await Notification.create(notificationData)
-
-    // console.log({ notification })
+    // creating notification
+    await Notification.create(notificationData)
 
     return res.status(201).json({
       success: true,

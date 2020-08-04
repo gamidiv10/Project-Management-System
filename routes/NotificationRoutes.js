@@ -11,6 +11,7 @@ const router = express.Router();
 // Get all notiifcations for given projects
 router.route("/list").get(getNotifications);
 
+// To mark notification as read
 router.route("/markAsRead/:id").get(markAsRead)
 
 module.exports = router;
