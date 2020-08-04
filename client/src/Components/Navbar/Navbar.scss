@@ -275,4 +275,8 @@ $speed: 500ms;
   .home-navbar-nav.right-nav .createButton {
     margin-left: auto;
   }
+
+  .home-navbar-nav.right-nav .createButton.LoginButton {
+    margin-left: 0;
+  }
 }
