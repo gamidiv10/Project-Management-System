@@ -4,9 +4,12 @@
 
 module.exports = {
   notificationType: {
-    'STATUS_CHANGE': 'Changed Status',
-    'DUE_DATE_CHANGED': 'Set Due Date',
-    'ASSIGNED_USER': 'Assigned To'
+    'TASK_CREATE': 'Created Task & Assigned to',
+    'TASK_ASSIGN': 'Assigned to',
+    'STATUS_UPDATE': 'Updated Status',
+    'DUE_DATE_UPDATE': 'Updated Due Date',
+    'COMMENT_CREATE': 'Commented',
+    'TASK_UPDATE': 'Updated'
   },
   status: {
     'To do': 'To do',

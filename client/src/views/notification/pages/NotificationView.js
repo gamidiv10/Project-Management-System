@@ -2,59 +2,73 @@
  * @author Sneh Jogani <sjogani16@dal.ca>
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container } from 'react-bootstrap';
 
-import dummyNotifications from '../../../constants/notifications';
 import NotificationItem from '../components/NotificationItem';
+import axios from 'axios';
 
 const NotificationView = () => {
   const [showNew, setShowNew] = useState(true)
-  const [notifications, setNotifications] = useState(dummyNotifications)
+  const [notifications, setNotifications] = useState([])
+
+  const fetchNotifications = () => {
+    const user = localStorage.getItem('user')
+    axios({
+      method: "GET",
+      url: "/notification/list",
+      params: { user }
+    })
+      .then(({ data: { data } }) => setNotifications(data))
+      .catch(err => err)
+  }
+
+  useEffect(() => {
+    fetchNotifications()
+  }, [])
 
   const markAsRead = (id) => {
-    setNotifications(notifications.map(item =>
-      item.id === id
-        ? ({ ...item, unread: false })
-        : item
-    ))
+    axios({
+      method: "GET",
+      url: "/notification/markAsRead/" + id
+    })
+      .then(() => setNotifications(notifications.map(item => ({ ...item, read: item._id === id ? true : item.read }))))
+      .catch(err => err)
   }
 
   return <Container className="notification-container">
     <div className="notification-header">
-      <span className="title">Notifications</span>
+      <span className="title">Updates</span>
     </div>
     <div className="notification-sub-header">
       <div className="d-flex" style={{ alignItems: 'center' }}>
         <div
           className={`sub-header-item${showNew ? '-selected' : ''}`}
-          onClick={() => !showNew ? setShowNew(!showNew) : null}
+          onClick={() => setShowNew(true)}
         >
           {"New"}
         </div>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <div
           className={`sub-header-item${!showNew ? '-selected' : ''}`}
-          onClick={() => showNew ? setShowNew(!showNew) : null}
+          onClick={() => setShowNew(false)}
         >
           {"Cleared"}
         </div>
       </div>
     </div>
     <div className="notification-body">
-      {notifications.filter(({ unread }) => unread === showNew).length
-        ? notifications
-          .filter(({ unread }) => unread === showNew)
-          .map(item =>
+      {notifications.length
+        ? notifications.filter(({ read }) => read !== showNew).length
+          ? notifications.filter(({ read }) => read !== showNew).map(item =>
             <NotificationItem
-              key={item.id}
+              key={item._id}
               item={item}
               markAsRead={markAsRead}
             />
           )
-        : showNew
-          ? <div className="no-record-message">{"\"You're all caught up\""}</div>
-          : null
+          : <div className="no-record-message">{"\"You're all caught up\""}</div>
+        : <div className="no-record-message">{"\"You're all caught up\""}</div>
       }
     </div>
   </Container>

@@ -187,9 +187,10 @@ function ProjectDetailMain({ match }) {
   useEffect(() => {
     if (droppableId && droppableStatus) {
       //Request to change the status of the task
+      const user = localStorage.getItem('user')
       axios
-        .put(`/task/changeTaskByStatus/${droppableStatus}/${droppableId}`)
-        .then((response) => {})
+        .put(`/task/changeTaskByStatus/${droppableStatus}/${droppableId}/${user}`)
+        .then((response) => { })
         .catch((error) => console.log(error.message));
     }
 
@@ -439,34 +440,34 @@ function ProjectDetailMain({ match }) {
                           >
                             {column.items.length > 0
                               ? column.items.map((item, index) => {
-                                  return (
-                                    <Draggable
-                                      key={item.id}
-                                      draggableId={item.id}
-                                      index={index}
-                                    >
-                                      {(provided) => {
-                                        return (
-                                          <div
-                                            ref={provided.innerRef}
-                                            {...provided.draggableProps}
-                                            {...provided.dragHandleProps}
-                                            className="DraggableDiv"
-                                            style={{
-                                              userSelect: "none",
-                                              ...provided.draggableProps.style,
-                                            }}
-                                            onClick={() =>
-                                              handleModalOpenEdit(item.task)
-                                            }
-                                          >
-                                            {item.content}
-                                          </div>
-                                        );
-                                      }}
-                                    </Draggable>
-                                  );
-                                })
+                                return (
+                                  <Draggable
+                                    key={item.id}
+                                    draggableId={item.id}
+                                    index={index}
+                                  >
+                                    {(provided) => {
+                                      return (
+                                        <div
+                                          ref={provided.innerRef}
+                                          {...provided.draggableProps}
+                                          {...provided.dragHandleProps}
+                                          className="DraggableDiv"
+                                          style={{
+                                            userSelect: "none",
+                                            ...provided.draggableProps.style,
+                                          }}
+                                          onClick={() =>
+                                            handleModalOpenEdit(item.task)
+                                          }
+                                        >
+                                          {item.content}
+                                        </div>
+                                      );
+                                    }}
+                                  </Draggable>
+                                );
+                              })
                               : ""}
                             {provided.placeholder}
                           </div>
@@ -492,8 +493,8 @@ function ProjectDetailMain({ match }) {
           isModalOpenEdit ? (
             <EditTask dismiss={dismissableEdit} task={task} />
           ) : (
-            ""
-          )
+              ""
+            )
         }
       />
 
@@ -507,8 +508,8 @@ function ProjectDetailMain({ match }) {
               completedCount={completedCount}
             />
           ) : (
-            ""
-          )
+              ""
+            )
         }
       />
     </ProjectDetail>

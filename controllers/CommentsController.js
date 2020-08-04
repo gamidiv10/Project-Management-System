@@ -1,12 +1,32 @@
 /**
  * @author Satya Kumar Itekela <satya.itekela@dal.ca>
+ * @author Sneh Jogani <sjogani16@dal.ca>
  */
 const Comment = require("../models/Comment");
+const Notification = require("../models/Notification");
+const Task = require("../models/Task");
 
 // Add Comment post request
 exports.addComment = async (req, res) => {
   try {
     const comment = await Comment.create(req.body);
+
+    const { body: { comment: commentText, id: taskId, userName } } = req
+    // fetching task for which the comment was created to generate a notification for the same
+    const task = await Task.findOne({ id: taskId }, 'projectName summary').exec()
+
+    // generating notification data
+    const notificationData = {
+      projectName: task._doc['projectName'],
+      taskName: task._doc['summary'],
+      type: 'COMMENT_CREATE',
+      user: userName,
+      updates: JSON.stringify({ newValue: commentText })
+    }
+
+    // creating notification
+    await Notification.create(notificationData)
+
     return res.status(201).json({
       success: true,
       data: comment,

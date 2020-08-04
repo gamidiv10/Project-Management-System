@@ -224,6 +224,7 @@ const CreateTask = ({ dismiss }) => {
   }
 
   const onSubmit = (values) => {
+    let user = localStorage.getItem('user')
     let projectName = values.projectName;
     let issueType = values.issueType;
     let summary = values.taskSummary;
@@ -251,6 +252,7 @@ const CreateTask = ({ dismiss }) => {
         taskStatus,
         dueDate,
         storyPoints,
+        user
       })
       .then((response) => {
         const value = {

@@ -4,23 +4,24 @@
 
 import React, { Fragment } from 'react';
 import moment from 'moment'
+import { withRouter } from 'react-router-dom'
 
 import Tooltip from '../../../common/Tooltip'
 import NotificationTypeRenderer from './NotificationType'
 
-const NotificationItem = ({ item, markAsRead }) => {
-  const { id, task, user, createdAt, unread } = item
+const NotificationItem = ({ item, history, markAsRead }) => {
+  const { _id, projectName, taskName, user, read, createdAt } = item
   return <div className="notification">
     <div className="item-header">
       <div className="item-title">
         <Tooltip placement="top" tooltip="Go to Task">
-          <span>{task}</span>
+          <span onClick={() => history.push(`/project/${projectName}/activesprint`)}>{taskName}</span>
         </Tooltip>
       </div>
-      {unread
+      {!read
         ? <Fragment>
           <Tooltip placement="top" tooltip="Mark As Read">
-            <div id="mark_as_read" className="item-close" onClick={() => markAsRead(id)}>
+            <div id="mark_as_read" className="item-close" onClick={() => markAsRead(_id)}>
               <i className="fa fa-eye-slash" />
             </div>
           </Tooltip>
@@ -31,7 +32,7 @@ const NotificationItem = ({ item, markAsRead }) => {
     <div className="item-body">
       <div>
         <div><i className="fa fa-user-circle" style={{ fontSize: '1.5rem' }} /></div>
-        <div className="author">{user}</div>
+        <div className="author">{user !== localStorage.getItem('user') ? user : 'You'}</div>
         <div className="type">
           <NotificationTypeRenderer item={item} />
         </div>
@@ -42,4 +43,4 @@ const NotificationItem = ({ item, markAsRead }) => {
   </div>
 }
 
-export default NotificationItem
+export default withRouter(NotificationItem)
