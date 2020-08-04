@@ -80,16 +80,8 @@ exports.deleteSprint = (req, res) => {
         "Some input data seems missing. Make sure to provide projectName, sprintId for deleting a sprint.",
     });
   }
-<<<<<<< HEAD
   Sprint.findOneAndDelete({ _id: req.body.sprintId })
     .then(deletedSprint => {
-=======
-  Sprint.findOneAndDelete({
-    _id: req.body.sprintId,
-    sprintNumber: req.body.sprintNumber,
-  })
-    .then((deletedSprint) => {
->>>>>>> master
       if (deletedSprint && deletedSprint.sprintNumber) {
         Task.updateMany(
           {
@@ -173,7 +165,6 @@ exports.taskToSprintUpdate = (req, res) => {
   Task.find({ _id: taskId })
     .then((task) => {
       if (task) {
-<<<<<<< HEAD
         Sprint.findOne({ sprintNumber }).then(sprintFound => {
           if (sprintFound) {
             Task.findOneAndUpdate({ _id: taskId }, { sprintNumber: updateSprintTo }, {new : true})
@@ -193,31 +184,6 @@ exports.taskToSprintUpdate = (req, res) => {
                 })
               }
             }).catch(updatingErr => {
-=======
-        Sprint.findOne({ _id: sprintId, sprintNumber }).then((sprintFound) => {
-          if (sprintFound) {
-            Task.findOneAndUpdate(
-              { _id: taskId },
-              { sprintNumber: updateSprintTo }
-            )
-              .then((updatedTask) => {
-                if (updatedTask) {
-                  res.send({
-                    success: true,
-                    isError: false,
-                    task: updatedTask,
-                    message: "Successfully updated task for the given sprint.",
-                  });
-                } else {
-                  res.send({
-                    success: false,
-                    isError: false,
-                    message: "There is no task which got updated.",
-                  });
-                }
-              })
-              .catch((updatingErr) => {
->>>>>>> master
                 res.send({
                   success: false,
                   isError: false,
@@ -266,14 +232,9 @@ exports.getTasksForSprint = (req, res) => {
     });
   }
   Sprint.find({ _id: sprintId, sprintNumber })
-<<<<<<< HEAD
   .then(() => {
       Task.find({ sprintNumber, taskStatus: { $ne: 'Done' } })
       .then(tasks => {
-=======
-    .then(() => {
-      Task.find({ sprintNumber }).then((tasks) => {
->>>>>>> master
         res.send({
           success: true,
           isError: false,
