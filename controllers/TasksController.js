@@ -6,6 +6,7 @@
 const moment = require('moment')
 const { keys } = require("lodash");
 const Task = require("../models/Task");
+const People = require("../models/People");
 const Notification = require("../models/Notification");
 
 // add task post request
@@ -23,8 +24,19 @@ exports.addTask = async (req, res) => {
       updates: JSON.stringify({ newValue: assignee })
     }
 
-    // creating notification
-    Notification.create(notificationData)
+    // fetching all the people assigned to the project
+    let people = await People.find({ projectName })
+    people = people.map(({ name }) => name)
+
+    console.log('people', people)
+
+    // generating a notification for all the people assigned to the project respectively
+    people.forEach(name => {
+      if (name !== req.body.user) {
+        notificationData['for'] = name
+        Notification.create(notificationData)
+      }
+    })
 
     return res.status(201).json({
       success: true,
@@ -73,6 +85,12 @@ exports.editTask = async (req, res, next) => {
 
     console.log('task', task)
 
+    // fetching all the people assigned to the project
+    let people = await People.find({ projectName: req.body.projectName })
+    people = people.map(({ name }) => name)
+
+    console.log('people', people)
+
     // list of fields which were updated
     const updateFields = []
 
@@ -80,8 +98,7 @@ exports.editTask = async (req, res, next) => {
     const notificationData = {
       projectName: req.body.projectName,
       taskName: req.body.summary,
-      user: req.body.user,
-      type: 'TASK_UPDATE'
+      user: req.body.user
     }
 
     // adding each field to the list if it was altered
@@ -97,36 +114,43 @@ exports.editTask = async (req, res, next) => {
       updateFields.push('summary')
     }
 
-    if (req.body.description !== oldTask.description) {
-      updateFields.push('description')
-    }
+    // if (req.body.description !== oldTask.description) {
+    //   updateFields.push('description')
+    // }
 
     if (req.body.priority !== oldTask.priority) {
       updateFields.push('priority')
     }
 
-    // generating a notification for each updated field
-    updateFields.forEach((field) => {
-      notificationData['updates'] = JSON.stringify({ newValue: req.body[field], oldValue: oldTask[field], field })
-      console.log(field, notificationData)
-      Notification.create(notificationData)
+    // generating a notification for all the people assigned to the project respectively
+    people.forEach(name => {
+      if (name !== req.body.user) {
+        notificationData['for'] = name
+        // generating a notification for each updated field
+        updateFields.forEach((field) => {
+          notificationData['type'] = 'TASK_UPDATE'
+          notificationData['updates'] = JSON.stringify({ newValue: req.body[field], oldValue: oldTask[field], field })
+          console.log(field, notificationData)
+          Notification.create(notificationData)
+        })
+
+        // seperate notification for task assignee changes
+        if (req.body.assignee !== oldTask.assignee) {
+          notificationData['type'] = 'TASK_ASSIGN'
+          notificationData['updates'] = JSON.stringify({ newValue: req.body.assignee, oldValue: oldTask.assignee })
+          console.log('assignee', notificationData)
+          Notification.create(notificationData)
+        }
+
+        // seperate notification for task due date changes
+        if (!moment(req.body.dueDate).isSame(oldTask.dueDate)) {
+          notificationData['type'] = 'DUE_DATE_UPDATE'
+          notificationData['updates'] = JSON.stringify({ newValue: req.body.dueDate, oldValue: oldTask.dueDate })
+          console.log('dueDate', notificationData)
+          Notification.create(notificationData)
+        }
+      }
     })
-
-    // seperate notification for task assignee changes
-    if (req.body.assignee !== oldTask.assignee) {
-      notificationData['type'] = 'TASK_ASSIGN'
-      notificationData['updates'] = JSON.stringify({ newValue: req.body.assignee, oldValue: oldTask.assignee })
-      console.log('assignee', notificationData)
-      Notification.create(notificationData)
-    }
-
-    // seperate notification for task due date changes
-    if (!moment(req.body.dueDate).isSame(oldTask.dueDate)) {
-      notificationData['type'] = 'DUE_DATE_UPDATE'
-      notificationData['updates'] = JSON.stringify({ newValue: req.body.dueDate, oldValue: oldTask.dueDate })
-      console.log('dueDate', notificationData)
-      Notification.create(notificationData)
-    }
 
     return res.status(201).json({
       success: true,
@@ -212,8 +236,19 @@ exports.changeTaskByStatus = async (req, res) => {
       updates: JSON.stringify({ oldValue: task.taskStatus, newValue: status })
     }
 
-    // creating notification for status changes
-    Notification.create(notificationData)
+    // fetching all the people assigned to the project
+    let people = await People.find({ projectName: task.projectName })
+    people = people.map(({ name }) => name)
+
+    console.log('people', people)
+
+    // generating a notification for all the people assigned to the project respectively
+    people.forEach(name => {
+      if (name !== user) {
+        notificationData['for'] = name
+        Notification.create(notificationData)
+      }
+    })
 
     return res.status(200).json(data);
   } catch (error) {
@@ -221,6 +256,24 @@ exports.changeTaskByStatus = async (req, res) => {
     console.log(error);
     return res.status(500).json({ error });
   }
+};
+
+// update tasks by status post request
+exports.updateTaskStatus = (req, res) => {
+  var id = req.params.id;
+  var sprintNumber = req.params.sprintNumber;
+
+  Task.updateOne({ id: id }, { $set: { sprintNumber: sprintNumber } })
+    .exec()
+    .then((data) => {
+      res.status(200).json(data);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({
+        error: err,
+      });
+    });
 };
 
 exports.getCalendarViewTasks = async (req, res) => {

@@ -30,7 +30,7 @@ const AddUser = ({ dismiss, projectName }) => {
         });
         selectedProjUsers.forEach((obj) => {
           users = users.filter((item) => item !== obj.name);
-          setUsers(users);
+          setUsers(new Set(users));
         });
       })
       .catch((error) => console.log(error.message));
@@ -63,7 +63,7 @@ const AddUser = ({ dismiss, projectName }) => {
           label="user"
           name="user"
           required={true}
-          options={users}
+          options={Array.from(users)}
           variant="outlined"
           getOptionValue={(option) => option}
           renderOption={(option) => <>{option}</>}

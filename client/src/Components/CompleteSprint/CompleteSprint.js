@@ -8,11 +8,21 @@ import { Button } from "react-bootstrap";
 import { Grid } from "@material-ui/core";
 import { Autocomplete } from "mui-rff";
 import { ReactComponent as CloseIcon } from "../../icons/close.svg";
+import axios from "axios";
 
-const CompleteSprint = ({ dismiss, issuesCount, completedCount }) => {
+const CompleteSprint = ({
+  dismiss,
+  issuesCount,
+  completedCount,
+  tasks,
+  projectName,
+  activeSprint,
+  setSprintNumber,
+}) => {
   const [isLoading, setLoading] = useState(false);
-  const sprintNames = ["Sprint 1", "Sprint 2", "Backlog"];
-  const errors = {};
+  const [sprintNames, setSprintNames] = useState([]);
+  const [selectSprintNumber, setSelectSprintNumber] = useState(0);
+  const user = localStorage.getItem("user");
 
   useEffect(() => {
     if (isLoading) {
@@ -23,13 +33,38 @@ const CompleteSprint = ({ dismiss, issuesCount, completedCount }) => {
     }
   }, [isLoading]);
 
+  useEffect(() => {
+    let sprints = [];
+    let sprintsList = [];
+    axios
+      .post(`/sprint/getSprints`, {
+        projectName,
+      })
+      .then((response) => {
+        response.data.sprints.map((sprint) => {
+          if (activeSprint !== sprint.sprintNumber) {
+            sprints.push(sprint.sprintNumber);
+          }
+        });
+        sprints = sprints.sort(function (a, b) {
+          return a - b;
+        });
+        sprints.map((sprint) => {
+          sprintsList.push("Sprint " + sprint);
+        });
+        sprintsList.push("Backlog");
+        setSprintNames(sprintsList);
+      })
+      .catch((error) => console.log(error.message));
+  }, []);
+
   const validate = (values) => {
-    if (!values.types) {
-      errors.projects = "Required";
-    } else {
-      errors.projects = "";
+    if (values.types === "Backlog") {
+      setSelectSprintNumber(0);
+    } else if (values.types) {
+      const sprintNo = parseInt(values.types.split("Sprint ")[1]);
+      if (sprintNo !== selectSprintNumber) setSelectSprintNumber(sprintNo);
     }
-    return errors;
   };
 
   const formFields = [
@@ -53,15 +88,47 @@ const CompleteSprint = ({ dismiss, issuesCount, completedCount }) => {
     return new Promise((resolve) => setTimeout(resolve, 2000));
   }
 
-  const handleSubmit = (values) => {
-    if (!values.types) {
-      errors.projects = "Required";
-      return false;
-    } else {
-      errors.projects = "";
-    }
-    
+  const onSubmit = () => {
     setLoading(true);
+
+    let sprintNum = "";
+
+    Object.entries(tasks).forEach((type) => {
+      if (type[1].name === "Done") {
+        type[1].items.map((item) => {
+          sprintNum = item.task.sprintNumber;
+          axios
+            .put(
+              `/task/updateTaskStatus/${item.task.sprintNumber}/${item.task.id}`
+            )
+            .then((response) => {})
+            .catch((error) => console.log(error.message));
+        });
+      } else {
+        const sprintN = selectSprintNumber;
+        type[1].items.map((item) => {
+          axios
+            .put(`/task/updateTaskStatus/${sprintN}/${item.id}`)
+            .then((response) => {})
+            .catch((error) => console.log(error.message));
+          axios
+            .put(`/task/changeTaskByStatus/To do/${item.id}/${user}`)
+            .then((response) => {
+              axios
+                .post(`/sprint/completeSprint`, {
+                  sprintNumber: activeSprint,
+                })
+                .then((response) => {})
+                .catch((error) => console.log(error.message));
+            })
+            .catch((error) => console.log(error.message));
+        });
+      }
+    });
+
+    setLoading(false);
+    setSprintNumber(99999999);
+    dismiss();
   };
 
   return (
@@ -73,10 +140,10 @@ const CompleteSprint = ({ dismiss, issuesCount, completedCount }) => {
         </span>
       </div>
       <Form
-        onSubmit={handleSubmit}
+        onSubmit={onSubmit}
         validate={validate}
         render={({ handleSubmit }) => (
-          <form className="taskFormField">
+          <form onSubmit={handleSubmit} className="taskFormField">
             <div>
               <div>{issuesCount} Issues to be completed</div>
               <div>{completedCount} Issues are completed</div>
@@ -98,7 +165,7 @@ const CompleteSprint = ({ dismiss, issuesCount, completedCount }) => {
             )}
 
             <div className="buttons">
-              <Button disabled={isLoading} type="submit">
+              <Button disabled={isLoading} onClick={onSubmit}>
                 {isLoading ? "Complete...." : "Complete"}
               </Button>
               <Button onClick={dismiss}>Cancel</Button>

@@ -10,12 +10,13 @@ import Tooltip from '../../../common/Tooltip'
 import NotificationTypeRenderer from './NotificationType'
 
 const NotificationItem = ({ item, history, markAsRead }) => {
-  const { _id, projectName, taskName, user, read, createdAt } = item
+  const { _id, projectName, taskName, user, read, createdAt, type } = item
+  const url = `/project/${projectName}/${type === 'TASK_CREATE' ? 'backlog' : 'activesprint'}`
   return <div className="notification">
     <div className="item-header">
       <div className="item-title">
         <Tooltip placement="top" tooltip="Go to Task">
-          <span onClick={() => history.push(`/project/${projectName}/activesprint`)}>{taskName}</span>
+          <span onClick={() => history.push(url)}>{taskName}</span>
         </Tooltip>
       </div>
       {!read

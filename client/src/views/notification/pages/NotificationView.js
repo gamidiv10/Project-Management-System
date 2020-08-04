@@ -19,12 +19,23 @@ const NotificationView = () => {
       url: "/notification/list",
       params: { user }
     })
-      .then(({ data: { data } }) => setNotifications(data))
+      .then(({ data: { data, total } }) => {
+        if (total !== notifications.length) {
+          setNotifications(data)
+        }
+      })
       .catch(err => err)
   }
 
   useEffect(() => {
     fetchNotifications()
+    // added interval of 5 seconds to re-fetch notifications if on the same page
+    const interval = setInterval(() => {
+      fetchNotifications()
+    }, 5000)
+
+    // removing the interval on page unmount
+    return (() => clearInterval(interval))
   }, [])
 
   const markAsRead = (id) => {

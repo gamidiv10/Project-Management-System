@@ -18,9 +18,10 @@ const CalendarView = (props) => {
   const [projectList, setProjectList] = useState([])
   const [projectName, setProjectName] = useState()
   const [taskStatus, setTaskStatus] = useState()
+  const userName = localStorage.getItem("user");
 
   useEffect(() => {
-    axios({ url: '/project/getProjects' })
+    axios({ url: `/project/getProjects/${userName}` })
       .then(({ data: { data } }) => setProjectList(data))
       .catch(err => console.log(err))
   }, [])

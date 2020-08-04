@@ -5,6 +5,7 @@
 const Comment = require("../models/Comment");
 const Notification = require("../models/Notification");
 const Task = require("../models/Task");
+const People = require("../models/People");
 
 // Add Comment post request
 exports.addComment = async (req, res) => {
@@ -15,6 +16,11 @@ exports.addComment = async (req, res) => {
     // fetching task for which the comment was created to generate a notification for the same
     const task = await Task.findOne({ id: taskId }, 'projectName summary').exec()
 
+    // fetching all the people assigned to the project
+    const projectName = task._doc['projectName']
+    let people = await People.find({ projectName })
+    people = people.map(({ name }) => name)
+
     // generating notification data
     const notificationData = {
       projectName: task._doc['projectName'],
@@ -24,8 +30,15 @@ exports.addComment = async (req, res) => {
       updates: JSON.stringify({ newValue: commentText })
     }
 
-    // creating notification
-    await Notification.create(notificationData)
+    console.log('people', people)
+
+    // generating a notification for all the people assigned to the project respectively
+    people.forEach(name => {
+      if (name !== userName) {
+        notificationData['for'] = name
+        Notification.create(notificationData)
+      }
+    })
 
     return res.status(201).json({
       success: true,

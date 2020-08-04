@@ -5,9 +5,32 @@ const Project = require("../models/Project");
 const People = require("../models/People");
 
 //Create Project Post Request
-exports.createProject = async (req, res, next) => {
+exports.createProject = (req, res, next) => {
   try {
-    const project = await Project.create(req.body);
+    var project = {};
+    Project.create(req.body, function (err, doc) {
+      if (err) {
+        console.log(err);
+      } else {
+        project = doc;
+      }
+    });
+    People.create(
+      {
+        name: req.body.projectLead,
+        role: "Team Lead",
+        projectName: req.body.projectName,
+        projectKey: req.body.projectKey,
+        projectType: req.body.projectType,
+        projectLead: req.body.projectLead,
+      },
+      function (err, doc) {
+        if (err) {
+          console.log(err);
+        }
+      }
+    );
+
     return res.status(201).json({
       success: true,
       data: project,
@@ -39,6 +62,20 @@ exports.editProject = async (req, res, next) => {
           projectName: req.body.projectName,
           projectType: req.body.projectType,
         },
+      }
+    );
+    People.updateMany(
+      { projectKey: req.body.projectKey },
+      {
+        $set: {
+          projectName: req.body.projectName,
+          projectType: req.body.projectType,
+        },
+      },
+      function (err, doc) {
+        if (err) {
+          console.log(err);
+        }
       }
     );
     return res.status(201).json({

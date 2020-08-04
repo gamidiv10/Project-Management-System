@@ -5,7 +5,8 @@ import React, { useState, useContext, useEffect } from "react";
 import SocialMedia from "../SignUp/SocialMedia";
 import { UserContext } from "../../Context/userContext";
 import { withRouter } from "react-router-dom";
-import * as firebase from "firebase";
+import * as firebase from "firebase/app";
+import "firebase/auth";
 import { AuthContext } from "../../App";
 
 import {
@@ -82,8 +83,6 @@ const Login = ({ history, loginShow }) => {
     /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,})+$/
   );
 
-  const validPasswordRegex = RegExp(/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/);
-
   const validateEmailForm = () => {
     if (!email) {
       setEmailError("* email id cannot be empty");
@@ -108,10 +107,10 @@ const Login = ({ history, loginShow }) => {
         <NewUser />
       </div>
       <div className="Login row">
-        <p className="Title">Log In</p>
+        <h4 className="Title">Log In</h4>
         <form>
           <FormHelperText id="my-helper-text">
-            <p className="ErrorText">{error}</p>
+            <span className="ErrorText">{error}</span>
           </FormHelperText>
           <FormGroup>
             <TextField
@@ -130,7 +129,7 @@ const Login = ({ history, loginShow }) => {
               className={emailError.length > 0 ? "errorTextField" : ""}
             />
             <FormHelperText id="my-helper-text">
-              <p className="ErrorText">{emailError}</p>
+              <span className="ErrorText">{emailError}</span>
             </FormHelperText>
           </FormGroup>
           <FormGroup>
@@ -149,7 +148,7 @@ const Login = ({ history, loginShow }) => {
               type="password"
             />
             <FormHelperText id="my-helper-text">
-              <p className="ErrorText">{passwordError}</p>
+              <span className="ErrorText">{passwordError}</span>
             </FormHelperText>
           </FormGroup>
           <Button onClick={handleSubmit} variant="contained" color="primary">
@@ -163,7 +162,7 @@ const Login = ({ history, loginShow }) => {
         </form>
         <br></br>
         <div className="LoginBottom">
-          <p className="NormalText">or Login with </p>
+          <h6 className="NormalText">or Login with </h6>
           <div>
             <SocialMedia />
           </div>

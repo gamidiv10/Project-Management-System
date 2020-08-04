@@ -226,6 +226,7 @@ $speed: 500ms;
 .modal-content {
   height: 75%;
   padding-top: 0px;
+  width: 110% !important;
 }
 .modal {
   width: 90%;
@@ -274,5 +275,9 @@ $speed: 500ms;
 
   .home-navbar-nav.right-nav .createButton {
     margin-left: auto;
+  }
+
+  .home-navbar-nav.right-nav .createButton.LoginButton {
+    margin-left: 0;
   }
 }

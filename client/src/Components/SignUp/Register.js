@@ -3,7 +3,8 @@
  */
 import React, { useState, useContext, useEffect } from "react";
 import { withRouter } from "react-router-dom";
-import * as firebase from "firebase";
+import * as firebase from "firebase/app";
+import "firebase/auth";
 import { AuthContext } from "../../App";
 import axios from "axios";
 
@@ -13,9 +14,7 @@ import {
   FormGroup,
   FormHelperText,
 } from "@material-ui/core";
-import { useDispatch } from "react-redux";
 const Register = ({ history, registerShow }) => {
-  const [id, setId] = useState("");
   const [name, setName] = useState("");
   const [nameError, setNameError] = useState("");
   const [email, setEmail] = useState("");
@@ -32,6 +31,7 @@ const Register = ({ history, registerShow }) => {
       validateEmailForm();
     }
   }, [email]);
+
   useEffect(() => {
     if (password) {
       validatePasswordForm();
@@ -150,7 +150,7 @@ const Register = ({ history, registerShow }) => {
     <div className="Register">
       <form onSubmit={(e) => handleForm(e)}>
         <FormHelperText id="my-helper-text">
-          <p className="ErrorText">{error}</p>
+          <span className="ErrorText">{error}</span>
         </FormHelperText>
         <FormGroup>
           <TextField
@@ -168,7 +168,7 @@ const Register = ({ history, registerShow }) => {
             onBlur={validateNameForm}
           />
           <FormHelperText id="my-helper-text">
-            <p className="ErrorText">{nameError}</p>
+            <span className="ErrorText">{nameError}</span>
           </FormHelperText>
         </FormGroup>
         <FormGroup>
@@ -187,7 +187,7 @@ const Register = ({ history, registerShow }) => {
             onBlur={validateEmailForm}
           />
           <FormHelperText id="my-helper-text">
-            <p className="ErrorText">{emailError}</p>
+            <span className="ErrorText">{emailError}</span>
           </FormHelperText>
         </FormGroup>
         <FormGroup>
@@ -206,7 +206,7 @@ const Register = ({ history, registerShow }) => {
             onBlur={validatePasswordForm}
           />
           <FormHelperText id="my-helper-text">
-            <p className="ErrorText">{passwordError}</p>
+            <span className="ErrorText">{passwordError}</span>
           </FormHelperText>
         </FormGroup>
         <FormGroup>
@@ -225,7 +225,7 @@ const Register = ({ history, registerShow }) => {
             onBlur={validateConfirmPasswordForm}
           />
           <FormHelperText id="my-helper-text">
-            <p className="ErrorText">{confirmPasswordError}</p>
+            <span className="ErrorText">{confirmPasswordError}</span>
           </FormHelperText>
         </FormGroup>
         <Button variant="contained" color="primary" type="submit">

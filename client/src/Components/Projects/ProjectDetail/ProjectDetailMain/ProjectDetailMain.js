@@ -89,7 +89,7 @@ function ProjectDetailMain({ match }) {
   const [isModalCompleteOpen, setIsModalCompleteOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalOpenEdit, setIsModalOpenEdit] = useState(false);
-  const [sprintNumber, setSprintNumber] = useState(999999);
+  const [sprintNumber, setSprintNumber] = useState("");
   const [projectName, setProjectName] = useState(match.params.projectName);
   const [droppableId, setDroppableId] = useState("");
   const [droppableStatus, setDroppableStatus] = useState("");
@@ -121,17 +121,15 @@ function ProjectDetailMain({ match }) {
         response.data.sprints.map((sprint) => {
           if (sprint.isActive) {
             activeSprintNumber = sprint.sprintNumber;
-            return;
-          } else {
-            activeSprintNumber = "";
+            setSprintNumber(activeSprintNumber);
           }
         });
       })
       .catch((error) => console.log(error.message));
 
-    activeSprintNumber
-      ? setSprintNumber(activeSprintNumber)
-      : setSprintNumber("Start Sprint");
+    if (!sprintNumber) {
+      setSprintNumber("Start Active Sprint");
+    }
   }, []);
 
   useEffect(() => {
@@ -187,10 +185,12 @@ function ProjectDetailMain({ match }) {
   useEffect(() => {
     if (droppableId && droppableStatus) {
       //Request to change the status of the task
-      const user = localStorage.getItem('user')
+      const user = localStorage.getItem("user");
       axios
-        .put(`/task/changeTaskByStatus/${droppableStatus}/${droppableId}/${user}`)
-        .then((response) => { })
+        .put(
+          `/task/changeTaskByStatus/${droppableStatus}/${droppableId}/${user}`
+        )
+        .then((response) => {})
         .catch((error) => console.log(error.message));
     }
 
@@ -211,136 +211,139 @@ function ProjectDetailMain({ match }) {
     //Request to get the status of the tasks
     setIssueCount(0);
     setCompletedCount(0);
-    axios
-      .get(`/task/getTaskByStatus/${projectName}/To do/${sprintNumber}`)
-      .then((response) => {
-        const tasksData = response.data;
-        const displayTasks = [];
 
-        tasksData.map((task) => {
-          const details = {
-            taskSummary: task.summary,
-            issueType: task.issueType,
-            taskPriority: task.priority,
-            assigneeName: task.assignee,
-          };
-          displayTasks.push({
-            id: task.id,
-            task: { ...task },
-            content: <Task {...details} />,
-          });
-        });
+    if (sprintNumber > 0) {
+      axios
+        .get(`/task/getTaskByStatus/${projectName}/To do/${sprintNumber}`)
+        .then((response) => {
+          const tasksData = response.data;
+          const displayTasks = [];
 
-        setToDoData(displayTasks);
-        setTasks(displayTasks);
-        setIssueCount((issuesCount) => issuesCount + displayTasks.length);
-      })
-      .catch((error) => console.log(error.message));
-
-    axios
-      .get(`/task/getTaskByStatus/${projectName}/In Progress/${sprintNumber}`)
-      .then((response) => {
-        const tasksData = response.data;
-        const displayTasks = [];
-
-        tasksData.map((task) => {
-          const details = {
-            taskSummary: task.summary,
-            issueType: task.issueType,
-            taskPriority: task.priority,
-            assigneeName: task.assignee,
-          };
-          displayTasks.push({
-            id: task.id,
-            task: { ...task },
-            content: <Task {...details} />,
-          });
-        });
-
-        setInProgress(displayTasks);
-        setIssueCount((issuesCount) => issuesCount + displayTasks.length);
-      })
-      .catch((error) => console.log(error.message));
-
-    axios
-      .get(`/task/getTaskByStatus/${projectName}/In Review/${sprintNumber}`)
-      .then((response) => {
-        const tasksData = response.data;
-        const displayTasks = [];
-
-        tasksData.map((task) => {
-          const details = {
-            taskSummary: task.summary,
-            issueType: task.issueType,
-            taskPriority: task.priority,
-            assigneeName: task.assignee,
-          };
-          displayTasks.push({
-            id: task.id,
-            task: { ...task },
-            content: <Task {...details} />,
-          });
-        });
-
-        setInReview(displayTasks);
-        setIssueCount((issuesCount) => issuesCount + displayTasks.length);
-      })
-      .catch((error) => console.log(error.message));
-
-    axios
-      .get(`/task/getTaskByStatus/${projectName}/In Testing/${sprintNumber}`)
-      .then((response) => {
-        const tasksData = response.data;
-        const displayTasks = [];
-
-        tasksData.map((task) => {
-          const details = {
-            taskSummary: task.summary,
-            issueType: task.issueType,
-            taskPriority: task.priority,
-            assigneeName: task.assignee,
-          };
-          displayTasks.push({
-            id: task.id,
-            task: { ...task },
-            content: <Task {...details} />,
-          });
-        });
-
-        setInTesting(displayTasks);
-        setIssueCount((issuesCount) => issuesCount + displayTasks.length);
-
-        axios
-          .get(`/task/getTaskByStatus/${projectName}/Done/${sprintNumber}`)
-          .then((response) => {
-            const tasksData = response.data;
-            const displayTasks = [];
-
-            tasksData.map((task) => {
-              const details = {
-                taskSummary: task.summary,
-                issueType: task.issueType,
-                taskPriority: task.priority,
-                assigneeName: task.assignee,
-              };
-              displayTasks.push({
-                id: task.id,
-                task: { ...task },
-                content: <Task {...details} />,
-              });
+          tasksData.map((task) => {
+            const details = {
+              taskSummary: task.summary,
+              issueType: task.issueType,
+              taskPriority: task.priority,
+              assigneeName: task.assignee,
+            };
+            displayTasks.push({
+              id: task.id,
+              task: { ...task },
+              content: <Task {...details} />,
             });
+          });
 
-            setDone(displayTasks);
-            setCompletedCount(
-              (issuesCount) => issuesCount + displayTasks.length
-            );
+          setToDoData(displayTasks);
+          setTasks(displayTasks);
+          setIssueCount((issuesCount) => issuesCount + displayTasks.length);
+        })
+        .catch((error) => console.log(error.message));
 
-            setReceivedData(!receivedData);
-          })
-          .catch((error) => console.log(error.message));
-      })
-      .catch((error) => console.log(error.message));
-  }, [projectName, taskName]);
+      axios
+        .get(`/task/getTaskByStatus/${projectName}/In Progress/${sprintNumber}`)
+        .then((response) => {
+          const tasksData = response.data;
+          const displayTasks = [];
+
+          tasksData.map((task) => {
+            const details = {
+              taskSummary: task.summary,
+              issueType: task.issueType,
+              taskPriority: task.priority,
+              assigneeName: task.assignee,
+            };
+            displayTasks.push({
+              id: task.id,
+              task: { ...task },
+              content: <Task {...details} />,
+            });
+          });
+
+          setInProgress(displayTasks);
+          setIssueCount((issuesCount) => issuesCount + displayTasks.length);
+        })
+        .catch((error) => console.log(error.message));
+
+      axios
+        .get(`/task/getTaskByStatus/${projectName}/In Review/${sprintNumber}`)
+        .then((response) => {
+          const tasksData = response.data;
+          const displayTasks = [];
+
+          tasksData.map((task) => {
+            const details = {
+              taskSummary: task.summary,
+              issueType: task.issueType,
+              taskPriority: task.priority,
+              assigneeName: task.assignee,
+            };
+            displayTasks.push({
+              id: task.id,
+              task: { ...task },
+              content: <Task {...details} />,
+            });
+          });
+
+          setInReview(displayTasks);
+          setIssueCount((issuesCount) => issuesCount + displayTasks.length);
+        })
+        .catch((error) => console.log(error.message));
+
+      axios
+        .get(`/task/getTaskByStatus/${projectName}/In Testing/${sprintNumber}`)
+        .then((response) => {
+          const tasksData = response.data;
+          const displayTasks = [];
+
+          tasksData.map((task) => {
+            const details = {
+              taskSummary: task.summary,
+              issueType: task.issueType,
+              taskPriority: task.priority,
+              assigneeName: task.assignee,
+            };
+            displayTasks.push({
+              id: task.id,
+              task: { ...task },
+              content: <Task {...details} />,
+            });
+          });
+
+          setInTesting(displayTasks);
+          setIssueCount((issuesCount) => issuesCount + displayTasks.length);
+
+          axios
+            .get(`/task/getTaskByStatus/${projectName}/Done/${sprintNumber}`)
+            .then((response) => {
+              const tasksData = response.data;
+              const displayTasks = [];
+
+              tasksData.map((task) => {
+                const details = {
+                  taskSummary: task.summary,
+                  issueType: task.issueType,
+                  taskPriority: task.priority,
+                  assigneeName: task.assignee,
+                };
+                displayTasks.push({
+                  id: task.id,
+                  task: { ...task },
+                  content: <Task {...details} />,
+                });
+              });
+
+              setDone(displayTasks);
+              setCompletedCount(
+                (issuesCount) => issuesCount + displayTasks.length
+              );
+
+              setReceivedData(!receivedData);
+            })
+            .catch((error) => console.log(error.message));
+        })
+        .catch((error) => console.log(error.message));
+    }
+  }, [projectName, taskName, sprintNumber]);
 
   const onTaskChangeHandler = (e) => {
     setTaskName(e.target.value);
@@ -348,26 +351,28 @@ function ProjectDetailMain({ match }) {
 
   useEffect(() => {
     let filteredToDo = toDoData.filter((task) =>
-      task.task.summary.includes(taskName)
+      task.task.summary.toLowerCase().includes(taskName)
     );
     setToDoData(filteredToDo);
 
     let inprogessData = inProgress.filter((task) =>
-      task.task.summary.includes(taskName)
+      task.task.summary.toLowerCase().includes(taskName)
     );
     setInProgress(inprogessData);
 
     let inReviewData = inReview.filter((task) =>
-      task.task.summary.includes(taskName)
+      task.task.summary.toLowerCase().includes(taskName)
     );
     setInReview(inReviewData);
 
     let inTestingData = inTesting.filter((task) =>
-      task.task.summary.includes(taskName)
+      task.task.summary.toLowerCase().includes(taskName)
     );
     setInTesting(inTestingData);
 
-    let doneData = done.filter((task) => task.task.summary.includes(taskName));
+    let doneData = done.filter((task) =>
+      task.task.summary.toLowerCase().includes(taskName)
+    );
     setDone(doneData);
   }, [receivedData]);
 
@@ -376,8 +381,8 @@ function ProjectDetailMain({ match }) {
       <main className="ProjectDetailMain">
         <section className="projectSprintHeader">
           <div className="projectSprintHeading">
-            {sprintNumber === "Start Sprint"
-              ? "Start Sprint"
+            {sprintNumber === "Start Active Sprint" || sprintNumber === 99999999
+              ? "Start Active Sprint"
               : "Sprint " + sprintNumber}
           </div>
         </section>
@@ -440,34 +445,34 @@ function ProjectDetailMain({ match }) {
                           >
                             {column.items.length > 0
                               ? column.items.map((item, index) => {
-                                return (
-                                  <Draggable
-                                    key={item.id}
-                                    draggableId={item.id}
-                                    index={index}
-                                  >
-                                    {(provided) => {
-                                      return (
-                                        <div
-                                          ref={provided.innerRef}
-                                          {...provided.draggableProps}
-                                          {...provided.dragHandleProps}
-                                          className="DraggableDiv"
-                                          style={{
-                                            userSelect: "none",
-                                            ...provided.draggableProps.style,
-                                          }}
-                                          onClick={() =>
-                                            handleModalOpenEdit(item.task)
-                                          }
-                                        >
-                                          {item.content}
-                                        </div>
-                                      );
-                                    }}
-                                  </Draggable>
-                                );
-                              })
+                                  return (
+                                    <Draggable
+                                      key={item.id}
+                                      draggableId={item.id}
+                                      index={index}
+                                    >
+                                      {(provided) => {
+                                        return (
+                                          <div
+                                            ref={provided.innerRef}
+                                            {...provided.draggableProps}
+                                            {...provided.dragHandleProps}
+                                            className="DraggableDiv"
+                                            style={{
+                                              userSelect: "none",
+                                              ...provided.draggableProps.style,
+                                            }}
+                                            onClick={() =>
+                                              handleModalOpenEdit(item.task)
+                                            }
+                                          >
+                                            {item.content}
+                                          </div>
+                                        );
+                                      }}
+                                    </Draggable>
+                                  );
+                                })
                               : ""}
                             {provided.placeholder}
                           </div>
@@ -493,8 +498,8 @@ function ProjectDetailMain({ match }) {
           isModalOpenEdit ? (
             <EditTask dismiss={dismissableEdit} task={task} />
           ) : (
-              ""
-            )
+            ""
+          )
         }
       />
 
@@ -506,10 +511,14 @@ function ProjectDetailMain({ match }) {
               dismiss={dismissableComplete}
               issuesCount={issuesCount}
               completedCount={completedCount}
+              tasks={columnsData}
+              projectName={projectName}
+              activeSprint={sprintNumber}
+              setSprintNumber={setSprintNumber}
             />
           ) : (
-              ""
-            )
+            ""
+          )
         }
       />
     </ProjectDetail>
