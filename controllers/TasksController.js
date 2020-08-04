@@ -9,7 +9,6 @@ const Task = require("../models/Task");
 // add task post request
 exports.addTask = async (req, res) => {
   try {
-    console.log("task", req.body);
     const task = await Task.create(req.body);
     return res.status(201).json({
       success: true,
@@ -36,7 +35,6 @@ exports.addTask = async (req, res) => {
 // edit task put request
 exports.editTask = async (req, res, next) => {
   try {
-    console.log("request", req.body);
     const task = await Task.updateOne(
       { id: req.body.id },
       {

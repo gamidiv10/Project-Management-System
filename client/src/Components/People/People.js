@@ -7,9 +7,11 @@ import PeopleHeader from "./PeopleHeader/PeopleHeader";
 import "./People.scss";
 import ProjectDetail from "../Projects/ProjectDetail/ProjectDetail";
 import axios from "axios";
+import { Form } from "react-bootstrap";
 
 const People = () => {
   const [peopleList, setPeopleList] = useState([]);
+  const [peopleCopyList, setPeopleCopyList] = useState([]);
   useEffect(() => {
     getPeople();
   }, []);
@@ -20,14 +22,34 @@ const People = () => {
       .get("/people/getPeople")
       .then((response) => {
         setPeopleList(response.data.data);
+        setPeopleCopyList(response.data.data);
       })
       .catch((error) => console.log(error.message));
+  };
+  const handlePeopleSearch = (e) => {
+    e.preventDefault();
+    setPeopleList(
+      peopleCopyList.filter(
+        (user) =>
+          user.name.toLowerCase().includes(e.target.value) ||
+          user.role.toLowerCase().includes(e.target.value)
+      )
+    );
   };
   return (
     <>
       <ProjectDetail>
         <main className="ProjectDetailMain">
           <PeopleHeader />
+          <section>
+            <Form className="peopleForm">
+              <Form.Control
+                onChange={handlePeopleSearch}
+                type="text"
+                placeholder="Search for person"
+              />
+            </Form>
+          </section>
           <section className="peopleList">
             <Person people={peopleList} />
           </section>

@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Form } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
 import "./PeopleHeader.scss";
 
@@ -17,11 +17,6 @@ const PeopleHeader = () => {
           <Button onClick={inviteUser}>Invite User</Button>
         </div>
       </header>
-      <section>
-        <Form className="peopleForm">
-          <Form.Control type="text" placeholder="Search for person" />
-        </Form>
-      </section>
     </>
   );
 };

@@ -5,14 +5,42 @@
 
 const { keys } = require("lodash");
 const People = require("../models/People");
+const Project = require("../models/Project");
 
 //Add User Post Request
-exports.addUser = async (req, res, next) => {
+exports.addUser = (req, res, next) => {
   try {
-    const user = await People.create(req.body);
-    return res.status(201).json({
-      success: true,
-      data: user,
+    let proj = {};
+    Project.findOne({ projectName: req.body.projectName }, function (err, doc) {
+      if (err) {
+        console.log(err);
+      } else {
+        proj = doc;
+        People.create(
+          {
+            name: req.body.name,
+            role: req.body.role,
+            projectName: req.body.projectName,
+            projectKey: proj.projectKey,
+            projectType: proj.projectType,
+            projectLead: proj.projectLead,
+          },
+          function (err, doc) {
+            if (err) {
+              console.log(err);
+              return res.status(400).json({
+                success: false,
+                data: err,
+              });
+            } else {
+              return res.status(201).json({
+                success: true,
+                data: doc,
+              });
+            }
+          }
+        );
+      }
     });
   } catch (error) {
     if (error.name === "ValidationError") {

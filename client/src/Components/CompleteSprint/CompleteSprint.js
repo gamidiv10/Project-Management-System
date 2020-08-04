@@ -60,14 +60,14 @@ const CompleteSprint = ({ dismiss, issuesCount, completedCount }) => {
     } else {
       errors.projects = "";
     }
-    console.log("here");
+    
     setLoading(true);
   };
 
   return (
     <>
       <div className="issueHeading">
-        Complete Sprint: Sprint Name
+        Sprint Name
         <span className="icon-button-close" onClick={dismiss}>
           <CloseIcon />
         </span>

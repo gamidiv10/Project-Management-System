@@ -1,15 +1,17 @@
 /**
  * @author Vamsi Gamidi <vamsi.gamidi@dal.ca>
  */
-import React, { Fragment, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Project from "./Project/Project";
 import "./Projects.scss";
 import ProjectHeader from "./ProjectHeader/ProjectHeader";
 import axios from "axios";
+import { Form } from "react-bootstrap";
 
 const Projects = () => {
   const [projectsList, setProjectsList] = useState([]);
-
+  const [projectsCopy, setProjectsCopy] = useState([]);
+  const userName = localStorage.getItem("user");
   useEffect(() => {
     getProjects();
   }, []);
@@ -17,20 +19,45 @@ const Projects = () => {
   //Loading all the projects
   const getProjects = () => {
     axios
-      .get("/project/getProjects")
+      .get(`/project/getProjects/${userName}`)
       .then((response) => {
         setProjectsList(response.data.data);
+        setProjectsCopy(response.data.data);
       })
       .catch((error) => console.log(error.message));
   };
-  return projectsList.length > 0 ? (
-    <Fragment>
+
+  const handleProjectSearch = (e) => {
+    e.preventDefault();
+    setProjectsList(
+      projectsCopy.filter(
+        (project) =>
+          project.projectName.toLowerCase().includes(e.target.value) ||
+          project.projectKey.toLowerCase().includes(e.target.value) ||
+          project.projectLead.toLowerCase().includes(e.target.value) ||
+          project.projectType.toLowerCase().includes(e.target.value)
+      )
+    );
+  };
+  return (
+    <>
       <ProjectHeader />
-      <section className="projectsList">
-        <Project projects={projectsList} />
+      <section>
+        <Form className="projectForm">
+          <Form.Control
+            type="text"
+            onChange={handleProjectSearch}
+            placeholder="Search for project"
+          />
+        </Form>
       </section>
-    </Fragment>
-  ) : null;
+      {projectsList.length > 0 ? (
+        <section className="projectsList">
+          <Project projects={projectsList} />
+        </section>
+      ) : null}
+    </>
+  );
 };
 
 export default Projects;

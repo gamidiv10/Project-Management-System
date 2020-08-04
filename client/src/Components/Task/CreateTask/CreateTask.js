@@ -24,7 +24,7 @@ const CreateTask = ({ dismiss }) => {
   const { setProject } = useContext(projectContext);
   const [projectName, setProjectName] = useState("");
   let buttonDisable = true;
-  const issueTypes = [ "Story", "Task", "Bug"];
+  const issueTypes = ["Story", "Task", "Bug"];
   const priorityTypes = ["Highest", "High", "Medium", "Low", "Lowest"];
 
   useEffect(() => {
@@ -232,7 +232,7 @@ const CreateTask = ({ dismiss }) => {
     let assignee = values.assigneeName;
     let dueDate = new Date(values.dueDate).toISOString();
     let storyPoints = values.storyPoints;
-    let sprintNumber = 2;
+    let sprintNumber = 0;
     let taskStatus = "To do";
     let taskId = uuid();
     setLoading(true);

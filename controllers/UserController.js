@@ -6,12 +6,19 @@ const router = express.Router();
 const mongoose = require("mongoose");
 
 const UserModel = require("../models/User");
-
+const People = require("../models/People");
 //Adding user to DB
 exports.addUser = async (req, res) => {
   try {
     const user = await UserModel.create(req.body);
-    console.log(req.body.id);
+    await People.create({
+      name: req.body.userName,
+      role: req.body.jobTitle,
+      projectName: "Project 0",
+      projectKey: "P0",
+      projectType: "Dummy Project",
+      projectLead: "Dummy Lead",
+    });
     return res.status(201).json({
       success: true,
       data: user,
@@ -56,7 +63,6 @@ exports.getUser = async (req, res) => {
 //Updating the user details
 exports.modifyUser = async (req, res) => {
   try {
-    console.log("request", req.body);
     const user = await UserModel.updateOne(
       { id: req.body.id },
       {

@@ -89,7 +89,7 @@ function ProjectDetailMain({ match }) {
   const [isModalCompleteOpen, setIsModalCompleteOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalOpenEdit, setIsModalOpenEdit] = useState(false);
-  const [sprintNumber] = useState(2);
+  const [sprintNumber, setSprintNumber] = useState(999999);
   const [projectName, setProjectName] = useState(match.params.projectName);
   const [droppableId, setDroppableId] = useState("");
   const [droppableStatus, setDroppableStatus] = useState("");
@@ -99,6 +99,7 @@ function ProjectDetailMain({ match }) {
   const [receivedData, setReceivedData] = useState(false);
   const [issuesCount, setIssueCount] = useState(0);
   const [completedCount, setCompletedCount] = useState(0);
+  const [btnDisable, setBtnDisable] = useState(true);
 
   useEffect(() => {
     setProjectName(match.params.projectName);
@@ -109,6 +110,33 @@ function ProjectDetailMain({ match }) {
       setToDoData(tasks);
     }
   }, [tasks]);
+
+  useEffect(() => {
+    let activeSprintNumber = 0;
+    axios
+      .post(`/sprint/getSprints/`, {
+        projectName,
+      })
+      .then((response) => {
+        response.data.sprints.map((sprint) => {
+          if (sprint.isActive) {
+            activeSprintNumber = sprint.sprintNumber;
+            return;
+          } else {
+            activeSprintNumber = "";
+          }
+        });
+      })
+      .catch((error) => console.log(error.message));
+
+    activeSprintNumber
+      ? setSprintNumber(activeSprintNumber)
+      : setSprintNumber("Start Sprint");
+  }, []);
+
+  useEffect(() => {
+    completedCount + issuesCount ? setBtnDisable(false) : setBtnDisable(true);
+  }, [issuesCount, completedCount]);
 
   const handleModalOpen = () => {
     setIsModalOpen(!isModalOpen);
@@ -345,7 +373,13 @@ function ProjectDetailMain({ match }) {
   return (
     <ProjectDetail>
       <main className="ProjectDetailMain">
-        <ProjectDetailHeader />
+        <section className="projectSprintHeader">
+          <div className="projectSprintHeading">
+            {sprintNumber === "Start Sprint"
+              ? "Start Sprint"
+              : "Sprint " + sprintNumber}
+          </div>
+        </section>
         <section className="flexButtons">
           <Form className="projectForm">
             <Form.Control
@@ -357,7 +391,9 @@ function ProjectDetailMain({ match }) {
             />
           </Form>
           <div className="buttons">
-            <Button onClick={handleModalCompleteOpen}>Complete Sprint</Button>
+            <Button onClick={handleModalCompleteOpen} disabled={btnDisable}>
+              Complete Sprint
+            </Button>
           </div>
         </section>
         <section className="ProjectDetailMainLayout" id="scrollbar-1">
