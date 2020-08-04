@@ -18,9 +18,9 @@ exports.addComment = async (req, res) => {
     const notificationData = {
       projectName: task._doc['projectName'],
       taskName: task._doc['summary'],
-      type: 'COMMENT',
+      type: 'COMMENT_CREATE',
       user: userName,
-      updates: JSON.stringify({ comment: commentText })
+      updates: JSON.stringify({ newValue: commentText })
     }
 
     // console.log('notification', notificationData)

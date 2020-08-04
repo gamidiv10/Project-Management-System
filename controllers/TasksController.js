@@ -20,7 +20,7 @@ exports.addTask = async (req, res) => {
       taskName: summary,
       type: 'TASK_CREATE',
       user: req.body.user,
-      updates: JSON.stringify({ assignee })
+      updates: JSON.stringify({ newValue: assignee })
     }
 
     // console.log('notification', notificationData)

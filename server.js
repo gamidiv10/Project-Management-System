@@ -16,6 +16,7 @@ const taskRoutes = require("./routes/TaskRoutes");
 const userRoutes = require("./routes/UserRoutes");
 const peopleRoutes = require("./routes/PeopleRoutes");
 const reportRoutes = require("./routes/ReportRoutes");
+const notificationRoutes = require("./routes/NotificationRoutes");
 const cors = require("cors");
 //Loading Enviroment Configuration file
 dotenv.config({ path: "./config/config.env" });
@@ -45,6 +46,7 @@ app.use("/people", peopleRoutes);
 app.use("/user", userRoutes);
 app.use("/reports", reportRoutes);
 app.use("/query", QueryRoutes);
+app.use("/notification", notificationRoutes);
 
 app.get("/*", (req, res) => {
   res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
