@@ -165,7 +165,7 @@ const CompleteSprint = ({
             )}
 
             <div className="buttons">
-              <Button disabled={isLoading} type="submit" onClick={onSubmit}>
+              <Button disabled={isLoading} onClick={onSubmit}>
                 {isLoading ? "Complete...." : "Complete"}
               </Button>
               <Button onClick={dismiss}>Cancel</Button>
