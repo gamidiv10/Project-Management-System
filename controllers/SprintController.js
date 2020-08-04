@@ -224,7 +224,7 @@ exports.getTasksForSprint = (req, res) => {
   }
   Sprint.find({ _id: sprintId, sprintNumber })
   .then(() => {
-      Task.find({ sprintNumber })
+      Task.find({ sprintNumber, taskStatus: { $ne: 'Done' } })
       .then(tasks => {
         res.send({
           success: true,

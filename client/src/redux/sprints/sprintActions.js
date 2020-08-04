@@ -10,9 +10,10 @@ import {
 import {
     SPRINT_FETCH_REQUEST,
     SPRINT_FETCH_FAILURE,
-    SPRINT_LIST_SUCCESS,
+    FETCH_SPRINT_LIST_SUCCESS,
     DELETE_SPRINT_SUCCESS,
-    CREATE_SPRINT_SUCCESS
+    CREATE_SPRINT_SUCCESS,
+    UPDATE_SPRINT_SUCCESS
 } from './sprintType'
 
 import { UPDATE_TASK_FOR_SPRINT_SUCCESS } from '../backlog/backlogTypes'
@@ -27,10 +28,10 @@ const fetchSprintFailure = payload => ({
     payload
 })
 
-const fetchSprintSuccess = (action, payload, extraParam) => ({
+const fetchSprintSuccess = (action, payload, helper = {}) => ({
     type: action,
     payload,
-    extraParam
+    helper
 })
 
 export const createSprint = (name, goal, projectName, description = "") => dispatch => {
@@ -99,20 +100,22 @@ export const updateSprint = (sprintId, name, goal, projectName, description = ""
 }
 
 export const deleteSprint = (sprintId, projectName) => dispatch => {
+    const paramObj = {
+        sprintId,
+        projectName
+    }
     dispatch(fetchSprintRequest())
     axios.post(
         '/sprint/deleteSprint',
         {
-            param : {
-                sprintId,
-                projectName
-            }
+            param : paramObj
         }
     ).then(res => {
         if (res.data.success) {
             fetchSprintSuccess(
                 DELETE_SPRINT_SUCCESS,
-                res.data
+                res.data,
+                paramObj,
             )
         } else {
             dispatch(fetchSprintFailure(res.data))
@@ -128,22 +131,52 @@ export const deleteSprint = (sprintId, projectName) => dispatch => {
     })
 }
 export const fetchSprintList = projectName => dispatch => {
+    let sprints = []
     dispatch(fetchSprintRequest())
     axios.post(
-        '/sprint/getSprints',
-        {
-            params : {
-                projectName
-            }
-        }
+        '/sprint/getSprints',{
+        params : {
+            projectName
+        }}
     ).then(res => {
+        let sprint = {}
+        let errTask = false
         if (res.data.success) {
-            dispatch(
+            res.data.sprints.map(spr => {
+                sprint = spr
+                axios.post(
+                    '/sprint/getTasksForSprint', {
+                    params: {
+                        sprintNumber: sprint.sprintNumber,
+                        sprintId: sprint.sprintId
+                    }}
+                ).then(taskRes => {
+                    if (taskRes.data.success) {
+                        sprint.tasks = taskRes.data.tasks
+                        sprints.push(sprint)
+                    }
+                }).catch(taskErr => {
+                    errTask = taskErr
+                    console.log('Error occurred while fetching task', taskErr);
+                })
+            })
+            if (!errTask) {
+                const payload = {
+                    sprints,
+                    message: 'Successfully fetched all the tasks.'
+                }
+                dispatch(
                 fetchSprintSuccess(
-                    SPRINT_LIST_SUCCESS,
-                    res.data
-                )
-            )
+                    FETCH_SPRINT_LIST_SUCCESS,
+                    payload
+                ))
+            } else {
+                dispatch(fetchSprintFailure({
+                    isError: true,
+                    error: errTask,
+                    message: 'Error in fetching tasks for sprint.'
+                }))
+            }
         } else {
             dispatch(fetchSprintFailure(res.data))
         }
@@ -152,7 +185,6 @@ export const fetchSprintList = projectName => dispatch => {
         dispatch(
             fetchSprintFailure(
                 {
-                    success: false,
                     isError: true,
                     error: err,
                     message: "Error occurred in making sprint request.",
@@ -162,18 +194,19 @@ export const fetchSprintList = projectName => dispatch => {
     })
 }
 
-export const updateTaskToSprint = (sprint, task, updateSprintTo) => {
+export const updateTaskToSprint = (sprint, taskId, updateSprintTo) => {
+    const paramObj = {
+        sprintNumber: sprint.sprintNumber,
+        taskId,
+        sprintId: sprint.sprintId,
+        updateSprintTo
+    }
     dispatch(fetchBacklogRequest())
     dispatch(fetchSprintRequest())
     axios.post(
         '/sprint/taskToSprintUpdate',
         {
-            params: {
-                sprintNumber: sprint.sprintNumber,
-                taskId: task.taskId,
-                sprintId: sprint.sprintId,
-                updateSprintTo
-            }
+            params: paramObj
         }
     ).then(res => {
         if (res.data.success) {
@@ -186,7 +219,8 @@ export const updateTaskToSprint = (sprint, task, updateSprintTo) => {
             dispatch(
                 fetchSprintSuccess(
                     UPDATE_SPRINT_FOR_TASK_SUCCESS,
-                    res.data
+                    res.data,
+                    paramObj
                 )
             )
         } else {

@@ -18,17 +18,17 @@ export const fetchBacklogFailure = payload => ({
     payload
 })
 
-export const fetchBacklogSuccess = (action, payload, extraParam = {}) => ({
+export const fetchBacklogSuccess = (action, payload, helper = {}) => ({
     type: action,
     payload,
-    extraParam
+    helper
 })
 
 
 export const fetchTasks = (projectName, sprintNumber) => (dispatch, getState) => {
     const errorObj = {}
     dispatch(fetchBacklogRequest())
-    axios.get('/getTasks/', 
+    axios.get('/task/getTasks/', 
         {
             params: {
             projectName,
