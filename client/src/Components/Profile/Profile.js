@@ -13,7 +13,6 @@ import "./Profile.scss";
 import Editable from "../Editable/Editable";
 import { Button } from "react-bootstrap";
 import * as firebase from "firebase";
-import { AuthContext } from "../../App";
 import axios from "axios";
 
 const Profile = ({ history }) => {
@@ -46,18 +45,20 @@ const Profile = ({ history }) => {
   }, [userId]);
 
   const getUser = () => {
-    axios
-      .get(`/user/getUser/${userId}`)
-      .then((response) => {
-        const userData = response.data.data[0];
-        setName(userData.userName);
-        setJobTitle(userData.jobTitle);
-        setYourDepartment(userData.department);
-        setYourOrganization(userData.organisation);
-        setEmail(userData.email);
-        setYourLocation(userData.country);
-      })
-      .catch((error) => console.log(error.message));
+    if (userId) {
+      axios
+        .get(`/user/getUser/${userId}`)
+        .then((response) => {
+          const userData = response.data.data[0];
+          setName(userData.userName);
+          setJobTitle(userData.jobTitle);
+          setYourDepartment(userData.department);
+          setYourOrganization(userData.organisation);
+          setEmail(userData.email);
+          setYourLocation(userData.country);
+        })
+        .catch((error) => console.log(error.message));
+    }
   };
 
   const handleSubmit = (event) => {
