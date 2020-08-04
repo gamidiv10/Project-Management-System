@@ -31,12 +31,14 @@ const backlogReducer = (state = initialBacklogState, action) => {
             }
         case TASK_LIST_SUCCESS:
             let tasks = []
+            console.log('__payload', action.payload);
             action.payload.map(task => {
-                if (task.taskStatus !== "Done") {
-                    tasks.push(tasks)
+                if (task.taskStatus !== "Done" && task.sprintNumber === 0) {
+                    tasks.push(task)
                 }
-                return
+                return null
             })
+            console.log('__tasks', tasks);
             return {
                 ...state,
                 loading: false,
@@ -47,8 +49,9 @@ const backlogReducer = (state = initialBacklogState, action) => {
             }
         case UPDATE_TASK_FOR_SPRINT_SUCCESS:
             tasks = state.tasks
+            console.log('_UPDATE_TASK_FOR_SPRINT_SUCCESS__', action.payload, tasks);
             state.tasks.map((task, index) => {
-                if (task.id === action.payload.task.id) {
+                if (task._id === action.payload.task._id) {
                     tasks[index] = action.payload.task
                 }
                 return

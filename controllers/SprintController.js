@@ -69,6 +69,7 @@ exports.updateSprint = (req, res) => {
 };
 
 exports.deleteSprint = (req, res) => {
+  console.log('__Body', req.body);
   if (!req.body.projectName || !req.body.sprintId) {
     res.send({
       success: false,
@@ -76,7 +77,7 @@ exports.deleteSprint = (req, res) => {
       message: 'Some input data seems missing. Make sure to provide projectName, sprintId for deleting a sprint.'
     })
   }
-  Sprint.findOneAndDelete({ _id: req.body.sprintId, sprintNumber: req.body.sprintNumber })
+  Sprint.findOneAndDelete({ _id: req.body.sprintId })
     .then(deletedSprint => {
       if (deletedSprint && deletedSprint.sprintNumber) {
         Task.updateMany(
@@ -146,10 +147,9 @@ exports.getSprints = (req, res) => {
 exports.taskToSprintUpdate = (req, res) => {
   const sprintNumber = req.body.sprintNumber
   const taskId = req.body.taskId
-  const sprintId = req.body.sprintId
   const updateSprintTo = req.body.updateSprintTo
-
-  if (!sprintNumber || !taskId || !sprintId || !updateSprintTo ) {
+  console.log('______/taskToSprintUpdate______', req.body);
+  if (!sprintNumber || !taskId || !updateSprintTo ) {
     res.send({
       success: false,
       isError: false,
@@ -159,9 +159,9 @@ exports.taskToSprintUpdate = (req, res) => {
   Task.find({ _id: taskId })
     .then(task => {
       if (task) {
-        Sprint.findOne({ _id: sprintId, sprintNumber }).then(sprintFound => {
+        Sprint.findOne({ sprintNumber }).then(sprintFound => {
           if (sprintFound) {
-            Task.findOneAndUpdate({ _id: taskId }, { sprintNumber: updateSprintTo })
+            Task.findOneAndUpdate({ _id: taskId }, { sprintNumber: updateSprintTo }, {new : true})
             .then(updatedTask => {
               if (updatedTask) {
                 res.send({

@@ -1,36 +1,55 @@
 import React, { useState } from "react"
 import className from "classnames"
+import { 
+    // useSelector, 
+    useDispatch 
+} from 'react-redux'
 import { Accordion, Card, Row, Col, Button, ListGroup } from "react-bootstrap"
 import { 
     FaRunning, 
     FaEdit, 
     FaBullseye, 
     FaTrash,
-    FaInfoCircle
+    FaInfoCircle,
+    FaTasks
 } from "react-icons/fa"
+import BacklogItem from './BacklogItem'
+import {
+    deleteSprint
+} from "../../redux/"
 
 const SprintItem = props => {
+    
+const projectName = 'Project 1'
+const dispatch = useDispatch()
 const [isShow, toggleItem] = useState(false)
+const fetchTasks = (tasks, sNumber) => (
+    tasks.map((task, index) => (
+        <BacklogItem 
+            item={task}
+            key={`sprint_task`+index}
+            isSprintTask
+            sprintNumber={sNumber}
+        />
+    ))
+)
 return (
-    <Row  style={{ paddingBottom: "15px" }} 
-        onMouseEnter={() => toggleItem(true)}
-        onMouseLeave={() => toggleItem(false)}
-    >
+    <Row  style={{ paddingBottom: "15px" }}>
         <Col xs="12">
             <Accordion defaultActiveKey="0">
                 <Card>
                     <Accordion.Toggle 
-                        as={Card.Header} 
-                        
+                        as={Card.Header}
+                        onClick={() => toggleItem(!isShow)}
                     >
                         <FaRunning style={{ display: "inline-block", color: "#001f3f"}} size="1.8em"/>
                         <div style={{ fontSize: "22px" }} className="inline crd-title">
-                                {props.item.sprintName}
+                                {props.item.name} (sprint: {props.item.sprintNumber})
                         </div>
                         <div style={{ float: "right" }}>
-                            <Button style={{ height: "8%", fontWeight: "600" }} variant="success" disabled={props.index === 0}>
+                            <Button style={{ height: "8%", fontWeight: "600" }} variant="success" disabled={props.item.isActive}>
                                 {
-                                    props.index === 0
+                                    props.item.isActive
                                     ? "Started..."
                                     : "Start"
                                 }
@@ -39,7 +58,14 @@ return (
                                 <FaEdit style={{ display: "inline-block",  color: "#001f3f"}} size="1.9em"/>
                             </span>
                             <span style={{ marginLeft: "20px"}}>
-                                <FaTrash style={{ display: "inline-block",  color: "#001f3f"}} size="1.5em"/>
+                                <FaTrash 
+                                    onClick={() => dispatch(deleteSprint(
+                                        props.item._id,
+                                        projectName
+                                    ))} 
+                                    style={{ display: "inline-block",  
+                                    color: "#001f3f"}} size="1.5em"
+                                />
                             </span>
                         </div>
                     </Accordion.Toggle>
@@ -60,7 +86,7 @@ return (
                                 <span style={{ display: "inline-block", color: "#001f3f", paddingRight: "8px" }}>
                                     <b>Sprint Goal :</b>
                                 </span>
-                                {props.item.sprintGoal}
+                                {props.item.goal}
                             </ListGroup.Item>
                             <ListGroup.Item>
                                 <span style={{ marginRight: "10px" }}>
@@ -69,8 +95,24 @@ return (
                                 <span style={{ display: "inline-block", color: "#001f3f", paddingRight: "8px" }}>
                                     <b>Details :</b>
                                 </span>
-                                {props.item.sprintDesc}
+                                {props.item.description}
                             </ListGroup.Item>
+                            {
+                                props.item.tasks.length !==0 && 
+                                <ListGroup.Item>
+                                    <span style={{ marginRight: "10px" }}>
+                                        <FaTasks style={{ color: "#3f5b77" }}/>
+                                    </span>
+                                    <span style={{ display: "inline-block", color: "#001f3f", fontSize: "18px", paddingRight: "8px" }}>
+                                        <b>Tasks under Sprint :</b>
+                                    </span>
+                                    <div style={{ paddingTop: "20px" }}>
+                                        {fetchTasks(
+                                            props.item.tasks, props.item.sprintNumber
+                                        )}
+                                    </div>
+                                </ListGroup.Item>
+                            }
                         </ListGroup>
                     </Card.Body>
                     </div>

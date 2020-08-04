@@ -12,10 +12,10 @@ const {
 const router = express.Router();
 
 router.post("/createSprint", createSprint);
-router.put("/updateSprint", updateSprint);
-router.delete("/deleteSprint", deleteSprint);
+router.post("/updateSprint", updateSprint);
+router.post("/deleteSprint", deleteSprint);
 router.post("/getSprints", getSprints);
-router.put("/taskToSprintUpdate", taskToSprintUpdate);
+router.post("/taskToSprintUpdate", taskToSprintUpdate);
 router.post("/getTasksForSprint", getTasksForSprint);
 router.post("/completeSprint", completeSprint);
 

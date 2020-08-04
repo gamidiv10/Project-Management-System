@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios from "axios"
 // import { CancelToken  } from 'axios'
 import {
     BACKLOG_FETCH_REQUEST,
@@ -27,15 +27,14 @@ export const fetchBacklogSuccess = (action, payload, helper = {}) => ({
 export const fetchTasks = (projectName, sprintNumber) => (dispatch, getState) => {
     const errorObj = {}
     dispatch(fetchBacklogRequest())
-    axios.get('/task/getTasks/', 
+    axios.post('/task/getTasksPost', 
         {
-            params: {
             projectName,
             sprintNumber
         }
-    })
-    .then(res => {
+    ).then(res => {
         const data = res.data
+        console.log('__data__', data);
         if(data.success) {
             dispatch(
                 fetchBacklogSuccess(

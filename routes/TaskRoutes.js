@@ -11,7 +11,8 @@ const {
   getTaskByStatus,
   changeTaskByStatus,
   getTasks,
-  getCalendarViewTasks
+  getCalendarViewTasks,
+  getTasksPost
 } = require("../controllers/TasksController");
 
 const router = express.Router();
@@ -24,6 +25,8 @@ router.route("/editTask").post(editTask);
 
 // Get Tasks Route
 router.route("/getTasks/:projectName/:sprintNumber").get(getTasks);
+
+router.route('/getTasksPost').post(getTasksPost)
 
 // Get Tasks By status Route
 router

@@ -242,3 +242,25 @@ exports.getCalendarViewTasks = async (req, res) => {
     return res.status(500).json({ error: err });
   }
 };
+
+
+exports.getTasksPost = async (req, res) => {
+  var projectName = req.body.projectName;
+  var sprintNo = req.body.sprintNumber;
+  console.log('__getTaskPost', projectName, sprintNo);
+  try {
+    const tasks = await Task.find({
+      projectName: projectName,
+      sprintNumber: sprintNo,
+    });
+    return res.status(200).json({
+      success: true,
+      data: tasks,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      error: `Server Error ${error}`,
+    });
+  }
+};

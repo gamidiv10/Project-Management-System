@@ -1,5 +1,5 @@
-import React from "react"
-// import { useSelector, useDispatch } from 'react-redux'
+import React, { useEffect } from "react"
+import { useSelector, useDispatch } from 'react-redux'
 import BacklogItem from "./BacklogItem"
 import SprintItem from "./SprintItem"
 import { 
@@ -7,6 +7,10 @@ import {
     Row,
     } from "react-bootstrap"
 // import { fetchBacklogIssues } from "../../redux/backlog/backlogAction"
+import {
+    fetchTasks,
+    fetchSprintList
+} from '../../redux/'
 import ProjectDetail from "../Projects/ProjectDetail/ProjectDetail"
 import VerticalCenteredModal from "./VerticalCenteredModal"
 import CreateModal from "../Modal/Modal"
@@ -19,16 +23,25 @@ import "./Backlog.scss"
 
 
 
-const Backlog = () => {
+const Backlog = props => {
     const [modalShow, setModalShow] = React.useState(false);
+    const dispatch = useDispatch()
     const [data, setData] = React.useState({ heading: "", isBacklog: false })
-    const issues = get_issues()
-    const sprints = get_sprints()
-    
+    const backlogState = useSelector(state => state.backlog)
+    const sprintState = useSelector(state => state.sprint)
+    // console.log('__Props', props);
+    const projectName = 'Project 1'
 
-    // useEffect(() => {
-    //     dispatch(fetchTasks())
-    // }, [])
+    useEffect(() => {
+        console.log('---Task', backlogState.tasks );
+
+            console.log('__Backlog dispatched');
+            dispatch(fetchTasks(projectName, 0))
+            console.log('__Sprint dispatched');
+            dispatch(fetchSprintList(projectName))
+    }, [])
+    console.log('---Sprint', sprintState.sprints);
+
     const [isModalOpen, setIsModalOpen] = React.useState(false);
     const dismissable = () => {
         setIsModalOpen(false);
@@ -36,24 +49,45 @@ const Backlog = () => {
     const handleModalOpen = () => {
         setIsModalOpen(!isModalOpen);
     };
-    const renderIssues = () => (
-        issues.map((item, index) => (
-            <BacklogItem 
-                item={item}
-                key={`issues`+index}
-            />
-        ))
-        )
-        
-        const renderSprints = () => (
-            sprints.map((item, index) => (
-                <SprintItem 
-                item={item}
-                index={index}
-                key={`sprints`+index}
-            />
-        ))
+    const loading = () => (
+        <div>
+            <h4><b>Loading...</b></h4>
+        </div>
     )
+    const renderIssues = () => {
+        if (backlogState.loading) {
+            loading()
+        } else {
+            return (
+                backlogState.tasks.map((item, index) => {
+                    if (item.sprintNumber === 0) {
+                        return (
+                            <BacklogItem 
+                                item={item}
+                                key={`task`+index}
+                            />
+                        )
+                    }
+                    return null
+                }))
+        }
+    }
+        
+    const renderSprints = () => {
+        if (sprintState.loading) {
+            loading()
+        } else {
+            return (
+                sprintState.sprints.map((item, index) => (
+                    <SprintItem 
+                        item={item}
+                        index={index}
+                        key={`sprints`+index}
+                />))
+            )
+        }
+        
+    }
 
     return (
         <>
@@ -71,7 +105,7 @@ const Backlog = () => {
                                 }}>Create Issue</Button>
                             </div>
                         </Row>
-                        {issues && renderIssues()}
+                        {renderIssues()}
                         <Row className="peopleHeader">
                             <h1>Sprints</h1>
                             <div className="buttons">
@@ -86,7 +120,7 @@ const Backlog = () => {
                                 }}>Create Sprint</Button>
                             </div>
                         </Row>
-                        {sprints && renderSprints()}
+                        {renderSprints()}
                         <VerticalCenteredModal
                             show={modalShow}
                             onHide={() => setModalShow(false)}

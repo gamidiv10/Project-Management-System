@@ -4,9 +4,9 @@ export { buyIceCream } from "./ice-cream/iceCreamAction"
 export { fetchUser } from './users/userActions'
 
 export { fetchTasks } from './backlog/backlogActions'
-export { fetchBacklogRequest } from './backlog/backlogActions'
-export { fetchBacklogFailure } from './backlog/backlogActions'
-export { fetchBacklogSuccess } from './backlog/backlogActions'
+// export { fetchBacklogRequest } from './backlog/backlogActionCreator'
+// export { fetchBacklogFailure } from './backlog/backlogActionCreator'
+// export { fetchBacklogSuccess } from './backlog/backlogActionCreator'
     
 export { createSprint } from './sprints/sprintActions'
 export { updateSprint } from './sprints/sprintActions'

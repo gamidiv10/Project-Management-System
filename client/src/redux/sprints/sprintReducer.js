@@ -18,7 +18,7 @@ const initialSprintState = {
 
 
 const sprintReducer = (state = initialSprintState, action) => {
-    const bluePrintSuccessObj = {
+    let bluePrintSuccessObj = {
         ...state,
         loading: false,
         success: true,
@@ -26,7 +26,7 @@ const sprintReducer = (state = initialSprintState, action) => {
         sprints: [],
         message: ''
     }
-
+    let listOfSprints = []
     switch(action.type) {
         case SPRINT_FETCH_REQUEST:
             return {
@@ -47,53 +47,56 @@ const sprintReducer = (state = initialSprintState, action) => {
             bluePrintSuccessObj.message = action.payload.message
             return bluePrintSuccessObj
 
+        case CREATE_SPRINT_SUCCESS:
+            listOfSprints = [ ...state.sprints ]
+            const sprint = action.payload.sprint
+            sprint.tasks = []
+            listOfSprints.push(sprint)
+            bluePrintSuccessObj.sprints = listOfSprints
+            bluePrintSuccessObj.message = action.payload.message
+            return bluePrintSuccessObj    
+
         case UPDATE_SPRINT_FOR_TASK_SUCCESS:
-            let sprints = state.sprints
+            listOfSprints = [ ...state.sprints ]
             state.sprints.map((sprint, spInd) => {
-                if (sprint._id === action.helper.sprintId) {
-                    let tasks = sprint.tasks || []
-                    if(tasks !== []) {
+                if (sprint.sprintNumber === action.helper.sprintNumber) {
+                    let tasks = sprint.tasks
+                    if(tasks.length !== 0) {
                         sprint.tasks.map((task, taskInd) => {
-                            if (task.id === action.payload.task.id) {
-                                tasks[taskInd] = action.payload.task
+                            if (task._id === action.payload.task._id) {
+                                if (action.payload.updateSprintTo === 0) {
+                                    tasks.splice(taskInd, 1)
+                                } else {
+                                    tasks[taskInd] = action.payload.task
+                                }
                             }
                             return null
                         })
                     }
-                    sprints[spInd] = tasks
+                    listOfSprints[spInd] = tasks
                 }
                 return null
             })
-            bluePrintSuccessObj.sprints = sprints
+            bluePrintSuccessObj.sprints = listOfSprints
             bluePrintSuccessObj.message = action.payload.message
             return bluePrintSuccessObj
 
         case DELETE_SPRINT_SUCCESS:
-            sprints = state.sprints
+            listOfSprints = [ ...state.sprints ]
             state.sprints.map((sprint, ind) => {
-                if (
-                        sprint._id === action.helper.sprintId &&
-                        sprint.sprintNumber === action.helper.sprintNumber 
-                    ) {
-                        sprints.splice(ind, 1)
+                if (sprint._id === action.helper.sprintId) {
+                        listOfSprints.splice(ind, 1)
                     }
                 return null
             })
-            bluePrintSuccessObj.sprints = sprints
+            bluePrintSuccessObj.sprints = listOfSprints
             bluePrintSuccessObj.message = action.payload.message
             return bluePrintSuccessObj
 
-        case CREATE_SPRINT_SUCCESS:
-            sprints = state.sprints
-            const sprint = action.payload.sprint
-            sprint.tasks = []
-            sprints.push(sprint)
-            bluePrintSuccessObj.sprints = sprints
-            bluePrintSuccessObj.message = action.payload.message
-            return bluePrintSuccessObj
+        
 
         case UPDATE_SPRINT_SUCCESS:
-            sprints = state.sprints
+            listOfSprints = [ ...state.sprints ]
             const updatedSprint = action.payload.sprint
             
             state.sprints.map((sprint, index) => {
@@ -101,11 +104,11 @@ const sprintReducer = (state = initialSprintState, action) => {
                         updatedSprint._id === sprint._id && 
                         updatedSprint.sprintNumber === sprint.sprintNumber
                     ) {
-                        sprints[index] = updatedSprint
+                        listOfSprints[index] = updatedSprint
                     }
                     return null
             })
-            bluePrintSuccessObj.sprints = sprints
+            bluePrintSuccessObj.sprints = listOfSprints
             bluePrintSuccessObj.message = action.payload.message
             return bluePrintSuccessObj
 

@@ -1,5 +1,5 @@
 import React from "react"
-// import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 import { 
     Button, 
@@ -8,20 +8,21 @@ import {
     Form, 
     } from "react-bootstrap"
 import { 
-    insert_sprint,
+    // insert_sprint,
     insert_issue
 } from "./dbOperations"
 import "../ContactUs/ContactUs.scss"
 
-// import {
-//     addBacklogIssue
-// } from "../../redux/backlog/backlogAction"
+import {
+    createSprint
+} from '../../redux/'
 
 
 const VerticalCenteredModal = props => {
+    const projectName = 'Project 1'
     const [error, setError] = React.useState({ name: "", goal: "" })
-    // const dispatch = useDispatch()
-
+    const dispatch = useDispatch()
+    const sprintState = useSelector(state => state.sprint)
     const onChange = (e) => {
         e.preventDefault()
         setError({ name: "", goal: "" })
@@ -36,28 +37,35 @@ const VerticalCenteredModal = props => {
             dataObj.issueName = e.target.field1.value
             dataObj.issueType = e.target.field2.value 
             dataObj.issueDesc = e.target.field3.value || ""
-            // dispatch(addBacklogIssue(dataObj))
             insert_issue(dataObj)
             props.onHide()
         } else {
-            dataObj.sprintName = e.target.field1.value
-            dataObj.sprintGoal = e.target.field2.value 
-            dataObj.sprintDesc = e.target.field3.value || ""
+            const sprintName = e.target.field1.value
+            const sprintGoal = e.target.field2.value 
+            const sprintDesc = e.target.field3.value || ""
             const error = {}
             let isError = false
-            if (!dataObj.sprintName) {
+            if (!sprintName) {
                 isError = true
                 error.name = "Sprint name cannot be empty."
             }
-            if (!dataObj.sprintGoal) {
+            if (!sprintGoal) {
                 isError = true
                 error.goal = "Issue type cannot be empty."
             }
             if (isError) {
                 setError(error)
             } else {
-                insert_sprint(dataObj)
-                props.onHide()
+                // insert_sprint(dataObj)
+                dispatch(createSprint(
+                    sprintName,
+                    sprintGoal,
+                    projectName,
+                    sprintDesc
+                ))
+                if (!sprintState.loading) {
+                    props.onHide()
+                }
             }
         }
     }
@@ -130,6 +138,12 @@ const VerticalCenteredModal = props => {
                 </Container>
             </Modal.Body>
             <Modal.Footer>
+                {
+                    sprintState.loading && 
+                    <div>
+                        <h4><b>Adding Sprint...</b></h4>
+                    </div>
+                }
                 <div className="buttons">
                     <Button form="modal-form" type="submit">Create</Button>
                 </div>

@@ -1,42 +1,49 @@
 import React, { useState } from "react"
+import { useDispatch } from 'react-redux'
 import {
     Row,
     Col,
     Accordion,
-    Card
+    Card,
+    Form,
+    Button
 } from "react-bootstrap"
 import className from "classnames"
-import { FaTrash, FaEdit } from "react-icons/fa"
+import {
+    updateTaskToSprint
+} from '../../redux/'
+import "./Backlog.scss"
 
 const BacklogItem = props =>  {
+    const [sprintNumber, setSprintNumber] = useState(0)
     const [isShow, toggleItem] = useState(false)
-    console.log('__backog Item props', props);
+    const dispatch = useDispatch()
+
     return (
         <Row  
             style={{ paddingBottom: "15px" }}
-            onMouseEnter={() => toggleItem(true)}
-            onMouseLeave={() => toggleItem(false)}
         >
             <Col xs="12">
                 <Accordion>
                     <Card>
                         <Accordion.Toggle 
                             as={Card.Header} 
+                            onClick={() => toggleItem(!isShow)}
                         >
                             <span className={`dot `+  props.item.issueType.toLowerCase()}/>
                             <div className="inline crd-title">
-                                {props.item.issueName}
+                                {props.item.summary}
                             </div>
                             <div style={{ float: "right" }}>
                                 <span className="issue-label" style={{ display: "inline-block" }}>
                                     <span className={`label ` + props.item.issueType.toLowerCase()}>{props.item.issueType}</span>
                                 </span>
-                                <span style={{ marginLeft: "15px", display: "inline-block" }}>
+                                {/* <span style={{ marginLeft: "15px", display: "inline-block" }}>
                                     <FaEdit style={{ display: "inline-block",  color: "#001f3f"}} size="1.5em"/>
                                 </span>
                                 <span style={{ marginLeft: "15px", display: "inline-block" }}>
                                     <FaTrash style={{ color: "#001f3f"}} />
-                                </span>
+                                </span> */}
                             </div>
                         </Accordion.Toggle>
                         <div className={
@@ -48,9 +55,59 @@ const BacklogItem = props =>  {
                             )
                         }>
                         <Card.Body className="card-body">
-                                <div style={{ display: "inline-block", width: "70%" }}>
-                                    {props.item.issueDesc}
+                                <div style={{ display: "inline-block" }}>
+                                    {props.item.summary}
                                 </div>
+                                <div>
+                                    {
+                                        props.isSprintTask
+                                        ? 
+                                            (<div style={{ display: "inline-block" }}>
+                                                <Button 
+                                                    variant="danger"
+                                                    onClick={() => {
+                                                        dispatch(updateTaskToSprint(
+                                                            props.item._id,
+                                                            props.sprintNumber,
+                                                            0
+                                                        ))
+                                                    }}
+                                                >
+                                                    Remove Task
+                                                </Button>
+                                            </div>) 
+                                        :
+                                            <Form>
+                                            <div style={{ display: "inline-block", width: "50%"}}>
+                                                <Form.Group controlId="sprintNumber">
+                                                    <Form.Control 
+                                                        type="text" 
+                                                        placeholder="Enter sprint Number to add this task to sprint." 
+                                                        onChange={e => {
+                                                            // console.log('---Sprint Number', e.target.value);
+                                                            setSprintNumber(e.target.value)
+                                                        }}
+                                                    />
+                                                </Form.Group>
+                                            </div>
+                                            <div style={{ display: "inline-block", width: "30%", marginLeft: "15px"}}>
+                                                <Button 
+                                                    variant="primary"
+                                                    onClick={() => {
+                                                        dispatch(updateTaskToSprint(
+                                                            props.item._id,
+                                                            sprintNumber,
+                                                            sprintNumber
+                                                        ))
+                                                    }}
+                                                >
+                                                    Add to Sprint
+                                                </Button>
+                                            </div>
+                                        </Form>
+                                    }
+                                </div>
+                                    
                         </Card.Body>
                         </div>
                     </Card>
