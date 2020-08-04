@@ -62,8 +62,8 @@ const CompleteSprint = ({
     if (values.types === "Backlog") {
       setSelectSprintNumber(0);
     } else if (values.types) {
-      const sprintNo = values.types.split("Sprint ");
-      setSelectSprintNumber(values.types.charAt(7));
+      const sprintNo = parseInt(values.types.split("Sprint ")[1]);
+      if (sprintNo !== selectSprintNumber) setSelectSprintNumber(sprintNo);
     }
   };
 
