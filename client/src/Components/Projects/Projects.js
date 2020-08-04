@@ -21,7 +21,9 @@ const Projects = () => {
     axios
       .get(`/project/getProjects/${userName}`)
       .then((response) => {
-        setProjectsList(response.data.data);
+        setProjectsList(
+          response.data.data.filter((proj) => proj.projectKey !== "P0")
+        );
         setProjectsCopy(response.data.data);
       })
       .catch((error) => console.log(error.message));

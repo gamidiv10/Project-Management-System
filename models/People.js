@@ -20,6 +20,10 @@ const PeopleSchema = new mongoose.Schema({
     type: String,
     required: [true, "Project Key is required"],
   },
+  projectType: {
+    type: String,
+    required: [true, "Project Type is required"],
+  },
   projectLead: {
     type: String,
     required: [true, "Project Lead is required"],

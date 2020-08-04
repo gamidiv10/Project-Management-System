@@ -13,7 +13,7 @@ import { UserContext } from "../../../Context/userContext";
 
 const CreateProject = ({ dismiss }) => {
   const [isLoading, setLoading] = useState(false);
-  const { user } = useContext(UserContext);
+  const user = localStorage.getItem("user");
 
   useEffect(() => {
     if (isLoading) {
