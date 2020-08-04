@@ -219,6 +219,7 @@ const EditTask = ({ dismiss, task }) => {
 
   const onSubmit = (values) => {
     setLoading(true);
+    let user = localStorage.getItem('user')
 
     axios
       .post("/task/editTask", {
@@ -231,8 +232,9 @@ const EditTask = ({ dismiss, task }) => {
         assignee: values.assigneeName,
         storyPoints: values.storyPoints,
         dueDate: new Date(values.dueDate).toISOString(),
+        user
       })
-      .then((response) => {})
+      .then((response) => { })
       .catch((error) => console.log(error.message));
   };
 
