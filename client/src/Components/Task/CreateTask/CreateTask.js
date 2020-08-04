@@ -23,6 +23,7 @@ const CreateTask = ({ dismiss }) => {
   const { tasks, setTasks } = useContext(tasksItemsContext);
   const { setProject } = useContext(projectContext);
   const [projectName, setProjectName] = useState("");
+  const userName = localStorage.getItem("user");
   let buttonDisable = true;
   const issueTypes = ["Story", "Task", "Bug"];
   const priorityTypes = ["Highest", "High", "Medium", "Low", "Lowest"];
@@ -47,7 +48,7 @@ const CreateTask = ({ dismiss }) => {
 
   useEffect(() => {
     axios
-      .get("/project/getProjects")
+      .get(`/project/getProjects/${userName}`)
       .then((response) => {
         const projectsList = [];
         const projectData = response.data.data;
@@ -224,7 +225,7 @@ const CreateTask = ({ dismiss }) => {
   }
 
   const onSubmit = (values) => {
-    let user = localStorage.getItem('user')
+    let user = localStorage.getItem("user");
     let projectName = values.projectName;
     let issueType = values.issueType;
     let summary = values.taskSummary;
@@ -252,7 +253,7 @@ const CreateTask = ({ dismiss }) => {
         taskStatus,
         dueDate,
         storyPoints,
-        user
+        user,
       })
       .then((response) => {
         const value = {

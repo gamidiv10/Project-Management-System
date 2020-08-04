@@ -18,6 +18,7 @@ const EditTask = ({ dismiss, task }) => {
   const [projects, setProjects] = useState([]);
   const [assigneeNames, setAssigneeNames] = useState([]);
   const [projectName, setProjectName] = useState("");
+  const userName = localStorage.getItem("user");
   let buttonDisable = true;
   const issueTypes = ["Story", "Task", "Bug"];
   const priorityTypes = ["Highest", "High", "Medium", "Low", "Lowest"];
@@ -44,7 +45,7 @@ const EditTask = ({ dismiss, task }) => {
   useEffect(() => {
     //Request to get projects
     axios
-      .get("/project/getProjects")
+      .get(`/project/getProjects/${userName}`)
       .then((response) => {
         const projectsList = [];
         const projectData = response.data.data;
@@ -219,7 +220,7 @@ const EditTask = ({ dismiss, task }) => {
 
   const onSubmit = (values) => {
     setLoading(true);
-    let user = localStorage.getItem('user')
+    let user = localStorage.getItem("user");
 
     axios
       .post("/task/editTask", {
@@ -232,9 +233,9 @@ const EditTask = ({ dismiss, task }) => {
         assignee: values.assigneeName,
         storyPoints: values.storyPoints,
         dueDate: new Date(values.dueDate).toISOString(),
-        user
+        user,
       })
-      .then((response) => { })
+      .then((response) => {})
       .catch((error) => console.log(error.message));
   };
 

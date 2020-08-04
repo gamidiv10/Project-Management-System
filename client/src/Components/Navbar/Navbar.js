@@ -66,16 +66,18 @@ const Navigationbar = ({ history }) => {
 
   useEffect(() => {
     axios
-      .get("/project/getProjects")
+      .get(`/project/getProjects/${userName}`)
       .then((response) => {
         const projectsList = [];
         const projectData = response.data.data;
-        projectData.map((project) => {
-          projectsList.push({
-            item: project.projectName,
-            to: `/project/${project.projectName}/activesprint`,
+        if (projectData) {
+          projectData.map((project) => {
+            projectsList.push({
+              item: project.projectName,
+              to: `/project/${project.projectName}/activesprint`,
+            });
           });
-        });
+        }
         setNavProjectsList(projectsList);
       })
       .catch((error) => console.log(error.message));

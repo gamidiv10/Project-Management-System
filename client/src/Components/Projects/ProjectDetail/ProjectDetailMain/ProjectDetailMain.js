@@ -131,7 +131,7 @@ function ProjectDetailMain({ match }) {
 
     activeSprintNumber
       ? setSprintNumber(activeSprintNumber)
-      : setSprintNumber("Start Sprint");
+      : setSprintNumber(2);
   }, []);
 
   useEffect(() => {
@@ -340,7 +340,7 @@ function ProjectDetailMain({ match }) {
           .catch((error) => console.log(error.message));
       })
       .catch((error) => console.log(error.message));
-  }, [projectName, taskName]);
+  }, [projectName, taskName, sprintNumber]);
 
   const onTaskChangeHandler = (e) => {
     setTaskName(e.target.value);
@@ -506,6 +506,8 @@ function ProjectDetailMain({ match }) {
               dismiss={dismissableComplete}
               issuesCount={issuesCount}
               completedCount={completedCount}
+              tasks={columnsData}
+              projectName={projectName}
             />
           ) : (
               ""

@@ -223,6 +223,24 @@ exports.changeTaskByStatus = async (req, res) => {
   }
 };
 
+// update tasks by status post request
+exports.updateTaskStatus = (req, res) => {
+  var id = req.params.id;
+  var sprintNumber = req.params.sprintNumber;
+
+  Task.updateOne({ id: id }, { $set: { sprintNumber: sprintNumber } })
+    .exec()
+    .then((data) => {
+      res.status(200).json(data);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({
+        error: err,
+      });
+    });
+};
+
 exports.getCalendarViewTasks = async (req, res) => {
   const { query: reqQuery } = req;
   let query = {};

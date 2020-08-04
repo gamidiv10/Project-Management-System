@@ -11,7 +11,8 @@ const {
   getTaskByStatus,
   changeTaskByStatus,
   getTasks,
-  getCalendarViewTasks
+  getCalendarViewTasks,
+  updateTaskStatus,
 } = require("../controllers/TasksController");
 
 const router = express.Router();
@@ -33,6 +34,9 @@ router
 // Change task by status route
 router.route("/changeTaskByStatus/:status/:id/:user").put(changeTaskByStatus);
 
-router.route("/calendar").get(getCalendarViewTasks);;
+// Update task by status route
+router.route("/updateTaskStatus/:sprintNumber/:id").put(updateTaskStatus);
+
+router.route("/calendar").get(getCalendarViewTasks);
 
 module.exports = router;
