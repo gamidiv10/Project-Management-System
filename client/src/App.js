@@ -6,7 +6,8 @@ import Navigationbar from "./Components/Navbar/Navbar";
 import { UserProvider } from "./Context/userContext";
 import tasksItemsContext from "./Context/tasksItemsContext";
 import projectContext from "./Context/projectContext";
-import * as firebase from "firebase";
+import * as firebase from "firebase/app";
+import "firebase/auth";
 import firebaseConfig from "./firebase.config";
 
 //Loading the firebase configuration

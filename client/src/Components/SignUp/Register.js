@@ -3,7 +3,8 @@
  */
 import React, { useState, useContext, useEffect } from "react";
 import { withRouter } from "react-router-dom";
-import * as firebase from "firebase";
+import * as firebase from "firebase/app";
+import "firebase/auth";
 import { AuthContext } from "../../App";
 import axios from "axios";
 

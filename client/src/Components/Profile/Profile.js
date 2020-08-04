@@ -12,7 +12,8 @@ import { ReactComponent as EmailIcon } from "../../icons/email.svg";
 import "./Profile.scss";
 import Editable from "../Editable/Editable";
 import { Button } from "react-bootstrap";
-import * as firebase from "firebase";
+import * as firebase from "firebase/app";
+import "firebase/auth";
 import axios from "axios";
 
 const Profile = ({ history }) => {
@@ -63,10 +64,10 @@ const Profile = ({ history }) => {
 
   const handleSubmit = (event) => {
     if (
-      jobTitle.length == 0 ||
-      yourDepartment.length == 0 ||
-      yourOrganization.length == 0 ||
-      yourLocation.length == 0
+      jobTitle.length === 0 ||
+      yourDepartment.length === 0 ||
+      yourOrganization.length === 0 ||
+      yourLocation.length === 0
     ) {
       alert("Please fill all fields");
       history.push("/profile");
