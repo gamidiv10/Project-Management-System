@@ -59,13 +59,15 @@ const NotificationView = () => {
     </div>
     <div className="notification-body">
       {notifications.length
-        ? notifications.filter(({ read }) => read !== showNew).map(item =>
-          <NotificationItem
-            key={item._id}
-            item={item}
-            markAsRead={markAsRead}
-          />
-        )
+        ? notifications.filter(({ read }) => read !== showNew).length
+          ? notifications.filter(({ read }) => read !== showNew).map(item =>
+            <NotificationItem
+              key={item._id}
+              item={item}
+              markAsRead={markAsRead}
+            />
+          )
+          : <div className="no-record-message">{"\"You're all caught up\""}</div>
         : <div className="no-record-message">{"\"You're all caught up\""}</div>
       }
     </div>
