@@ -11,7 +11,6 @@ const Notification = require("../models/Notification");
 // add task post request
 exports.addTask = async (req, res) => {
   try {
-    console.log("task", req.body);
     const task = await Task.create(req.body);
 
     const { summary, projectName, assignee } = task

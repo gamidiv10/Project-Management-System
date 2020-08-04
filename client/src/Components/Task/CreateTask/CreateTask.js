@@ -233,7 +233,7 @@ const CreateTask = ({ dismiss }) => {
     let assignee = values.assigneeName;
     let dueDate = new Date(values.dueDate).toISOString();
     let storyPoints = values.storyPoints;
-    let sprintNumber = 2;
+    let sprintNumber = 0;
     let taskStatus = "To do";
     let taskId = uuid();
     setLoading(true);

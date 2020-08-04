@@ -7,19 +7,20 @@ import { ReactComponent as KeyIcon } from "../../../icons/key.svg";
 import { ReactComponent as ProfileIcon } from "../../../icons/profile.svg";
 import { ReactComponent as SettingsIcon } from "../../../icons/bolt.svg";
 import { ReactComponent as NewTabIcon } from "../../../icons/newtab.svg";
-import { withRouter } from "react-router-dom";
+import { withRouter, useHistory } from "react-router-dom";
 import Modal from "../../Modal/Modal";
 import EditProject from "../EditProject/EditProject";
 
 const Project = (props) => {
-  const { projects, history } = props;
+  const { projects } = props;
+  const history = useHistory();
   const [projectsCopy] = useState(projects);
   const [projectList, setProjectsList] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState();
   useEffect(() => {
     setProjectsList(projects);
-  }, []);
+  }, [projects]);
 
   const handleModalOpen = () => {
     setIsModalOpen(true);

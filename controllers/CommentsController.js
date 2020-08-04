@@ -9,7 +9,6 @@ const Task = require("../models/Task");
 // Add Comment post request
 exports.addComment = async (req, res) => {
   try {
-    console.log("comment", req.body);
     const comment = await Comment.create(req.body);
 
     const { body: { comment: commentText, id: taskId, userName } } = req
@@ -35,7 +34,6 @@ exports.addComment = async (req, res) => {
   } catch (error) {
     if (error.name === "ValidationError") {
       const messages = Object.values(error.errors).map((val) => val.message);
-      console.log(messages);
       return res.status(400).json({
         success: false,
         error: messages,
@@ -69,7 +67,6 @@ exports.getComments = (req, res) => {
 // edit comment put request
 exports.editComment = async (req, res) => {
   try {
-    console.log("request", req.body);
     const comment = await Comment.updateOne(
       { commentId: req.body.commentId },
       {

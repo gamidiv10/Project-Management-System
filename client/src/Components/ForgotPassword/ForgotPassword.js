@@ -2,10 +2,8 @@
  * @author Vali Shaik <vl216084@dal.ca>
  */
 import React, { useEffect, useState, useContext } from "react";
-import { Form } from "react-final-form";
 import { NavLink } from "react-router-dom";
 import "../Form/Form.scss";
-import { Grid } from "@material-ui/core";
 import * as firebase from "firebase";
 import { AuthContext } from "../../App";
 
@@ -20,7 +18,6 @@ const ForgotPassword = ({ history }) => {
   const [emailError, setEmailError] = useState(" ");
   const [isLoading, setLoading] = useState(false);
   const [error, setErrors] = useState("");
-  let buttonDisable = true;
 
   useEffect(() => {
     if (isLoading) {

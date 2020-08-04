@@ -2,6 +2,7 @@
  * @author Vamsi Gamidi <vamsi.gamidi@dal.ca>
  */
 const Project = require("../models/Project");
+const People = require("../models/People");
 
 //Create Project Post Request
 exports.createProject = async (req, res, next) => {
@@ -31,7 +32,6 @@ exports.createProject = async (req, res, next) => {
 //Edit Project Post Request
 exports.editProject = async (req, res, next) => {
   try {
-    console.log("request", req.body);
     const project = await Project.updateOne(
       { projectKey: req.body.projectKey },
       {
@@ -65,7 +65,10 @@ exports.editProject = async (req, res, next) => {
 //Load all Projects Get Request
 exports.getProjects = async (req, res, next) => {
   try {
-    const projects = await Project.find();
+    const projects = await People.find(
+      { name: req.params.userName },
+      "projectName projectKey projectType projectLead"
+    );
     return res.status(200).json({
       success: true,
       count: projects.length,

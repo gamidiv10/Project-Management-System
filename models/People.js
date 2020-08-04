@@ -16,6 +16,14 @@ const PeopleSchema = new mongoose.Schema({
     type: String,
     required: [true, "Project Name is required"],
   },
+  projectKey: {
+    type: String,
+    required: [true, "Project Key is required"],
+  },
+  projectLead: {
+    type: String,
+    required: [true, "Project Lead is required"],
+  },
 });
 
 module.exports = mongoose.model("People", PeopleSchema);
