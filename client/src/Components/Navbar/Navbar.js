@@ -254,7 +254,11 @@ const Navigationbar = ({ history }) => {
                 return (
                   <Button
                     key={index}
-                    className="createButton"
+                    className={
+                      item.item === "Login"
+                        ? "createButton LoginButton"
+                        : "createButton"
+                    }
                     onClick={
                       item.item === "Login" ? handleShow : handleShowRegister
                     }

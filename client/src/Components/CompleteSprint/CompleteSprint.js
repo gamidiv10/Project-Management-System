@@ -16,9 +16,13 @@ const CompleteSprint = ({
   completedCount,
   tasks,
   projectName,
+  activeSprint,
+  setSprintNumber,
 }) => {
   const [isLoading, setLoading] = useState(false);
   const [sprintNames, setSprintNames] = useState([]);
+  const [selectSprintNumber, setSelectSprintNumber] = useState(0);
+  const user = localStorage.getItem("user");
 
   useEffect(() => {
     if (isLoading) {
@@ -38,17 +42,30 @@ const CompleteSprint = ({
       })
       .then((response) => {
         response.data.sprints.map((sprint) => {
-          sprints.push(sprint.sprintNumber);
+          if (activeSprint !== sprint.sprintNumber) {
+            sprints.push(sprint.sprintNumber);
+          }
         });
-        sprints.sort();
+        sprints = sprints.sort(function (a, b) {
+          return a - b;
+        });
         sprints.map((sprint) => {
-          sprintsList.push(sprint.sprintNumber);
+          sprintsList.push("Sprint " + sprint);
         });
         sprintsList.push("Backlog");
         setSprintNames(sprintsList);
       })
       .catch((error) => console.log(error.message));
   }, []);
+
+  const validate = (values) => {
+    if (values.types === "Backlog") {
+      setSelectSprintNumber(0);
+    } else if (values.types) {
+      const sprintNo = values.types.split("Sprint ");
+      setSelectSprintNumber(values.types.charAt(7));
+    }
+  };
 
   const formFields = [
     {
@@ -81,19 +98,21 @@ const CompleteSprint = ({
         type[1].items.map((item) => {
           sprintNum = item.task.sprintNumber;
           axios
-            .put(`/task/updateTaskStatus/${item.task.sprintNumber}/${item.id}`)
+            .put(
+              `/task/updateTaskStatus/${item.task.sprintNumber}/${item.task.id}`
+            )
             .then((response) => {})
             .catch((error) => console.log(error.message));
         });
       } else {
-        const sprintN = 0;
+        const sprintN = selectSprintNumber;
         type[1].items.map((item) => {
           axios
             .put(`/task/updateTaskStatus/${sprintN}/${item.id}`)
             .then((response) => {})
             .catch((error) => console.log(error.message));
           axios
-            .put(`/task/changeTaskByStatus/To do/${item.id}`)
+            .put(`/task/changeTaskByStatus/To do/${item.id}/${user}`)
             .then((response) => {})
             .catch((error) => console.log(error.message));
         });
@@ -103,7 +122,7 @@ const CompleteSprint = ({
     setTimeout(
       axios
         .post(`/sprint/completeSprint`, {
-          sprintNumber: sprintNum,
+          sprintNumber: activeSprint,
         })
         .then((response) => {})
         .catch((error) => console.log(error.message)),
@@ -111,6 +130,8 @@ const CompleteSprint = ({
     );
 
     setLoading(false);
+    setSprintNumber(99999999);
+    dismiss();
   };
 
   return (
@@ -123,6 +144,7 @@ const CompleteSprint = ({
       </div>
       <Form
         onSubmit={onSubmit}
+        validate={validate}
         render={({ handleSubmit }) => (
           <form onSubmit={handleSubmit} className="taskFormField">
             <div>
