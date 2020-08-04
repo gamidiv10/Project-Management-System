@@ -34,7 +34,7 @@ export const fetchTasks = (projectName, sprintNumber) => (dispatch, getState) =>
         }
     ).then(res => {
         const data = res.data
-        console.log('__data__', data);
+        // console.log('__data__', data);
         if(data.success) {
             dispatch(
                 fetchBacklogSuccess(

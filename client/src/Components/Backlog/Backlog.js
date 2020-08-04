@@ -15,10 +15,6 @@ import ProjectDetail from "../Projects/ProjectDetail/ProjectDetail"
 import VerticalCenteredModal from "./VerticalCenteredModal"
 import CreateModal from "../Modal/Modal"
 import CreateTask from "../Task/CreateTask/CreateTask"
-import { 
-    get_sprints,
-    get_issues
-} from "./dbOperations"
 import "./Backlog.scss"
 
 
@@ -29,18 +25,18 @@ const Backlog = props => {
     const [data, setData] = React.useState({ heading: "", isBacklog: false })
     const backlogState = useSelector(state => state.backlog)
     const sprintState = useSelector(state => state.sprint)
-    // console.log('__Props', props);
-    const projectName = 'Project 1'
+    console.log('__ProJName', props.match.params.projectName);
+    const projectName = props.match.params.projectName
 
     useEffect(() => {
-        console.log('---Task', backlogState.tasks );
+        // console.log('---Task', backlogState.tasks );
 
-            console.log('__Backlog dispatched');
+            // console.log('__Backlog dispatched');
             dispatch(fetchTasks(projectName, 0))
-            console.log('__Sprint dispatched');
+            // console.log('__Sprint dispatched');
             dispatch(fetchSprintList(projectName))
     }, [])
-    console.log('---Sprint', sprintState.sprints);
+    // console.log('---Sprint', sprintState.sprints);
 
     const [isModalOpen, setIsModalOpen] = React.useState(false);
     const dismissable = () => {
@@ -83,6 +79,7 @@ const Backlog = props => {
                         item={item}
                         index={index}
                         key={`sprints`+index}
+                        projectname={projectName}
                 />))
             )
         }
@@ -125,6 +122,7 @@ const Backlog = props => {
                             show={modalShow}
                             onHide={() => setModalShow(false)}
                             data={data}
+                            projectname={projectName}
                         />
                     </div>
                 </main>

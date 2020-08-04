@@ -153,7 +153,7 @@ exports.taskToSprintUpdate = (req, res) => {
   const sprintNumber = req.body.sprintNumber
   const taskId = req.body.taskId
   const updateSprintTo = req.body.updateSprintTo
-  console.log('______/taskToSprintUpdate______', req.body);
+  // console.log('______/taskToSprintUpdate______', req.body);
   if (!sprintNumber || !taskId || !updateSprintTo ) {
     res.send({
       success: false,
@@ -259,6 +259,25 @@ exports.completeSprint = (req, res) => {
   Sprint.updateOne(
     { sprintNumber: sprintNumber },
     { $set: { isSprintComplete: true, isActive: false } }
+  )
+    .exec()
+    .then((data) => {
+      res.status(200).json(data);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({
+        error: err,
+      });
+    });
+};
+
+exports.startSprint = (req, res) => {
+  const sprintNumber = req.body.sprintNumber;
+  Sprint.findOneAndUpdate(
+    { sprintNumber: sprintNumber },
+    { $set: { isActive: false } },
+    { new: true }
   )
     .exec()
     .then((data) => {

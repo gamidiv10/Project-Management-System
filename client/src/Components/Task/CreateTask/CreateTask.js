@@ -263,6 +263,7 @@ const CreateTask = ({ dismiss }) => {
         };
         setTasks([...tasks, value]);
         setProject(projectName);
+        window.location.reload(true);
       })
       .catch((error) => console.log(error.message));
   };

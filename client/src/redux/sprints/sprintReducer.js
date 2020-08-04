@@ -5,7 +5,8 @@ import {
     UPDATE_SPRINT_FOR_TASK_SUCCESS,
     DELETE_SPRINT_SUCCESS,
     CREATE_SPRINT_SUCCESS,
-    UPDATE_SPRINT_SUCCESS
+    UPDATE_SPRINT_SUCCESS,
+    START_SPRINT_SUCCESS
 } from './sprintType.js'
 
 const initialSprintState = {
@@ -13,7 +14,7 @@ const initialSprintState = {
     sprints: [],
     error: '',
     success: false,
-    message: ''
+    message: '',
 }
 
 
@@ -111,6 +112,14 @@ const sprintReducer = (state = initialSprintState, action) => {
             bluePrintSuccessObj.sprints = listOfSprints
             bluePrintSuccessObj.message = action.payload.message
             return bluePrintSuccessObj
+        
+        case START_SPRINT_SUCCESS:
+            listOfSprints = [ ...state.sprints ]
+            state.sprints.map((sprint, index) => {
+                if (sprint.sprintNumber === action.payload.sprintNumber) {
+                    listOfSprints[index] = action.payload
+                }
+            })
 
         default:
             return state

@@ -19,7 +19,7 @@ import {
 
 
 const VerticalCenteredModal = props => {
-    const projectName = 'Project 1'
+    console.log('Vertical model', props);
     const [error, setError] = React.useState({ name: "", goal: "" })
     const dispatch = useDispatch()
     const sprintState = useSelector(state => state.sprint)
@@ -60,7 +60,7 @@ const VerticalCenteredModal = props => {
                 dispatch(createSprint(
                     sprintName,
                     sprintGoal,
-                    projectName,
+                    props.projectname,
                     sprintDesc
                 ))
                 if (!sprintState.loading) {
@@ -138,12 +138,6 @@ const VerticalCenteredModal = props => {
                 </Container>
             </Modal.Body>
             <Modal.Footer>
-                {
-                    sprintState.loading && 
-                    <div>
-                        <h4><b>Adding Sprint...</b></h4>
-                    </div>
-                }
                 <div className="buttons">
                     <Button form="modal-form" type="submit">Create</Button>
                 </div>

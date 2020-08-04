@@ -6,7 +6,8 @@ const {
   getSprints,
   taskToSprintUpdate,
   getTasksForSprint,
-  completeSprint
+  completeSprint,
+  startSprint
 } = require("../controllers/SprintController");
 
 const router = express.Router();
@@ -18,6 +19,6 @@ router.post("/getSprints", getSprints);
 router.post("/taskToSprintUpdate", taskToSprintUpdate);
 router.post("/getTasksForSprint", getTasksForSprint);
 router.post("/completeSprint", completeSprint);
-
+router.post("/startSprint", startSprint);
 
 module.exports = router;

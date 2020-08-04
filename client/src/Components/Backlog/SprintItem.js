@@ -20,7 +20,7 @@ import {
 
 const SprintItem = props => {
     
-const projectName = 'Project 1'
+const projectName = props.projectname
 const dispatch = useDispatch()
 const [isShow, toggleItem] = useState(false)
 const fetchTasks = (tasks, sNumber) => (
@@ -54,9 +54,9 @@ return (
                                     : "Start"
                                 }
                             </Button>
-                            <span style={{ marginLeft: "20px" }}>
+                            {/* <span style={{ marginLeft: "20px" }}>
                                 <FaEdit style={{ display: "inline-block",  color: "#001f3f"}} size="1.9em"/>
-                            </span>
+                            </span> */}
                             <span style={{ marginLeft: "20px"}}>
                                 <FaTrash 
                                     onClick={() => dispatch(deleteSprint(
