@@ -32,9 +32,10 @@ const backlogReducer = (state = initialBacklogState, action) => {
         case TASK_LIST_SUCCESS:
             let tasks = []
             action.payload.map(task => {
-                if (task.taskStatus != "Done") {
+                if (task.taskStatus !== "Done") {
                     tasks.push(tasks)
                 }
+                return
             })
             return {
                 ...state,
@@ -50,6 +51,7 @@ const backlogReducer = (state = initialBacklogState, action) => {
                 if (task.id === action.payload.task.id) {
                     tasks[index] = action.payload.task
                 }
+                return
             })
             return {
                 ...state,

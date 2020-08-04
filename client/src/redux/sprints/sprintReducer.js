@@ -52,15 +52,18 @@ const sprintReducer = (state = initialSprintState, action) => {
             state.sprints.map((sprint, spInd) => {
                 if (sprint._id === action.helper.sprintId) {
                     let tasks = sprint.tasks || []
-                    if(tasks != []) {
+                    if(tasks !== []) {
                         sprint.tasks.map((task, taskInd) => {
                             if (task.id === action.payload.task.id) {
                                 tasks[taskInd] = action.payload.task
                             }
+                            return null
                         })
                     }
                     sprints[spInd] = tasks
-                }})
+                }
+                return null
+            })
             bluePrintSuccessObj.sprints = sprints
             bluePrintSuccessObj.message = action.payload.message
             return bluePrintSuccessObj
@@ -74,6 +77,7 @@ const sprintReducer = (state = initialSprintState, action) => {
                     ) {
                         sprints.splice(ind, 1)
                     }
+                return null
             })
             bluePrintSuccessObj.sprints = sprints
             bluePrintSuccessObj.message = action.payload.message
@@ -99,6 +103,7 @@ const sprintReducer = (state = initialSprintState, action) => {
                     ) {
                         sprints[index] = updatedSprint
                     }
+                    return null
             })
             bluePrintSuccessObj.sprints = sprints
             bluePrintSuccessObj.message = action.payload.message

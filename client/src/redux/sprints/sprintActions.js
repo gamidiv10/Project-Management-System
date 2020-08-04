@@ -182,6 +182,7 @@ export const fetchSprintList = projectName => dispatch => {
             }
         } else {
             dispatch(fetchSprintFailure(res.data))
+            return null
         }
     })
     .catch(err => {

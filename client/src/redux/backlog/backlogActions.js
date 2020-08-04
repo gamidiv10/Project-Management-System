@@ -1,13 +1,12 @@
 import axios from 'axios'
-import { CancelToken  } from 'axios'
+// import { CancelToken  } from 'axios'
 import {
     BACKLOG_FETCH_REQUEST,
     BACKLOG_FETCH_FAILURE,
-    TASK_LIST_SUCCESS,
-    UPDATE_TASK_TO_SPRINT_SUCCESS
+    TASK_LIST_SUCCESS
 } from "./backlogTypes"
 
-const source = CancelToken.source()
+// const source = CancelToken.source()
 
 export const fetchBacklogRequest = () => ({
     type: BACKLOG_FETCH_REQUEST,
