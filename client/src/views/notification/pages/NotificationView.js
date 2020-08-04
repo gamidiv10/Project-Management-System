@@ -28,9 +28,14 @@ const NotificationView = () => {
   }
 
   useEffect(() => {
-    setInterval(() => {
+    fetchNotifications()
+    // added interval of 5 seconds to re-fetch notifications if on the same page
+    const interval = setInterval(() => {
       fetchNotifications()
-    }, [5000])
+    }, 5000)
+
+    // removing the interval on page unmount
+    return (() => clearInterval(interval))
   }, [])
 
   const markAsRead = (id) => {
