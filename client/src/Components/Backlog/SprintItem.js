@@ -15,7 +15,8 @@ import {
 } from "react-icons/fa"
 import BacklogItem from './BacklogItem'
 import {
-    deleteSprint
+    deleteSprint,
+    startSprint
 } from "../../redux/"
 
 const SprintItem = props => {
@@ -33,6 +34,32 @@ const fetchTasks = (tasks, sNumber) => (
         />
     ))
 )
+
+const getButton = () => {
+    if (props.isanysprintactive && props.item.isActive) {
+        return (
+            <Button style={{ height: "8%", fontWeight: "600" }} variant="success" disabled={true}>
+                {"Started..."}
+            </Button>
+        )
+    } else if (props.isanysprintactive) {
+        return ""
+    } else {
+        return (
+            <Button 
+                style={{ height: "8%", fontWeight: "600" }} 
+                variant="success"
+                onClick={() => dispatch(
+                    startSprint(
+                        props.item.sprintNumber
+                    )
+                )}
+            >
+                {"Start"}
+            </Button>
+        )
+    }
+}
 return (
     <Row  style={{ paddingBottom: "15px" }}>
         <Col xs="12">
@@ -47,13 +74,7 @@ return (
                                 {props.item.name} (sprint: {props.item.sprintNumber})
                         </div>
                         <div style={{ float: "right" }}>
-                            <Button style={{ height: "8%", fontWeight: "600" }} variant="success" disabled={props.item.isActive}>
-                                {
-                                    props.item.isActive
-                                    ? "Started..."
-                                    : "Start"
-                                }
-                            </Button>
+                            {getButton()}
                             {/* <span style={{ marginLeft: "20px" }}>
                                 <FaEdit style={{ display: "inline-block",  color: "#001f3f"}} size="1.9em"/>
                             </span> */}

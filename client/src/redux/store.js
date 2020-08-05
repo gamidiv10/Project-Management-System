@@ -1,6 +1,5 @@
 import { createStore } from "redux"
 import { applyMiddleware } from "redux"
-import multi from 'redux-multi'
 import thunk from "redux-thunk"
 import { composeWithDevTools } from 'redux-devtools-extension'
 // import { logger } from "redux-logger"
@@ -21,7 +20,7 @@ const configureStore = () => {
     if (process.env.NODE_ENV === "production") {
         return createStore(
             rootReducer, 
-            applyMiddleware(thunk, multi)
+            applyMiddleware(thunk)
         )
     } else {
         return createStore(

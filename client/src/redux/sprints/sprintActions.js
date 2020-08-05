@@ -213,61 +213,34 @@ export const updateTaskToSprint = (taskId, sprintNumber, updateSprintTo) => disp
         taskId,
         updateSprintTo
     }
-    // console.log('__PARAM__', paramObj);
-    // dispatch(fetchBacklogRequest())
-    // dispatch(fetchSprintRequest())
     axios.post(
         '/sprint/taskToSprintUpdate',
         paramObj
     ).then(res => {
-        if (res.data.success) {
-            window.location.reload(true)
-            // console.log('___res.data.success', res.data);
-            // dispatch(fetchBacklogSuccess(
-            //         UPDATE_TASK_FOR_SPRINT_SUCCESS,
-            //         res.data
-            //     )
-            // )
-            // dispatch(fetchSprintSuccess(
-            //         UPDATE_SPRINT_FOR_TASK_SUCCESS,
-            //         res.data,
-            //         paramObj
-            //     )
-            // )
-        }
+        window.location.reload(true)
     }).catch(err => {
-        // console.log('__ERROR', err);
+        window.location.reload(true)
         const axiosError = {
             isError: true,
             error: err,
             message: 'Some Error occurred while updating task for issue.'
         }
         console.log('axiosError', axiosError);
-        // dispatch(fetchBacklogFailure(axiosError))
-        // dispatch(fetchSprintFailure(axiosError))
     })
 }
 export const startSprint = sprintNumber => dispatch => {
-    dispatch(fetchSprintRequest())
     axios.post(
         '/sprint/startSprint',
         {
             sprintNumber
         }
     ).then(res => {
-        // console.log('__Start Sprint__');
-        if (res.data.success) {
-            dispatch(fetchSprintSuccess(
-                START_SPRINT_SUCCESS,
-                res.data
-            ))
-        }
+        window.location.reload(true)
     }).catch(err => {
         const axiosError = {
             isError: true,
             error: err,
             message: 'Some Error occurred while Starting sprint.'
         }
-        dispatch(fetchSprintFailure(axiosError))
     })
 }

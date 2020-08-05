@@ -55,8 +55,21 @@ const BacklogItem = props =>  {
                             )
                         }>
                         <Card.Body className="card-body">
-                                <div style={{ display: "inline-block" }}>
-                                    {props.item.summary}
+                                <div style={{ paddingBottom: "10px" }}>
+                                    <div style={{ display: "inline-block" }}>
+                                        <b>Summary :</b>
+                                        {props.item.summary}
+                                    </div>
+                                    <div style={{ display: "inline-block", paddingLeft: "20px" }}>
+                                        <b>Description :</b>
+                                        {props.item.description}
+                                    </div>
+                                    <div style={{ display: "inline-block", paddingLeft: "20px" }}>
+                                        <b>Status :</b>{props.item.taskStatus}
+                                    </div>
+                                    <div style={{ display: "inline-block", paddingLeft: "20px" }}>
+                                        <b>Priority :</b>{props.item.priority}
+                                    </div>
                                 </div>
                                 <div>
                                     {

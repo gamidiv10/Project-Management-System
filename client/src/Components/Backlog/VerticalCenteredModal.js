@@ -19,7 +19,7 @@ import {
 
 
 const VerticalCenteredModal = props => {
-    console.log('Vertical model', props);
+    // console.log('Vertical model', props);
     const [error, setError] = React.useState({ name: "", goal: "" })
     const dispatch = useDispatch()
     const sprintState = useSelector(state => state.sprint)
@@ -63,9 +63,7 @@ const VerticalCenteredModal = props => {
                     props.projectname,
                     sprintDesc
                 ))
-                if (!sprintState.loading) {
-                    props.onHide()
-                }
+                props.onHide()
             }
         }
     }

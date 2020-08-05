@@ -15,6 +15,7 @@ const initialSprintState = {
     error: '',
     success: false,
     message: '',
+    isAnySprintActive: false,
 }
 
 
@@ -44,7 +45,15 @@ const sprintReducer = (state = initialSprintState, action) => {
                 message: action.payload.message
             }
         case FETCH_SPRINT_LIST_SUCCESS:
-            bluePrintSuccessObj.sprints = action.payload.sprints
+            listOfSprints = []
+            action.payload.sprints.map(sprint => {
+                listOfSprints.push(sprint)
+                if (sprint.isActive) {
+                    bluePrintSuccessObj.isAnySprintActive = true
+                }
+                return null
+            })
+            bluePrintSuccessObj.sprints = listOfSprints
             bluePrintSuccessObj.message = action.payload.message
             return bluePrintSuccessObj
 

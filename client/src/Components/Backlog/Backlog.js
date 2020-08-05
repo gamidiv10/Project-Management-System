@@ -25,7 +25,7 @@ const Backlog = props => {
     const [data, setData] = React.useState({ heading: "", isBacklog: false })
     const backlogState = useSelector(state => state.backlog)
     const sprintState = useSelector(state => state.sprint)
-    console.log('__ProJName', props.match.params.projectName);
+    // console.log('__ProJName', props.match.params.projectName);
     const projectName = props.match.params.projectName
 
     useEffect(() => {
@@ -80,6 +80,7 @@ const Backlog = props => {
                         index={index}
                         key={`sprints`+index}
                         projectname={projectName}
+                        isanysprintactive={sprintState.isAnySprintActive}
                 />))
             )
         }

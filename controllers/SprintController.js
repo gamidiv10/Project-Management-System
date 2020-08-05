@@ -71,7 +71,7 @@ exports.updateSprint = (req, res) => {
 };
 
 exports.deleteSprint = (req, res) => {
-  console.log('__Body', req.body);
+  // console.log('__Body', req.body);
   if (!req.body.projectName || !req.body.sprintId) {
     res.send({
       success: false,
@@ -129,7 +129,7 @@ exports.deleteSprint = (req, res) => {
 exports.getSprints = (req, res) => {
   const projectName = req.body.projectName;
 
-  Sprint.find({ projectName })
+  Sprint.find({ projectName, isSprintComplete: false})
     .exec()
     .then((sprints) => {
       res.send({
@@ -153,7 +153,6 @@ exports.taskToSprintUpdate = (req, res) => {
   const sprintNumber = req.body.sprintNumber
   const taskId = req.body.taskId
   const updateSprintTo = req.body.updateSprintTo
-  // console.log('______/taskToSprintUpdate______', req.body);
   if (!sprintNumber || !taskId || !updateSprintTo ) {
     res.send({
       success: false,
@@ -276,7 +275,7 @@ exports.startSprint = (req, res) => {
   const sprintNumber = req.body.sprintNumber;
   Sprint.findOneAndUpdate(
     { sprintNumber: sprintNumber },
-    { $set: { isActive: false } },
+    { $set: { isActive: true } },
     { new: true }
   )
     .exec()

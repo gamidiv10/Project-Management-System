@@ -31,7 +31,6 @@ const backlogReducer = (state = initialBacklogState, action) => {
             }
         case TASK_LIST_SUCCESS:
             let tasks = []
-            // console.log('__payload', action.payload);
             action.payload.map(task => {
                 if (task.taskStatus !== "Done" && task.sprintNumber === 0) {
                     tasks.push(task)
