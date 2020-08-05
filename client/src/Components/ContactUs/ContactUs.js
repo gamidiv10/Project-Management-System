@@ -13,7 +13,7 @@ import { fetchQuery } from '../../redux/query/queryAction'
 import "./ContactUs.scss"
 
 const ContactUs = () => {
-    const query = useSelector(state => state.query)
+    const queryState = useSelector(state => state.query)
     const dispatch = useDispatch()
 
     const [error, setError] = useState({ isFormOkay: false, fullName: "", email: "" })
@@ -63,7 +63,7 @@ const ContactUs = () => {
 
     const getView = () => {
         if (error.isFormOkay) {
-            if (!query.isIdle && query.isError) {
+            if (!queryState.isIdle && queryState.isError) {
                 return (
                     <Alert variant="danger">
                         <Alert.Heading>Oops! Some error occurred in adding query response</Alert.Heading>
@@ -76,7 +76,7 @@ const ContactUs = () => {
                         </p>
                     </Alert>
                 )
-            } else if (!query.isIdle && !query.isError) {
+            } else if (!queryState.isIdle && !queryState.isError) {
                 return (
                     <Alert variant="success">
                         <Alert.Heading>Thank you! for submitting your response</Alert.Heading>
