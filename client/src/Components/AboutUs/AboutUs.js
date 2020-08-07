@@ -37,9 +37,11 @@ const AboutUs = () => {
                 from top-level is what makes Taskatic running.
               </Card.Text>
               <p style={{ color: "grey" }}>jerry.wilson@taskatic.inc</p>
-              <Button color="primary">
-                <b>Contact Jerry</b>
-              </Button>
+              <Link to={"/contact-us"}>
+                <Button color="primary">
+                  <b>Contact Jerry</b>
+                </Button>
+              </Link>
             </Card.Body>
           </Card>
         </Col>
@@ -71,9 +73,12 @@ const AboutUs = () => {
                 technological decisions..Lisa is one to contact.
               </Card.Text>
               <p style={{ color: "grey" }}>lisa.sampson@taskatic.inc</p>
-              <Button color="primary">
-                <b>Contact Lisa</b>
-              </Button>
+              <Link to={"/contact-us"}>
+                <Button color="primary">
+                  <b>Contact Lisa</b>
+                </Button>
+              </Link>
+              
             </Card.Body>
           </Card>
         </Col>
@@ -105,9 +110,12 @@ const AboutUs = () => {
                 experience with UI & UX, makes him best man at work.
               </Card.Text>
               <p style={{ color: "grey" }}>steve.balmer@taskatic.inc</p>
-              <Button color="primary">
-                <b>Contact Steve</b>
-              </Button>
+              <Link to={"/contact-us"}>
+                <Button color="primary">
+                  <b>Contact Steve</b>
+                </Button>
+              </Link>
+              
             </Card.Body>
           </Card>
         </Col>
