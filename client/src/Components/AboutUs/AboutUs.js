@@ -1,4 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
+import { Link } from "react-router-dom"
 import { Card, Button, Row, Col, Container } from "react-bootstrap";
 import Jerry from "../../assets/jerry.jpg";
 import Lisa from "../../assets/lisa.jpg";
