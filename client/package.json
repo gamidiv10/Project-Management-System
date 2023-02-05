@@ -18,7 +18,7 @@
     "final-form": "^4.20.0",
     "firebase": "^7.17.1",
     "history": "^4.10.1",
-    "moment": "^2.27.0",
+    "moment": "^2.29.4",
     "mui-rff": "^2.1.15",
     "node-sass": "^7.0.0",
     "prop-types": "^15.7.2",
